@@ -1,0 +1,57 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-21 10:38+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\login\apps.py:8
+msgid "Kirish ma'lumotlari"
+msgstr "Данные входа"
+
+#: .\login\forms.py:7
+msgid "Telefon raqam yoki elektron manzil"
+msgstr "Номер телефона или электронная почта"
+
+#: .\login\forms.py:16 .\login\forms.py:59
+msgid "Parol"
+msgstr "Пароль"
+
+#: .\login\forms.py:28
+msgid "Eski parol"
+msgstr "Старый пароль"
+
+#: .\login\forms.py:37
+msgid "Yangi parol"
+msgstr "Новый пароль"
+
+#: .\login\forms.py:46 .\login\forms.py:68
+msgid "Parolni tasdiqlang"
+msgstr "Подтвердите свой пароль"
+
+#: .\login\views.py:128
+msgid "Parollar to'g'ri kemayapti"
+msgstr "Пароли не совпадают"
+
+#: .\login\views.py:178 .\login\views.py:201
+msgid "Xato parol"
+msgstr "Неверный пароль"
+
+#: .\login\views.py:206
+msgid "Xato telefon raqam yoki elektron manzil"
+msgstr "Неверный номер телефона или электронная почта"

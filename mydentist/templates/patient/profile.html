@@ -1,0 +1,176 @@
+{% extends 'app_user.html' %}
+{% load static i18n time_format appoint_date appoint_time %}
+
+{% block title %}
+	{% trans "Mening profilim" %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="panel">
+            <div class="big_title mb-4">{% trans "Mening profilim" %}</div>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-2 offset-md-1">
+                        <div style="background-image: url(/media/patients/photos/default.png);" class="profile-photo"></div>
+                    </div>
+                    <div class="col-md-7 offset-md-1">
+                        <div class="info-pane">
+                            <div class="info_holder mb-2">
+                                <div class="info_name">{% trans "Familiya" %}: </div>
+                                <div class="info_desc">{{ user.last_name }}</div>
+                            </div>
+                            <div class="info_holder mb-2">
+                                <div class="info_name">{% trans "Ism" %}: </div>
+                                <div class="info_desc">{{ user.first_name }}</div>
+                            </div>
+                            <div class="info_holder mb-2">
+                                <div class="info_name">{% trans "Tug’ilgan sana" %}: </div>
+                                <div class="info_desc">{% time_format user_extra.birthday %}</div>
+                            </div>
+                            <div class="info_holder mb-2">
+                                <div class="info_name">{% trans "Elektron manzil" %}: </div>
+                                <div class="info_desc">{{ user.email }}</div>
+                            </div>
+                            <div class="info_holder mb-2">
+                                <div class="info_name">{% trans "Telefon raqam" %}: </div>
+                                <div class="info_desc">{{ user_extra.phone_number }}</div>
+                            </div>
+                            <div class="info_holder mb-2">
+                                <div class="info_name">{% trans "Manzil" %}: </div>
+                                <div class="info_desc">{{ user_extra.address }}</div>
+                            </div>
+                            {% if dentist %}
+                                <div class="info_holder mb-2">
+                                    <div class="info_name">{% trans "Qabuliga yozilgan tish shifokori" %}: </div>
+                                    <div class="info_desc"><a id="stom-name">{{ dentist.fullname }}</a></div>
+                                </div>
+                                {% if appointment.attend == "waiting" %}
+                                    <div class="info_holder">
+                                        <div class="info_name">{% trans "Qabul holati" %}: </div>
+                                        <div class="info_desc">{% trans "No'malum" %}</div>
+                                    </div>
+                                {% elif appointment.attend == "appointed" %}
+                                    <div class="info_holder mb-2">
+                                        <div class="info_name">{% trans "Qabul holati" %}: </div>
+                                        <div class="info_desc">{% trans "Belgilangan" %}</div>
+                                    </div>
+                                    <div class="info_holder mb-2">
+                                        <div class="info_name">{% trans "Qabul kuni" %}: </div>
+                                        <div class="info_desc">{% appoint_date appointment.time %}</div>
+                                    </div>
+                                    <div class="info_holder">
+                                        <div class="info_name">{% trans "Qabul vaqti" %}: </div>
+                                        <div class="info_desc">{% appoint_time appointment.time %}</div>
+                                    </div>
+                                {% elif appointment.attend == "attended" %}
+                                    <div class="info_holder mb-2">
+                                        <div class="info_name">{% trans "Qabul holati" %}: </div>
+                                        <div class="info_desc">{% trans "Belgilangan" %}</div>
+                                    </div>
+                                    <div class="info_holder mb-2">
+                                        <div class="info_name">{% trans "Qabul kuni" %}: </div>
+                                        <div class="info_desc">{% appoint_date appointment.time %}</div>
+                                    </div>
+                                    <div class="info_holder">
+                                        <div class="info_name">{% trans "Qabul vaqti" %}: </div>
+                                        <div class="info_desc">{% appoint_time appointment.time %}</div>
+                                    </div>
+                                {% endif %}
+                            {% endif %}
+                        </div>
+                        {% if dentist %}
+                            <div class="about-stom" id="about-stom">
+                                <div class="container">
+                                    <div class="stom col-12 p-2 mt-3">
+                                        <a class="x-button d-flex justify-content-end mx-1" id="x-button"><i class="fal fa-times"></i></a>
+                                        <div class="row mb-3 mx-4">
+                                            <div class="col-md-4 col-sm-12">
+                                                <div class="sub_title_gray_2 center mb-3">
+                                                    {{ dentist.fullname }}
+                                                </div>
+                                                <img class="avatar exit-avatar" src="/media/{{ dentist.image }}" alt="{{ dentist.fullname }}">
+                                            </div>
+                                            <div class="col-md-8 col-sm-12">
+                                                <div class="row pt-4">
+                                                    <div class="col-md-8 col-sm-12">
+                                                        <div class="info_holder">
+                                                            <div class="info_name">{% trans "Ish sohasi:" %}</div>
+                                                            <div class="info_desc">{{ dentist.speciality }}</div>
+                                                        </div>
+                                                        {% if dentist.experience %}
+                                                            <div class="info_holder">
+                                                                <div class="info_name">{% trans "Ish tajribasi:" %}</div>
+                                                                <div class="info_desc">{{ dentist.experience }}</div>
+                                                            </div>
+                                                        {% endif %}
+                                                        <div class="info_holder">
+                                                            <div class="info_name">{% trans "Shifoxona:" %}</div>
+                                                            <div class="info_desc">{{ clinic.address }}</div>
+                                                        </div>
+                                                        {% if clinic.orientir %}
+                                                            <div class="info_holder">
+                                                                <div class="info_name">{% trans "Mo'ljal:" %}</div>
+                                                                <div class="info_desc">{{ clinic.orientir }}</div>
+                                                            </div>
+                                                        {% endif %}
+                                                        <div class="info_holder">
+                                                            <div class="info_name">{% trans "Ish tartibi:" %}</div>
+                                                            {% if dentist.is_fullday %}
+                                                                <div class="info_desc">
+                                                                    {% trans "24 soat" %}
+                                                                </div>
+                                                            {% else %}
+                                                                <div class="info_desc">
+                                                                    {{ dentist.worktime_begin }} - {{ dentist.worktime_end }}
+                                                                </div>
+                                                            {% endif %}
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {% if services is not None %}
+                                                    <div class="info_holder mt-3">
+                                                        <div class="big_title">Цены</div>
+                                                        <table class="table my_table table-success table-striped">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th scope="col">Название услуги</th>
+                                                                    <th scope="col">Цена</th>
+                                                                    <th scope="col">Длительность</th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                {% for service in services %}
+                                                                    <tr>
+                                                                        <td>{{ service.name }}</td>
+                                                                        <td>{{ service.price }}</td>
+                                                                        <td>{{ service.duration }}</td>
+                                                                    </tr>
+                                                                {% endfor %}
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                {% endif %}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+		$("#stom-name").on("click",function(){
+            $("#about-stom").addClass("active_modal")
+        })
+        $("#x-button").on("click",function(){
+            $("#about-stom").removeClass("active_modal")
+        })
+	</script>
+{% endblock %}

@@ -1,0 +1,159 @@
+{% extends request.user.is_authenticated|yesno:'app_user.html,app.html' %}
+{% load static i18n %}
+
+{% block title %}
+	{% trans "Bosh sahifa" %}
+{% endblock %}
+
+{% block content %}
+	<div id="first_screen">
+		<div class="search_form">
+			<div class="title_w">{% trans "Tish shifokorlarni qidirish" %}</div>
+			<form method="POST">
+				{% csrf_token %}
+				{{ searchform.region }}
+				<div class="checkers">
+					{{ searchform.gender }}
+					<div class="form-check checker">
+						{{ searchform.time }}
+						<label class="form-check-label">{{ searchform.time.label }}</label>
+					</div>
+					<div class="form-check checker">
+						{{ searchform.nearest }}
+						<label class="form-check-label">{{ searchform.nearest.label }}</label>
+					</div>
+				</div>
+				{{ geoform.latitude }}
+				{{ geoform.longitude }}
+				<button type="submit" class="btn my_btn">{% trans "Qidirish" %}</button>
+			</form>
+		</div>
+		<div class="presentation">
+			<div class="container">
+				<div class="title_w">{% trans "Yengilroq, arzonroq, yaqinroq!" %}</div>
+				<div class="row my_row">
+					<div class="col-sm-4">
+						<img width="90" src="{% static 'img/user-md-solid.svg' %}">
+						<span class="present_about">{% trans "Qanday qilib yaxshi tish shifokorini topsam bo'ladi?" %}</span>
+						<span class="present_text">{% trans "Tish shifokorlarining protseduralarning narxi va ular haqida ma'lumot faqat 3-4 marta bosish bilan" %}</span>
+					</div>
+					<div class="col-sm-4">
+						<img width="117" src="{% static 'img/map-marked-alt-solid.svg' %}">
+						<span class="present_about">{% trans "Eng yaqin tish shifokorlari" %}</span>
+						<span class="present_text">{% trans "Tish shifokorlarini yaqinlik bo'yicha, vaqtni va pulni tejang bo'yicha taqqoslang" %}</span>
+					</div>
+					<div class="col-sm-4">
+						<img width="130" src="{% static 'img/user-edit-solid.svg' %}">
+						<span class="present_about">{% trans "Konsultatsiyaga yozilish" %}</span>
+						<span class="present_text">{% trans "Bir marta bosish bilan divanda o'tirgan holda qabulga yoziling" %}</span>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div id="second_screen">
+		<div class="container">
+			<div class="title_b">{% trans "Agar siz tish shifokori bo'lsangiz" %}</div>
+			<div class="row">
+				<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+					<img width="100%" src="{% static 'img/tech.png' %}">
+				</div>
+				<div class="col-xxl-6 col-xl-6 col-lg-6 col-md-12 col-sm-12">
+					<div class="sub_title_gray mt-4">{% trans "MyDentist platformasida o'z ishingizni boshqaring" %}</div>
+					<div class="factor_holder">
+						<div class="factor_item">
+							<i class="fas fa-check-circle"></i>
+							<span>{% trans "Ish jadvalini nazorat qilish" %}</span>
+						</div>
+						<div class="factor_item">
+							<i class="fas fa-check-circle"></i>
+							<span>{% trans "Mijoz ma'lumotlari" %}</span>
+						</div>
+						<div class="factor_item">
+							<i class="fas fa-check-circle"></i>
+							<span>{% trans "Qulay interfeys" %}</span>
+						</div>
+						<div class="factor_item">
+							<i class="fas fa-check-circle"></i>
+							<span>{% trans "Platformada mijoz bilan o'zaro aloqa" %}</span>
+						</div>
+						<div class="factor_item">
+							<i class="fas fa-check-circle"></i>
+							<span>{% trans "Har bir tish holatining grafik ko'rinishi" %}</span>
+						</div>
+						<div class="factor_item">
+							<i class="fas fa-check-circle"></i>
+							<span>{% trans "Dasturning mobil versiyasi" %}</span>
+						</div>
+						<div class="factor_item">
+							<i class="fas fa-check-circle"></i>
+							<span>{% trans "Xavfsiz va ishonchli ma'lumotlarni saqlash" %}</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="contact_panel">
+		<div class="container">
+			<div class="row">
+				<div class="col-xxl-4 col-xl-4 col-md-4 col-sm-12">
+					<div class="sub_title_white mt-4 mb-3">
+						{% trans "Savol bormi? Ma'lumotlaringizni qoldiring va biz sizga qayta qo'ng'iroq qilamiz" %}
+					</div>
+					<form>
+						<div class="mb-3">
+							<input type="name" placeholder="Имя" class="form-control my_input" id="exampleInputEmail1" aria-describedby="emailHelp">
+						</div>
+						<div class="mb-3">
+							<input type="tel" placeholder="Номер телефона" class="form-control my_input" id="exampleInputPassword1">
+						</div>
+						<button type="button" class="btn my_btn">{% trans "Jo'natish" %}</button>
+					</form>
+				</div>
+				<div class="col-xxl-4 col-xl-4 col-md-4 col-sm-12">
+					<div class="sub_title_white mt-4 mb-3">
+						{% trans "Biz ijtimoiy tarmoqlarda" %}
+					</div>
+					<div class="social_holder">
+						<a href="#"><i class="fab fa-telegram"></i></a>
+						<a href="#"><i class="fab fa-instagram"></i></a>
+						<a href="#"><i class="fab fa-facebook"></i></a>
+					</div>
+					<div class="sub_title_white_2">
+						{% trans "Biz bilan bog'laning" %}
+					</div>
+					<div class="phone_holder">
+						<div class="phone">+998(99)822-45-01</div>
+						<div class="phone">+998(99)822-45-01</div>
+					</div>
+				</div>
+				<div class="col-xxl-4 col-xl-4 col-md-4 col-sm-12">
+					<div class="sub_title_white mt-4 mb-3">
+						{% trans "Stomatologlarni ko'rish uchun bizning telegram botimiz" %}
+					</div>
+					<a href="https://t.me/MyDentistUzBot" class="btn my_btn" target="_blank">{% trans "Telegram botga o'tish" %}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+		var options = {
+			enableHighAccuracy: true,
+			timeout: 5000,
+			maximumAge: 0
+		}
+		function success(pos) {
+			var crd = pos.coords;
+			$("input[name='latitude']").val(crd.latitude.toFixed(6))
+			$("input[name='longitude']").val(crd.longitude.toFixed(6))
+		}
+		function error(err) {
+			console.warn(`ERROR(${err.code}): ${err.message}`);
+		}
+		navigator.geolocation.getCurrentPosition(success, error, options)
+	</script>
+{% endblock %}

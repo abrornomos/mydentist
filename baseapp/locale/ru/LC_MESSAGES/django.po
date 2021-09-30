@@ -1,0 +1,132 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2021-09-21 10:38+0500\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: .\baseapp\admin.py:6 .\baseapp\admin.py:7
+msgid "MyDentist sayti boshqaruvi"
+msgstr "Администрирование сайта MyDentist"
+
+#: .\baseapp\apps.py:8
+msgid "Asosiy ma'lumotlar"
+msgstr "Основные данные"
+
+#: .\baseapp\forms.py:26
+msgid "24 soat"
+msgstr "24 часа"
+
+#: .\baseapp\forms.py:36
+msgid "Yaqinligi bo'yicha"
+msgstr "По близости"
+
+#: .\baseapp\models.py:8
+msgid "Til nomi"
+msgstr "Название языка"
+
+#: .\baseapp\models.py:11
+msgid "Til"
+msgstr "Язык"
+
+#: .\baseapp\models.py:12
+msgid "Tillar"
+msgstr "Языки"
+
+#: .\baseapp\models.py:20 .\baseapp\models.py:23
+msgid "Hudud nomi"
+msgstr "Название региона"
+
+#: .\baseapp\models.py:24
+msgid "Hudud nomlari"
+msgstr "Названия регионов"
+
+#: .\baseapp\models.py:32 .\baseapp\models.py:35
+msgid "Jins"
+msgstr "Пол"
+
+#: .\baseapp\models.py:36
+msgid "Jinslar"
+msgstr "Полы"
+
+#: .\baseapp\var.py:5
+msgid "Toshkent"
+msgstr "Ташкент"
+
+#: .\baseapp\var.py:6
+msgid "Toshkent viloyati"
+msgstr "Ташкентская область"
+
+#: .\baseapp\var.py:7
+msgid "Samarqand viloyati"
+msgstr "Самаркандская область"
+
+#: .\baseapp\var.py:8
+msgid "Buxoro viloyati"
+msgstr "Бухарская область"
+
+#: .\baseapp\var.py:9
+msgid "Andijon viloyati"
+msgstr "Андижанская область"
+
+#: .\baseapp\var.py:10
+msgid "Farg'ona viloyati"
+msgstr "Ферганская область"
+
+#: .\baseapp\var.py:11
+msgid "Namangan viloyati"
+msgstr "Наманганская область"
+
+#: .\baseapp\var.py:12
+msgid "Qashqadaryo viloyati"
+msgstr "Кашкадарьинская область"
+
+#: .\baseapp\var.py:13
+msgid "Surhondaryo viloyati"
+msgstr "Сурхандарьинская область"
+
+#: .\baseapp\var.py:14
+msgid "Sirdaryo viloyati"
+msgstr "Сырдарьинская область"
+
+#: .\baseapp\var.py:15
+msgid "Jizzax viloyati"
+msgstr "Джизакская область"
+
+#: .\baseapp\var.py:16
+msgid "Xorazm viloyati"
+msgstr "Хорезмская область"
+
+#: .\baseapp\var.py:17
+msgid "Navoiy viloyati"
+msgstr "Навоийская область"
+
+#: .\baseapp\var.py:18
+msgid "Qoraqalpog'iston Respublikasi"
+msgstr "Республика Каракалпакстан"
+
+#: .\baseapp\var.py:21
+msgid "Erkak"
+msgstr "Мужчина"
+
+#: .\baseapp\var.py:22
+msgid "Ayol"
+msgstr "Женщина"
+
+#~ msgid "Администрирование сайта MyDentist"
+#~ msgstr "MyDentist sayti boshqaruvi"

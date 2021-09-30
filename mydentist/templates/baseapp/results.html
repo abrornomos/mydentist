@@ -1,0 +1,130 @@
+{% extends request.user.is_authenticated|yesno:'app_user.html,app.html' %}
+{% load static i18n %}
+
+{% block title %}
+	{% trans "So'rov natijalari" %}
+{% endblock %}
+
+{% block content %}
+	<div class="filter">
+		<div class="container">
+			<form method="POST" class="filter_holder">
+				{% csrf_token %}
+				{{ searchform.region }}
+				<div class="checkers_filter">
+					{{ searchform.gender }}
+					<div class="form-check checker">
+						{{ searchform.time }}
+						<label class="form-check-label">{{ searchform.time.label }}</label>
+					</div>
+					<div class="form-check checker">
+						{{ searchform.nearest }}
+						<label class="form-check-label">{{ searchform.nearest.label }}</label>
+					</div>
+				</div>
+				{{ geoform.latitude }}
+				{{ geoform.longitude }}
+				<button type="submit" class="btn my_btn_1">Показать</button>
+			</form>
+		</div>
+	</div>
+	<div class="container">
+		<div class="row">
+			{% if dentists %}
+				{% for object in dentists %}
+					<div class="col-xxl-4 col-xl-4 col-md-4 col-sm-12">
+						<div class="stom_card">
+							<div class="card_img_holder">
+								<img src="/media/dentists/photos/default.jpg">
+							</div>
+							<div class="card_clinic">
+								<p>{{ object.clinic.name }}</p>
+							</div>
+							<div class="card_dent">
+								{% trans "FISh:" %} {{ object.dentist.fullname }}
+							</div>
+							<div class="card_adress">
+								{% trans "Manzil:" %} {{ object.clinic.address }}
+							</div>
+							{% if object.clinic.orientir %}
+								<div class="card_adress_2">
+									{% trans "Mo'ljal:" %} {{ object.clinic.orientir }}
+								</div>
+							{% endif %}
+							{% if object.dentist.is_fullday %}
+								<div class="card_time">
+									{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}
+								</div>
+							{% else %}
+								<div class="card_time">
+									{% trans "Ishlash vaqti:" %} {{ object.dentist.worktime_begin }} - {{ object.dentist.worktime_end }}
+								</div>
+							{% endif %}
+							<div class="card_phone">
+								{% trans "Telefon raqami:" %} {{ object.dentist.phone_number }}
+							</div>
+							<a href="{% url 'dentist:dentist' slug=object.dentist.slug %}" class="btn my_btn mx-auto">{% trans "Narxlarni ko'rish" %}</a>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+			<div class="map mb-4">
+				<div class="big_title">{% trans "Xaritada joylashuv" %}</div>
+				<div class="container">
+					<div id="map"></div>
+				</div>
+			{% else %}
+				<div class="big_title mt-4 mb-4">
+					{% trans "Kechirasiz, sizning so'rovingiz bo'yicha tish shifokorlari topilmadi" %}
+				</div>
+			{% endif %}
+		</div>
+	</div>
+{% endblock %}
+
+{% block javascript %}
+	<script src="https://api-maps.yandex.ru/2.1/?apikey=9c44946f-08f3-4e0d-a8e0-12aad041b5ff&lang=ru_RU"></script>
+	<script type="text/javascript">
+		var options = {
+			enableHighAccuracy: true,
+			timeout: 5000,
+			maximumAge: 0
+		}
+		function success(pos) {
+			var crd = pos.coords;
+			$("input[name='latitude']").val(crd.latitude.toFixed(6))
+			$("input[name='longitude']").val(crd.longitude.toFixed(6))
+		}
+		function error(err) {
+			console.warn(`ERROR(${err.code}): ${err.message}`);
+		}
+		navigator.geolocation.getCurrentPosition(success, error, options)
+		ymaps.ready(init)
+		function init(){
+			let myMap = new ymaps.Map("map", {
+				center: [40.767684, 72.336187],
+				zoom: 10
+			}), myGeoObject
+			
+			{% for object in dentists %}
+				myGeoObject = new ymaps.GeoObject({
+					// Описание геометрии.
+					geometry: {
+						type: "Point",
+						coordinates: [parseFloat("{{ object.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ object.clinic.longitude }}".replace(/,/, "."))]
+					},
+					// Свойства.
+					properties: {
+						// Контент метки.
+						iconContent: "{{ object.dentist.fullname }}"
+					}
+				}, {
+					// Опции.
+					// Иконка метки будет растягиваться под размер ее содержимого.
+					preset: 'islands#blackStretchyIcon'
+				})
+				myMap.geoObjects.add(myGeoObject)
+			{% endfor %}
+		}
+	</script>
+{% endblock %}
