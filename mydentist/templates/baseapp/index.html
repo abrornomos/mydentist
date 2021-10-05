@@ -1,4 +1,4 @@
-{% extends request.user.is_authenticated|yesno:'app_user.html,app.html' %}
+{% extends authenticated|yesno:'app_user.html,app.html' %}
 {% load static i18n %}
 
 {% block title %}
@@ -8,24 +8,36 @@
 {% block content %}
 	<div id="first_screen">
 		<div class="search_form">
-			<div class="title_w">{% trans "Tish shifokorlarni qidirish" %}</div>
 			<form method="POST">
 				{% csrf_token %}
-				{{ searchform.region }}
+				<div class="title_g">{% trans "Xizmatni qidirish" %}</div>
 				<div class="checkers">
-					{{ searchform.gender }}
-					<div class="form-check checker">
-						{{ searchform.time }}
-						<label class="form-check-label">{{ searchform.time.label }}</label>
+					<div class="dropdown select">
+						<button class="btn btn-secondary dropdown-toggle" type="button" id="service" data-bs-toggle="dropdown" aria-expanded="false">
+							{{ service.name }}
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="service">
+							{% for el in services %}
+							<li class="dropdown-item">{{ el.name }}</li>
+							{% endfor %}
+						</ul>
 					</div>
-					<div class="form-check checker">
-						{{ searchform.nearest }}
-						<label class="form-check-label">{{ searchform.nearest.label }}</label>
+					<div class="dropdown select">
+						<button class="btn btn-secondary dropdown-toggle" type="button" id="region" data-bs-toggle="dropdown" aria-expanded="false">
+							{{ region.name }}
+						</button>
+						<ul class="dropdown-menu" aria-labelledby="region">
+							{% for el in regions %}
+							<li class="dropdown-item">{{ el.name }}</li>
+							{% endfor %}
+						</ul>
 					</div>
+					{{ searchform.service }}
+					{{ searchform.region }}
+					{{ geoform.latitude }}
+					{{ geoform.longitude }}
 				</div>
-				{{ geoform.latitude }}
-				{{ geoform.longitude }}
-				<button type="submit" class="btn my_btn">{% trans "Qidirish" %}</button>
+				<button type="submit" class="btn my_btn mx-auto">{% trans "Qidirish" %}</button>
 			</form>
 		</div>
 		<div class="presentation">
@@ -143,7 +155,7 @@
     <script type="text/javascript">
 		var options = {
 			enableHighAccuracy: true,
-			timeout: 5000,
+			timeout: 10000,
 			maximumAge: 0
 		}
 		function success(pos) {
@@ -155,5 +167,15 @@
 			console.warn(`ERROR(${err.code}): ${err.message}`);
 		}
 		navigator.geolocation.getCurrentPosition(success, error, options)
+
+		$("input[name='service']").val("{{ service.name }}")
+		$("ul[aria-labelledby='service'] li").on("click", function() {
+			$("#service").text($(this).text())
+			$("input[name='service']").val($(this).text())
+		})
+		$("ul[aria-labelledby='region'] li").on("click", function() {
+			$("#region").text($(this).text())
+			$("input[name='region']").val($("ul[aria-labelledby='region'] li").index($(this)) + 1)
+		})
 	</script>
 {% endblock %}

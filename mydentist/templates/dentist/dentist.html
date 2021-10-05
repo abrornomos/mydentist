@@ -1,4 +1,4 @@
-{% extends request.user.is_authenticated|yesno:'app_user.html,app.html' %}
+{% extends authenticated|yesno:'app_user.html,app.html' %}
 {% load static i18n %}
 
 {% block title %}

@@ -59,6 +59,7 @@
   padding-bottom: 20px;
   border-bottom: 2px dashed #535151;
   text-align: center;
+  background-color: white;
 }
 
 .title_w {
@@ -73,6 +74,12 @@
   text-align: center;
 }
 
+.title_g {
+  font-size: 30px;
+  color: #535151;
+  text-align: center;
+}
+
 .btn-select {
   font-weight: 600;
   background-color: white;
@@ -82,6 +89,28 @@
   border-radius: 25px;
   cursor: pointer;
   outline: none;
+}
+
+.select {
+  margin: 5px 0px;
+  font-weight: 600;
+  display: inline-block;
+  border-radius: 25px;
+  letter-spacing: 0;
+  background-color: white;
+}
+
+.select button {
+  font-weight: 600;
+  background-color: #3cee58;
+  color: black;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 25px;
+}
+
+.dropdown-item {
+  cursor: pointer;
 }
 
 .checkers {
@@ -96,7 +125,7 @@
   display: inline-block;
   letter-spacing: 20px;
   text-align: center;
-  color: white;
+  color: black;
 }
 
 .gender_select {
@@ -116,6 +145,11 @@
   margin: 5px 0px;
   display: inline-block;
   letter-spacing: 0px;
+  position: relative;
+  width: -webkit-fit-content;
+  width: -moz-fit-content;
+  width: fit-content;
+  color: black;
 }
 
 .my_btn {
@@ -264,7 +298,7 @@
 }
 
 .footer_text_1 {
-  font-size: 14px;
+  font-size: 20px;
   color: white;
   font-weight: normal;
 }
@@ -273,7 +307,7 @@
   width: fit-content;
   color: white;
   font-weight: normal;
-  font-size: 12px;
+  font-size: 16px;
   text-decoration: none;
   display: block;
 }
@@ -522,6 +556,10 @@ table {
   color: black;
 }
 
+.nav-link {
+  font-size: 14px;
+}
+
 .a_password {
   text-decoration: none;
   color: #535151;
@@ -605,6 +643,10 @@ table {
   transform: translateY(-0%);
 }
 
+.form-check {
+  letter-spacing: 0;
+}
+
 @media (max-width: 1200px) {
   .my_select {
     padding: 10px 0px;
@@ -654,6 +696,21 @@ table {
     font-size: 36px;
   }
   .phone {
+    font-size: 12px;
+  }
+  .footer_text_1 {
+    font-size: 18px;
+  }
+  .footer_text_2 {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 768px) {
+  .footer_text_1 {
+    font-size: 16px;
+  }
+  .footer_text_2 {
     font-size: 12px;
   }
 }

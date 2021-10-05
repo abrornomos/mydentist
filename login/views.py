@@ -18,7 +18,7 @@ from patient.var import *
 
 
 def register(request):
-    if request.user.is_authenticated:
+    if request.user.username in request.session:
         return redirect(request.META.get('HTTP_REFERER', '/'))
     if request.method == "POST":
         userform = UserForm(request.POST)
@@ -150,7 +150,7 @@ def register(request):
 
 
 def sign_in(request):
-    if request.user.is_authenticated:
+    if request.user.username in request.session:
         return redirect(request.META.get('HTTP_REFERER', '/'))
     if request.method == "POST":
         loginform = LoginForm(request.POST)
@@ -168,6 +168,7 @@ def sign_in(request):
                     language = Language.objects.get(pk=user_extra.language_id).name
                     translation.activate(language)
                     request.session[translation.LANGUAGE_SESSION_KEY] = language
+                    request.session[request.user.username] = request.user.username
                     if 'next' in request.POST:
                         return redirect(request.POST['next'])
                     else:
@@ -191,6 +192,7 @@ def sign_in(request):
                         user_extra = UserExtra.objects.get(user=user)
                         translation.activate(user_extra.language)
                         request.session[translation.LANGUAGE_SESSION_KEY] = user_extra.language
+                        request.session[user.get_username()] = user.get_username()
                         if 'next' in request.POST:
                             return redirect(request.POST['next'])
                         else:
@@ -219,5 +221,7 @@ def sign_in(request):
 
 
 def sign_out(request):
+    if request.user.username in request.session:
+        del request.session[request.user.username]
     logout(request)
     return redirect("login:login")

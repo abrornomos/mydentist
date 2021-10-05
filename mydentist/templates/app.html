@@ -62,18 +62,20 @@
         <div class="footer mt-auto">
             <div class="container">
                 <div class="row">
-                    <div class="col-xll-4 col-xl-4 col-md-4">
-                        <div class="footer_logo">
-                            <img src="{% static 'img/logo-footer.png' %}">
+                    <div class="col-md-4 mb-4">
+                        <div class="footer_logo mb-2">
+                            <a href="{% url 'baseapp:index' %}">
+                                <img src="{% static 'img/logo-footer.png' %}">
+                            </a>
                         </div>
                         <div class="footer_text_2">{% trans "Bemor va stomatologlar uchun zamonaviy platforma" %}</div>
                     </div>
-                    <div class="col-xll-4 col-xl-4 col-md-4">
+                    <div class="col-md-4 mb-4">
                         <div class="footer_text_1 mb-2">{% trans "Sayt fayllari" %}</div>
                         <a href="#" class="footer_text_2">{% trans "Ommaviy oferta" %}</a>
                         <a href="#" class="footer_text_2">{% trans "Foydalanish shartlari" %}</a>
                     </div>
-                    <div class="col-xll-4 col-xl-4 col-md-4">
+                    <div class="col-md-4 mb-4">
                         <div class="footer_text_1 mb-2">{% trans "Hududlar" %}</div>
                         <span class="footer_text_2">{% trans "Toshkent" %}</span>
                         <span class="footer_text_2">{% trans "Andijon viloyati" %}</span>

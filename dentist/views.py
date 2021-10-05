@@ -36,6 +36,7 @@ def dentist(request, slug):
     dentist = Dentist.objects.get(clinic__language__name=current_language, slug=slug)
     clinic = Clinic.objects.get(pk=dentist.clinic_id)
     cabinet_images = Cabinet_Image.objects.filter(dentist__pk=dentist.id)
+    authenticated = request.user.username in request.session
     try:
         services = Service.objects.filter(dentist__pk=dentist.id)
     except:
@@ -50,6 +51,7 @@ def dentist(request, slug):
             'counter': range(len(cabinet_images)),
             'queryform': queryform,
             'appointment': appointment,
+            'authenticated': authenticated
         })
     elif len(cabinet_images) == 1:
         return render(request, "dentist/dentist.html", {
@@ -61,6 +63,7 @@ def dentist(request, slug):
             'counter': range(len(cabinet_images)),
             'queryform': queryform,
             'appointment': appointment,
+            'authenticated': authenticated
         })
     else:
         return render(request, "dentist/dentist.html", {
@@ -71,4 +74,5 @@ def dentist(request, slug):
             'counter': 0,
             'queryform': queryform,
             'appointment': appointment,
+            'authenticated': authenticated
         })

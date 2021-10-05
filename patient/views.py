@@ -18,7 +18,7 @@ from login.forms import PasswordUpdateForm
 
 
 def profile(request):
-    if not request.user.is_authenticated:
+    if request.user.username not in request.session:
         return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
     user = User.objects.get(username=request.user.username)
     user_extra = UserExtra.objects.get(user=user)
@@ -72,7 +72,7 @@ def profile(request):
 
 
 def settings(request, active_tab="profile"):
-    if not request.user.is_authenticated:
+    if not request.user.username not in request.session:
         return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
     if 'success_message' in request.session:
         if request.session['success_message'] == "Updated successfully":
@@ -141,7 +141,7 @@ def settings(request, active_tab="profile"):
 
 
 def update(request, form):
-    if not request.user.is_authenticated:
+    if not request.user.username not in request.session:
         return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
     if request.method == "POST":
         if form == "profile":
