@@ -152,6 +152,15 @@
   color: black;
 }
 
+.btn_holder {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+
 .my_btn {
   margin: 5px 0;
   padding: 10px 40px;
@@ -172,7 +181,15 @@
   font-weight: 600;
 }
 
-.my_btn:hover, .my_btn_1:hover {
+.my_btn_2 {
+  margin: 5px 0px;
+  padding: 5px 20px;
+  background-color: #3cee58;
+  border-radius: 25px;
+  font-weight: 600;
+}
+
+.my_btn:hover, .my_btn_1:hover, .my_btn_2:hover {
   -webkit-animation: hover_effect .4s;
           animation: hover_effect .4s;
   background-color: #5C636A;

@@ -37,11 +37,11 @@
 								</div>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="male" id="male" value="1" checked>
+								<input class="form-check-input" type="radio" name="gender" id="male" value="1" checked>
 								<label class="form-check-label" for="male">Мужчина</label>
 							</div>
 							<div class="form-check form-check-inline">
-								<input class="form-check-input" type="radio" name="female" id="female" value="2">
+								<input class="form-check-input" type="radio" name="gender" id="female" value="2">
 								<label class="form-check-label" for="female">Женщина</label>
 							</div>
 							<div class="form-check checker">
@@ -113,120 +113,150 @@
 {% block javascript %}
 	<script src="https://api-maps.yandex.ru/2.1/?apikey=9c44946f-08f3-4e0d-a8e0-12aad041b5ff&lang=ru_RU"></script>
 	<script type="text/javascript">
-		function getResults(checkbox, radio) {
-			if ($("input[type=radio]:checked").val() == 1) {
-			{% for result in results_by_price %}
-			$("#pills-price").append(
-				document.createElement("div").addClass("col-md-4 col-sm-12").append(
-					document.createElement("div").addClass("stom_card").append(
-						document.createElement("div").addClass("card_img_holder").append(
-							document.createElement("img").attr("src", "/media/dentists/photos/default.jpg")
-						)
-					).append(
-						document.createElement("div").addClass("card_clinic").append(
-							document.createElement("p").text("{{ object.clinic.name }}")
-						)
-					).append(
-						document.createElement("div").addClass("card_dent").append(
-							document.createElement("p").text("{{ object.clinic.name }}")
-						)
-					)
-				)
-			)
-			{% comment %} <div class="col-md-4 col-sm-12">
-				<div class="stom_card">
-					<div class="card_dent">
-						{% trans "FISh:" %} {{ object.dentist.fullname }}
-					</div>
-					<div class="card_address">
-						{% trans "Manzil:" %} {{ object.clinic.address }}
-					</div>
-					{% if object.clinic.orientir %}
-						<div class="card_address_2">
-							{% trans "Mo'ljal:" %} {{ object.clinic.orientir }}
-						</div>
-					{% endif %}
-					{% if object.dentist.is_fullday %}
-						<div class="card_time">
-							{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}
-						</div>
-					{% else %}
-						<div class="card_time">
-							{% trans "Ishlash vaqti:" %} {{ object.dentist.worktime_begin }} - {{ object.dentist.worktime_end }}
-						</div>
-					{% endif %}
-					<div class="card_phone">
-						{% trans "Telefon raqami:" %} {{ object.dentist.phone_number }}
-					</div>
-					<a href="{% url 'dentist:dentist' slug=object.dentist.slug %}" class="btn my_btn mx-auto">{% trans "Narxlarni ko'rish" %}</a>
-				</div>
-			</div> {% endcomment %}
-			{% endfor %}
-			} else if ($("input[type=radio]:checked").val() == 2) {
-				return
-			}
-		}
-		function radioChecker(checkbox) {
+
+		console.log($("input[type=checkbox]").is(":checked"))
+		function getResults(checkbox) {
 			if (checkbox) {
-				if ($("input[type=radio]:checked").val() == 1) {
-					{% for object in dentists %}
-						<div class="col-xxl-4 col-xl-4 col-md-4 col-sm-12">
-							<div class="stom_card">
-								<div class="card_img_holder">
-									<img src="/media/dentists/photos/default.jpg">
-								</div>
-								<div class="card_clinic">
-									<p>{{ object.clinic.name }}</p>
-								</div>
-								<div class="card_dent">
-									{% trans "FISh:" %} {{ object.dentist.fullname }}
-								</div>
-								<div class="card_address">
-									{% trans "Manzil:" %} {{ object.clinic.address }}
-								</div>
-								{% if object.clinic.orientir %}
-									<div class="card_address_2">
-										{% trans "Mo'ljal:" %} {{ object.clinic.orientir }}
-									</div>
-								{% endif %}
-								{% if object.dentist.is_fullday %}
-									<div class="card_time">
-										{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}
-									</div>
-								{% else %}
-									<div class="card_time">
-										{% trans "Ishlash vaqti:" %} {{ object.dentist.worktime_begin }} - {{ object.dentist.worktime_end }}
-									</div>
-								{% endif %}
-								<div class="card_phone">
-									{% trans "Telefon raqami:" %} {{ object.dentist.phone_number }}
-								</div>
-								<a href="{% url 'dentist:dentist' slug=object.dentist.slug %}" class="btn my_btn mx-auto">{% trans "Narxlarni ko'rish" %}</a>
-							</div>
-						</div>
-						{% endfor %}
-				} else if ($("input[type=radio]:checked").val() == 2) {
-					return
+				if ($("input[type=radio]:checked")[0].value == 1) {
+					{% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-price").append(
+						$("<div></div>").addClass("col-md-4 col-sm-12").append(
+							$("<div></div>").addClass("stom_card").append(
+								$("<div></div>").addClass("card_img_holder").append(
+									$("<img>").attr("src", "/media/dentists/photos/default.jpg")
+								)
+							).append(
+								$("<div></div>").addClass("card_clinic").append(
+									$("<p></p>").text("{{ result.clinic.name }}")
+								)
+							).append(
+								document.createElement("div").addClass("card_dent").text("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+							).append(
+								document.createElement("div").addClass("card_address").text("{% trans "Manzil:" %} {{ result.clinic.address }}")
+							){% if result.clinic.orientir %}.append(
+								document.createElement("div").addClass("card_address_2").text("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
+							){% endif %}.append(
+								document.createElement("div").addClass("card_time").text("{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}")
+							).append(
+								document.createElement("div").addClass("card_phone").text("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+							).append(
+								document.createElement("div").addClass("btn_holder").append(
+									document.createElement("button").addClass("btn_holder").attr("type", "button").text("{% trans "Narxlarni ko'rish" %}")
+								).append(
+									document.createElement("p").addClass("btn_holder").attr("type", "button").text("{% trans "Qabulga yozilish" %}")
+								)
+							)
+						)
+					){% endif %}{% endfor %}
+				} else if ($("input[type=radio]:checked")[0].value == 2) {
+					{% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-price").append(
+						document.createElement("div").addClass("col-md-4 col-sm-12").append(
+							document.createElement("div").addClass("stom_card").append(
+								document.createElement("div").addClass("card_img_holder").append(
+									document.createElement("img").attr("src", "/media/dentists/photos/default.jpg")
+								)
+							).append(
+								document.createElement("div").addClass("card_clinic").append(
+									document.createElement("p").text("{{ result.clinic.name }}")
+								)
+							).append(
+								document.createElement("div").addClass("card_dent").text("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+							).append(
+								document.createElement("div").addClass("card_address").text("{% trans "Manzil:" %} {{ result.clinic.address }}")
+							){% if result.clinic.orientir %}.append(
+								document.createElement("div").addClass("card_address_2").text("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
+							){% endif %}.append(
+								document.createElement("div").addClass("card_time").text("{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}")
+							).append(
+								document.createElement("div").addClass("card_phone").text("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+							).append(
+								document.createElement("div").addClass("btn_holder").append(
+									document.createElement("button").addClass("btn_holder").attr("type", "button").text("{% trans "Narxlarni ko'rish" %}")
+								).append(
+									document.createElement("p").addClass("btn_holder").attr("type", "button").text("{% trans "Qabulga yozilish" %}")
+								)
+							)
+						)
+					){% endif %}{% endfor %}
 				}
 			} else {
-				if ($("input[type=radio]:checked").val() == 1) {
-					return
-				} else if ($("input[type=radio]:checked").val() == 2) {
-					return
+				if ($("input[type=radio]:checked")[0].value == 1) {
+					$("#pills-price"){% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}.append(
+						$("<div></div>").addClass("col-md-4 col-sm-12").append(
+							$("<div></div>").addClass("stom_card").append(
+								$("<div></div>").addClass("card_img_holder").append(
+									$("<img>").attr("src", "/media/dentists/photos/default.jpg")
+								)
+							).append(
+								$("<div></div>").addClass("card_clinic").append(
+									$("<p></p>").html("{{ result.clinic.name }}")
+								)
+							).append(
+								$("<div></div>").addClass("card_dent").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+							).append(
+								$("<div></div>").addClass("card_address").html("{% trans "Manzil:" %} {{ result.clinic.address }}")
+							){% if result.clinic.orientir %}.append(
+								$("<div></div>").addClass("card_address_2").html("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
+							){% endif %}.append(
+								$("<div></div>").addClass("card_time").html("{% trans "Ishlash vaqti:" %} {{ result.dentist.worktime_begin }} - {{ result.dentist.worktime_end }}")
+							).append(
+								$("<div></div>").addClass("card_phone").html("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+							).append(
+								$("<div></div>").addClass("btn_holder").append(
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Narxlarni ko'rish" %}")
+								).append(
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Qabulga yozilish" %}")
+								)
+							)
+						)
+					){% endif %}{% endfor %}
+				} else if ($("input[type=radio]:checked")[0].value == 2) {
+					{% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-price").append(
+						document.createElement("div").addClass("col-md-4 col-sm-12").append(
+							document.createElement("div").addClass("stom_card").append(
+								document.createElement("div").addClass("card_img_holder").append(
+									document.createElement("img").attr("src", "/media/dentists/photos/default.jpg")
+								)
+							).append(
+								document.createElement("div").addClass("card_clinic").append(
+									document.createElement("p").text("{{ result.clinic.name }}")
+								)
+							).append(
+								document.createElement("div").addClass("card_dent").text("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+							).append(
+								document.createElement("div").addClass("card_address").text("{% trans "Manzil:" %} {{ result.clinic.address }}")
+							){% if result.clinic.orientir %}.append(
+								document.createElement("div").addClass("card_address_2").text("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
+							){% endif %}.append(
+								document.createElement("div").addClass("card_time").text("{% trans "Ishlash vaqti:" %} {{ result.dentist.worktime_begin }} - {{ result.dentist.worktime_end }}")
+							).append(
+								document.createElement("div").addClass("card_phone").text("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+							).append(
+								document.createElement("div").addClass("btn_holder").append(
+									document.createElement("button").addClass("btn_holder").attr("type", "button").text("{% trans "Narxlarni ko'rish" %}")
+								).append(
+									document.createElement("p").addClass("btn_holder").attr("type", "button").text("{% trans "Qabulga yozilish" %}")
+								)
+							)
+						)
+					){% endif %}{% endfor %}
 				}
-			}
-		}
-		function checkboxChecker() {
-			checkbox = $("input[type=checkbox]").is(":checked")
-			if (checkbox) {
-				return
-			} else {
-				return
 			}
 		}
 		$("input[type=radio]").on("click", function() {
-			
+			if ($("input[type=checkbox]").is(":checked")) {
+				getResults(true)
+			} else {
+				getResults(false)
+			}
 		})
+		$("input[type=checkbox]").on("click", function() {
+			if ($("input[type=checkbox]").is(":checked")) {
+				getResults(true)
+			} else {
+				getResults(false)
+			}
+		})
+
 
 		ymaps.ready(init)
 		function init(){
@@ -235,17 +265,17 @@
 				zoom: 10
 			}), myGeoObject
 			
-			{% for object in dentists %}
+			{% for result in results_by_price %}
 				myGeoObject = new ymaps.GeoObject({
 					// Описание геометрии.
 					geometry: {
 						type: "Point",
-						coordinates: [parseFloat("{{ object.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ object.clinic.longitude }}".replace(/,/, "."))]
+						coordinates: [parseFloat("{{ result.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ result.clinic.longitude }}".replace(/,/, "."))]
 					},
 					// Свойства.
 					properties: {
 						// Контент метки.
-						iconContent: "{{ object.dentist.fullname }}"
+						iconContent: "{{ result.dentist.fullname }}"
 					}
 				}, {
 					// Опции.
