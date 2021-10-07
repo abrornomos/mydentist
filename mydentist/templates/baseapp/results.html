@@ -52,44 +52,66 @@
 					</div>
 					<div class="row">
 						<div class="tab-pane fade show active" id="pills-price" role="tabpanel" aria-labelledby="pills-price-tab">
-						{% for object in dentists %}
-						<div class="col-xxl-4 col-xl-4 col-md-4 col-sm-12">
-							<div class="stom_card">
-								<div class="card_img_holder">
-									<img src="/media/dentists/photos/default.jpg">
-								</div>
-								<div class="card_clinic">
-									<p>{{ object.clinic.name }}</p>
-								</div>
-								<div class="card_dent">
-									{% trans "FISh:" %} {{ object.dentist.fullname }}
-								</div>
-								<div class="card_address">
-									{% trans "Manzil:" %} {{ object.clinic.address }}
-								</div>
-								{% if object.clinic.orientir %}
-									<div class="card_address_2">
-										{% trans "Mo'ljal:" %} {{ object.clinic.orientir }}
+							{% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}<div class="col-xxl-4 col-xl-4 col-md-4 col-sm-12">
+								<div class="stom_card">
+									<div class="card_img_holder">
+										<img src="/media/{{ result.dentist.image }}">
 									</div>
-								{% endif %}
-								{% if object.dentist.is_fullday %}
+									<div class="card_clinic">
+										<p>{{ result.clinic.name }}</p>
+									</div>
+									<div class="card_dent">
+										{% trans "FISh:" %} {{ result.dentist.fullname }}
+									</div>
+									<div class="card_address">
+										{% trans "Manzil:" %} {{ result.clinic.address }}
+									</div>
+									{% if result.clinic.orientir %}<div class="card_address_2">
+										{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}
+									</div>{% endif %}
 									<div class="card_time">
-										{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}
+										{% trans "Ishlash vaqti:" %} {{ result.dentist.worktime_begin }} - {{ result.dentist.worktime_end }}
 									</div>
-								{% else %}
-									<div class="card_time">
-										{% trans "Ishlash vaqti:" %} {{ object.dentist.worktime_begin }} - {{ object.dentist.worktime_end }}
+									<div class="card_phone">
+										{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}
 									</div>
-								{% endif %}
-								<div class="card_phone">
-									{% trans "Telefon raqami:" %} {{ object.dentist.phone_number }}
+									<div class="btn_holder">
+										<a href="{% url 'dentist:dentist' slug=result.dentist.slug %}" class="btn my_btn_2">{% trans "Narxlarni ko'rish" %}</a>
+										<a href="{% url 'dentist:dentist' slug=result.dentist.slug %}" class="btn my_btn_2">{% trans "Qabulga yozilish" %}</a>
+									</div>
 								</div>
-								<a href="{% url 'dentist:dentist' slug=object.dentist.slug %}" class="btn my_btn mx-auto">{% trans "Narxlarni ko'rish" %}</a>
-							</div>
-						</div>
-						{% endfor %}
+							</div>{% endif %}{% endfor %}
 						</div>
 						<div class="tab-pane fade" id="pills-near" role="tabpanel" aria-labelledby="pills-near-tab">
+							{% for result in results_by_distance %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}<div class="col-xxl-4 col-xl-4 col-md-4 col-sm-12">
+								<div class="stom_card">
+									<div class="card_img_holder">
+										<img src="/media/{{ result.dentist.image }}">
+									</div>
+									<div class="card_clinic">
+										<p>{{ result.clinic.name }}</p>
+									</div>
+									<div class="card_dent">
+										{% trans "FISh:" %} {{ result.dentist.fullname }}
+									</div>
+									<div class="card_address">
+										{% trans "Manzil:" %} {{ result.clinic.address }}
+									</div>
+									{% if result.clinic.orientir %}<div class="card_address_2">
+										{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}
+									</div>{% endif %}
+									<div class="card_time">
+										{% trans "Ishlash vaqti:" %} {{ result.dentist.worktime_begin }} - {{ result.dentist.worktime_end }}
+									</div>
+									<div class="card_phone">
+										{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}
+									</div>
+									<div class="btn_holder">
+										<a href="{% url 'dentist:dentist' slug=result.dentist.slug %}" class="btn my_btn_2">{% trans "Narxlarni ko'rish" %}</a>
+										<a href="{% url 'dentist:dentist' slug=result.dentist.slug %}" class="btn my_btn_2">{% trans "Qabulga yozilish" %}</a>
+									</div>
+								</div>
+							</div>{% endif %}{% endfor %}
 						</div>
 					</div>
 				</div>
@@ -118,61 +140,61 @@
 		function getResults(checkbox) {
 			if (checkbox) {
 				if ($("input[type=radio]:checked")[0].value == 1) {
-					{% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-price").append(
+					$("#pills-price").empty(){% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 1 %}.append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
-									$("<img>").attr("src", "/media/dentists/photos/default.jpg")
+									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
 								)
 							).append(
 								$("<div></div>").addClass("card_clinic").append(
-									$("<p></p>").text("{{ result.clinic.name }}")
+									$("<p></p>").html("{{ result.clinic.name }}")
 								)
 							).append(
-								document.createElement("div").addClass("card_dent").text("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+								$("<div></div>").addClass("card_dent").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
 							).append(
-								document.createElement("div").addClass("card_address").text("{% trans "Manzil:" %} {{ result.clinic.address }}")
+								$("<div></div>").addClass("card_address").html("{% trans "Manzil:" %} {{ result.clinic.address }}")
 							){% if result.clinic.orientir %}.append(
-								document.createElement("div").addClass("card_address_2").text("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
+								$("<div></div>").addClass("card_address_2").html("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
 							){% endif %}.append(
-								document.createElement("div").addClass("card_time").text("{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}")
+								$("<div></div>").addClass("card_time").html("{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}")
 							).append(
-								document.createElement("div").addClass("card_phone").text("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+								$("<div></div>").addClass("card_phone").html("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
 							).append(
-								document.createElement("div").addClass("btn_holder").append(
-									document.createElement("button").addClass("btn_holder").attr("type", "button").text("{% trans "Narxlarni ko'rish" %}")
+								$("<div></div>").addClass("btn_holder").append(
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Narxlarni ko'rish" %}")
 								).append(
-									document.createElement("p").addClass("btn_holder").attr("type", "button").text("{% trans "Qabulga yozilish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Qabulga yozilish" %}")
 								)
 							)
 						)
 					){% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
-					{% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-price").append(
-						document.createElement("div").addClass("col-md-4 col-sm-12").append(
-							document.createElement("div").addClass("stom_card").append(
-								document.createElement("div").addClass("card_img_holder").append(
-									document.createElement("img").attr("src", "/media/dentists/photos/default.jpg")
+					$("#pills-price").empty(){% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 2 %}.append(
+						$("<div></div>").addClass("col-md-4 col-sm-12").append(
+							$("<div></div>").addClass("stom_card").append(
+								$("<div></div>").addClass("card_img_holder").append(
+									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
 								)
 							).append(
-								document.createElement("div").addClass("card_clinic").append(
-									document.createElement("p").text("{{ result.clinic.name }}")
+								$("<div></div>").addClass("card_clinic").append(
+									$("<p></p>").html("{{ result.clinic.name }}")
 								)
 							).append(
-								document.createElement("div").addClass("card_dent").text("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+								$("<div></div>").addClass("card_dent").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
 							).append(
-								document.createElement("div").addClass("card_address").text("{% trans "Manzil:" %} {{ result.clinic.address }}")
+								$("<div></div>").addClass("card_address").html("{% trans "Manzil:" %} {{ result.clinic.address }}")
 							){% if result.clinic.orientir %}.append(
-								document.createElement("div").addClass("card_address_2").text("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
+								$("<div></div>").addClass("card_address_2").html("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
 							){% endif %}.append(
-								document.createElement("div").addClass("card_time").text("{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}")
+								$("<div></div>").addClass("card_time").html("{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}")
 							).append(
-								document.createElement("div").addClass("card_phone").text("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+								$("<div></div>").addClass("card_phone").html("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
 							).append(
-								document.createElement("div").addClass("btn_holder").append(
-									document.createElement("button").addClass("btn_holder").attr("type", "button").text("{% trans "Narxlarni ko'rish" %}")
+								$("<div></div>").addClass("btn_holder").append(
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Narxlarni ko'rish" %}")
 								).append(
-									document.createElement("p").addClass("btn_holder").attr("type", "button").text("{% trans "Qabulga yozilish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Qabulga yozilish" %}")
 								)
 							)
 						)
@@ -180,11 +202,11 @@
 				}
 			} else {
 				if ($("input[type=radio]:checked")[0].value == 1) {
-					$("#pills-price"){% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}.append(
+					$("#pills-price").empty(){% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}.append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
-									$("<img>").attr("src", "/media/dentists/photos/default.jpg")
+									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
 								)
 							).append(
 								$("<div></div>").addClass("card_clinic").append(
@@ -210,31 +232,31 @@
 						)
 					){% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
-					{% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-price").append(
-						document.createElement("div").addClass("col-md-4 col-sm-12").append(
-							document.createElement("div").addClass("stom_card").append(
-								document.createElement("div").addClass("card_img_holder").append(
-									document.createElement("img").attr("src", "/media/dentists/photos/default.jpg")
+					$("#pills-price").empty(){% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 2 %}.append(
+						$("<div></div>").addClass("col-md-4 col-sm-12").append(
+							$("<div></div>").addClass("stom_card").append(
+								$("<div></div>").addClass("card_img_holder").append(
+									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
 								)
 							).append(
-								document.createElement("div").addClass("card_clinic").append(
-									document.createElement("p").text("{{ result.clinic.name }}")
+								$("<div></div>").addClass("card_clinic").append(
+									$("<p></p>").html("{{ result.clinic.name }}")
 								)
 							).append(
-								document.createElement("div").addClass("card_dent").text("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+								$("<div></div>").addClass("card_dent").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
 							).append(
-								document.createElement("div").addClass("card_address").text("{% trans "Manzil:" %} {{ result.clinic.address }}")
+								$("<div></div>").addClass("card_address").html("{% trans "Manzil:" %} {{ result.clinic.address }}")
 							){% if result.clinic.orientir %}.append(
-								document.createElement("div").addClass("card_address_2").text("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
+								$("<div></div>").addClass("card_address_2").html("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
 							){% endif %}.append(
-								document.createElement("div").addClass("card_time").text("{% trans "Ishlash vaqti:" %} {{ result.dentist.worktime_begin }} - {{ result.dentist.worktime_end }}")
+								$("<div></div>").addClass("card_time").html("{% trans "Ishlash vaqti:" %} {{ result.dentist.worktime_begin }} - {{ result.dentist.worktime_end }}")
 							).append(
-								document.createElement("div").addClass("card_phone").text("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+								$("<div></div>").addClass("card_phone").html("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
 							).append(
-								document.createElement("div").addClass("btn_holder").append(
-									document.createElement("button").addClass("btn_holder").attr("type", "button").text("{% trans "Narxlarni ko'rish" %}")
+								$("<div></div>").addClass("btn_holder").append(
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Narxlarni ko'rish" %}")
 								).append(
-									document.createElement("p").addClass("btn_holder").attr("type", "button").text("{% trans "Qabulga yozilish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Qabulga yozilish" %}")
 								)
 							)
 						)

@@ -72,7 +72,7 @@ def profile(request):
 
 
 def settings(request, active_tab="profile"):
-    if not request.user.username not in request.session:
+    if request.user.username not in request.session:
         return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
     if 'success_message' in request.session:
         if request.session['success_message'] == "Updated successfully":
