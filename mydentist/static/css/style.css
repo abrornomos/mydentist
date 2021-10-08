@@ -376,27 +376,7 @@
   word-wrap: break-word;
 }
 
-.card_dent {
-  font-size: 14px;
-  padding: 5px 0px;
-}
-
-.card_address {
-  font-size: 14px;
-  padding: 5px 0px;
-}
-
-.card_address_2 {
-  font-size: 14px;
-  padding: 5px 0px;
-}
-
-.card_time {
-  font-size: 14px;
-  padding: 5px 0px;
-}
-
-.card_phone {
+.card_info {
   font-size: 14px;
   padding: 5px 0px;
 }
