@@ -162,31 +162,27 @@
 			))
 			{% endfor %}
 		})
-		$("input[type=radio]").on("click", getResults(getResultsByPrice, false))
-		$("input[type=checkbox]").on("click", getResults(getResultsByDistance, false))
-		$("#pills-price-tab").on("click", getResults(getResultsByPrice, true))
-		$("#pills-near-tab").on("click", getResults(getResultsByDistance, true))
-		function getResults(handler, stateChange) {
+		$("input[type=radio]").on("click", getResults())
+		$("input[type=checkbox]").on("click", getResults())
+		function getResults() {
 			if ($("input[type=checkbox]").is(":checked")) {
-				ymaps.ready(
-					handler(true, stateChange)
-				)
+				if ($("#pills-price").is(".active")) {
+					getResultsByPrice(true)
+				} else if ($("#pills-near").is(".active")) {
+					getResultsByDistance(true)
+				}
 			} else {
-				ymaps.ready(
-					handler(false, stateChange)
-				)
+				if ($("#pills-price").is(".active")) {
+					getResultsByPrice(false)
+				} else if ($("#pills-near").is(".active")) {
+					getResultsByDistance(false)
+				}
 			}
 		}
-		function getResultsByPrice(checkbox, stateChange) {
+		function getResultsByPrice(checkbox) {
 			if (checkbox) {
 				if ($("input[type=radio]:checked")[0].value == 1) {
 					$("#pills-price").empty()
-					if (stateChange) {
-						let myMap = new ymaps.Map("map", {
-							center: [40.767684, 72.336187],
-							zoom: 10
-						})
-					}
 					{% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-price").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
@@ -216,38 +212,9 @@
 							)
 						)
 					)
-					if (stateChange) {
-						myMap.geoObjects.add(
-							new ymaps.GeoObject(
-								{
-									// Описание геометрии.
-									geometry: {
-										type: "Point",
-										coordinates: [parseFloat("{{ result.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ result.clinic.longitude }}".replace(/,/, "."))]
-									},
-									// Свойства.
-									properties: {
-										// Контент метки.
-										iconContent: "{{ result.dentist.fullname }}"
-									}
-								},
-								{
-									// Опции.
-									// Иконка метки будет растягиваться под размер ее содержимого.
-									preset: 'islands#blackStretchyIcon'
-								}
-							)
-						)
-					}{% endif %}{% endfor %}
+					{% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
 					$("#pills-price").empty()
-					$("#map").empty()
-					if (stateChange) {
-						let myMap = new ymaps.Map("map", {
-							center: [40.767684, 72.336187],
-							zoom: 10
-						})
-					}
 					{% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-price").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
@@ -277,40 +244,11 @@
 							)
 						)
 					)
-					if (stateChange) {
-						myMap.geoObjects.add(
-							new ymaps.GeoObject(
-								{
-									// Описание геометрии.
-									geometry: {
-										type: "Point",
-										coordinates: [parseFloat("{{ result.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ result.clinic.longitude }}".replace(/,/, "."))]
-									},
-									// Свойства.
-									properties: {
-										// Контент метки.
-										iconContent: "{{ result.dentist.fullname }}"
-									}
-								},
-								{
-									// Опции.
-									// Иконка метки будет растягиваться под размер ее содержимого.
-									preset: 'islands#blackStretchyIcon'
-								}
-							)
-						)
-					}{% endif %}{% endfor %}
+					{% endif %}{% endfor %}
 				}
 			} else {
 				if ($("input[type=radio]:checked")[0].value == 1) {
 					$("#pills-price").empty()
-					$("#map").empty()
-					if (stateChange) {
-						let myMap = new ymaps.Map("map", {
-							center: [40.767684, 72.336187],
-							zoom: 10
-						})
-					}
 					{% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-price").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
@@ -340,39 +278,9 @@
 							)
 						)
 					)
-					if (stateChange) {
-						myMap.geoObjects.add(
-							new ymaps.GeoObject(
-								{
-									// Описание геометрии.
-									geometry: {
-										type: "Point",
-										coordinates: [parseFloat("{{ result.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ result.clinic.longitude }}".replace(/,/, "."))]
-									},
-									// Свойства.
-									properties: {
-										// Контент метки.
-										iconContent: "{{ result.dentist.fullname }}"
-									}
-								},
-								{
-									// Опции.
-									// Иконка метки будет растягиваться под размер ее содержимого.
-									preset: 'islands#blackStretchyIcon'
-								}
-							)
-						)
-					}{% endif %}{% endfor %}
+					{% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
-					$("#pills-price").empty()
-					$("#map").empty()
-					if (stateChange) {
-						let myMap = new ymaps.Map("map", {
-							center: [40.767684, 72.336187],
-							zoom: 10
-						})
-					}
-					{% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-price").append(
+					$("#pills-price").empty(){% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 2 %}.append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
@@ -400,44 +308,14 @@
 								)
 							)
 						)
-					)
-					if (stateChange) {
-						myMap.geoObjects.add(
-							new ymaps.GeoObject(
-								{
-									// Описание геометрии.
-									geometry: {
-										type: "Point",
-										coordinates: [parseFloat("{{ result.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ result.clinic.longitude }}".replace(/,/, "."))]
-									},
-									// Свойства.
-									properties: {
-										// Контент метки.
-										iconContent: "{{ result.dentist.fullname }}"
-									}
-								},
-								{
-									// Опции.
-									// Иконка метки будет растягиваться под размер ее содержимого.
-									preset: 'islands#blackStretchyIcon'
-								}
-							)
-						)
-					}{% endif %}{% endfor %}
+					){% endif %}{% endfor %}
 				}
 			}
 		}
-		function getResultsByDistance(checkbox, stateChange) {
+		function getResultsByDistance(checkbox) {
 			if (checkbox) {
 				if ($("input[type=radio]:checked")[0].value == 1) {
 					$("#pills-near").empty()
-					$("#map").empty()
-					if (stateChange) {
-						let myMap = new ymaps.Map("map", {
-							center: [40.767684, 72.336187],
-							zoom: 10
-						})
-					}
 					{% for result in results_by_distance %}{% if result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-near").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
@@ -467,38 +345,9 @@
 							)
 						)
 					)
-					if (stateChange) {
-						myMap.geoObjects.add(
-							new ymaps.GeoObject(
-								{
-									// Описание геометрии.
-									geometry: {
-										type: "Point",
-										coordinates: [parseFloat("{{ result.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ result.clinic.longitude }}".replace(/,/, "."))]
-									},
-									// Свойства.
-									properties: {
-										// Контент метки.
-										iconContent: "{{ result.dentist.fullname }}"
-									}
-								},
-								{
-									// Опции.
-									// Иконка метки будет растягиваться под размер ее содержимого.
-									preset: 'islands#blackStretchyIcon'
-								}
-							)
-						)
-					}{% endif %}{% endfor %}
+					{% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
 					$("#pills-near").empty()
-					$("#map").empty()
-					if (stateChange) {
-						let myMap = new ymaps.Map("map", {
-							center: [40.767684, 72.336187],
-							zoom: 10
-						})
-					}
 					{% for result in results_by_distance %}{% if result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-near").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
@@ -528,40 +377,11 @@
 							)
 						)
 					)
-					if (stateChange) {
-						myMap.geoObjects.add(
-							new ymaps.GeoObject(
-								{
-									// Описание геометрии.
-									geometry: {
-										type: "Point",
-										coordinates: [parseFloat("{{ result.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ result.clinic.longitude }}".replace(/,/, "."))]
-									},
-									// Свойства.
-									properties: {
-										// Контент метки.
-										iconContent: "{{ result.dentist.fullname }}"
-									}
-								},
-								{
-									// Опции.
-									// Иконка метки будет растягиваться под размер ее содержимого.
-									preset: 'islands#blackStretchyIcon'
-								}
-							)
-						)
-					}{% endif %}{% endfor %}
+					{% endif %}{% endfor %}
 				}
 			} else {
 				if ($("input[type=radio]:checked")[0].value == 1) {
 					$("#pills-near").empty()
-					$("#map").empty()
-					if (stateChange) {
-						let myMap = new ymaps.Map("map", {
-							center: [40.767684, 72.336187],
-							zoom: 10
-						})
-					}
 					{% for result in results_by_distance %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-near").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
@@ -591,38 +411,9 @@
 							)
 						)
 					)
-					if (stateChange) {
-						myMap.geoObjects.add(
-							new ymaps.GeoObject(
-								{
-									// Описание геометрии.
-									geometry: {
-										type: "Point",
-										coordinates: [parseFloat("{{ result.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ result.clinic.longitude }}".replace(/,/, "."))]
-									},
-									// Свойства.
-									properties: {
-										// Контент метки.
-										iconContent: "{{ result.dentist.fullname }}"
-									}
-								},
-								{
-									// Опции.
-									// Иконка метки будет растягиваться под размер ее содержимого.
-									preset: 'islands#blackStretchyIcon'
-								}
-							)
-						)
-					}{% endif %}{% endfor %}
+					{% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
 					$("#pills-near").empty()
-					$("#map").empty()
-					if (stateChange) {
-						let myMap = new ymaps.Map("map", {
-							center: [40.767684, 72.336187],
-							zoom: 10
-						})
-					}
 					{% for result in results_by_distance %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-near").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
@@ -652,31 +443,10 @@
 							)
 						)
 					)
-					if (stateChange) {
-						myMap.geoObjects.add(
-							new ymaps.GeoObject(
-								{
-									// Описание геометрии.
-									geometry: {
-										type: "Point",
-										coordinates: [parseFloat("{{ result.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ result.clinic.longitude }}".replace(/,/, "."))]
-									},
-									// Свойства.
-									properties: {
-										// Контент метки.
-										iconContent: "{{ result.dentist.fullname }}"
-									}
-								},
-								{
-									// Опции.
-									// Иконка метки будет растягиваться под размер ее содержимого.
-									preset: 'islands#blackStretchyIcon'
-								}
-							)
-						)
-					}{% endif %}{% endfor %}
+					{% endif %}{% endfor %}
 				}
 			}
 		}
+		console.log($("#pills-price").is(".active"))
 	</script>
 {% endblock %}
