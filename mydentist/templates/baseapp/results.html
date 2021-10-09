@@ -50,9 +50,9 @@
 							</div>
 						</div>
 					</div>
-					<div class="row">
-						<div class="tab-content" id="pills-tabContent-2">
-							<div class="tab-pane fade show active" id="pills-price" role="tabpanel" aria-labelledby="pills-price-tab">
+					<div class="tab-content" id="pills-tabContent-2">
+						<div class="tab-pane fade show active" id="pills-price" role="tabpanel" aria-labelledby="pills-price-tab">
+							<div class="row">
 								{% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}<div class="col-md-4 col-sm-12">
 									<div class="stom_card">
 										<div class="card_img_holder">
@@ -137,33 +137,8 @@
 {% block javascript %}
 	<script src="https://api-maps.yandex.ru/2.1/?apikey=9c44946f-08f3-4e0d-a8e0-12aad041b5ff&lang=ru_RU"></script>
 	<script type="text/javascript">
-		ymaps.ready(function() {
-			let myMap = new ymaps.Map("map", {
-				center: [40.767684, 72.336187],
-				zoom: 10
-			})			
-			{% for result in results_by_price %}myMap.geoObjects.add(new ymaps.GeoObject(
-				{
-					// Описание геометрии.
-					geometry: {
-						type: "Point",
-						coordinates: [parseFloat("{{ result.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ result.clinic.longitude }}".replace(/,/, "."))]
-					},
-					// Свойства.
-					properties: {
-						// Контент метки.
-						iconContent: "{{ result.dentist.fullname }}"
-					}
-				}, {
-					// Опции.
-					// Иконка метки будет растягиваться под размер ее содержимого.
-					preset: 'islands#blackStretchyIcon'
-				}
-			))
-			{% endfor %}
-		})
-		$("input[type=radio]").on("click", getResults())
-		$("input[type=checkbox]").on("click", getResults())
+		$("input[type=radio]").on("click", getResults)
+		$("input[type=checkbox]").on("click", getResults)
 		function getResults() {
 			if ($("input[type=checkbox]").is(":checked")) {
 				if ($("#pills-price").is(".active")) {
@@ -190,9 +165,7 @@
 									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
 								)
 							).append(
-								$("<div></div>").addClass("card_clinic").append(
-									$("<p></p>").html("{{ result.clinic.name }}")
-								)
+								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
 							).append(
@@ -222,9 +195,7 @@
 									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
 								)
 							).append(
-								$("<div></div>").addClass("card_clinic").append(
-									$("<p></p>").html("{{ result.clinic.name }}")
-								)
+								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
 							).append(
@@ -256,9 +227,7 @@
 									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
 								)
 							).append(
-								$("<div></div>").addClass("card_clinic").append(
-									$("<p></p>").html("{{ result.clinic.name }}")
-								)
+								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
 							).append(
@@ -287,9 +256,7 @@
 									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
 								)
 							).append(
-								$("<div></div>").addClass("card_clinic").append(
-									$("<p></p>").html("{{ result.clinic.name }}")
-								)
+								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
 							).append(
@@ -323,9 +290,7 @@
 									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
 								)
 							).append(
-								$("<div></div>").addClass("card_clinic").append(
-									$("<p></p>").html("{{ result.clinic.name }}")
-								)
+								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
 							).append(
@@ -355,9 +320,7 @@
 									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
 								)
 							).append(
-								$("<div></div>").addClass("card_clinic").append(
-									$("<p></p>").html("{{ result.clinic.name }}")
-								)
+								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
 							).append(
@@ -389,9 +352,7 @@
 									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
 								)
 							).append(
-								$("<div></div>").addClass("card_clinic").append(
-									$("<p></p>").html("{{ result.clinic.name }}")
-								)
+								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
 							).append(
@@ -421,9 +382,7 @@
 									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
 								)
 							).append(
-								$("<div></div>").addClass("card_clinic").append(
-									$("<p></p>").html("{{ result.clinic.name }}")
-								)
+								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
 							).append(
@@ -447,6 +406,32 @@
 				}
 			}
 		}
-		console.log($("#pills-price").is(".active"))
+		ymaps.ready(init)
+		function init() {
+			let myMap = new ymaps.Map("map", {
+				center: [40.767684, 72.336187],
+				zoom: 10
+			}), myGeoObject
+			{% for result in results_by_price %}myGeoObject = new ymaps.GeoObject(
+				{
+					// Описание геометрии.
+					geometry: {
+						type: "Point",
+						coordinates: [parseFloat("{{ result.clinic.latitude }}".replace(/,/, ".")), parseFloat("{{ result.clinic.longitude }}".replace(/,/, "."))]
+					},
+					// Свойства.
+					properties: {
+						// Контент метки.
+						iconContent: "{{ result.clinic.name }}"
+					}
+				}, {
+					// Опции.
+					// Иконка метки будет растягиваться под размер ее содержимого.
+					preset: 'islands#blackStretchyIcon'
+				}
+			)
+			myMap.geoObjects.add(myGeoObject)
+			{% endfor %}
+		}
 	</script>
 {% endblock %}
