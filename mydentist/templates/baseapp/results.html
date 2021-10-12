@@ -83,7 +83,9 @@
 									</div>
 								</div>{% endif %}{% endfor %}
 							</div>
-							<div class="tab-pane fade" id="pills-near" role="tabpanel" aria-labelledby="pills-near-tab">
+						</div>
+						<div class="tab-pane fade" id="pills-near" role="tabpanel" aria-labelledby="pills-near-tab">
+							<div class="row">
 								{% for result in results_by_distance %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}<div class="col-md-4 col-sm-12">
 									<div class="stom_card">
 										<div class="card_img_holder">
@@ -157,8 +159,8 @@
 		function getResultsByPrice(checkbox) {
 			if (checkbox) {
 				if ($("input[type=radio]:checked")[0].value == 1) {
-					$("#pills-price").empty()
-					{% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-price").append(
+					$("#pills-price .row").empty()
+					{% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-price .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
@@ -187,8 +189,8 @@
 					)
 					{% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
-					$("#pills-price").empty()
-					{% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-price").append(
+					$("#pills-price .row").empty()
+					{% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-price .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
@@ -219,8 +221,8 @@
 				}
 			} else {
 				if ($("input[type=radio]:checked")[0].value == 1) {
-					$("#pills-price").empty()
-					{% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-price").append(
+					$("#pills-price .row").empty()
+					{% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-price .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
@@ -249,7 +251,8 @@
 					)
 					{% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
-					$("#pills-price").empty(){% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 2 %}.append(
+					$("#pills-price .row").empty()
+					{% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-price .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
@@ -282,8 +285,8 @@
 		function getResultsByDistance(checkbox) {
 			if (checkbox) {
 				if ($("input[type=radio]:checked")[0].value == 1) {
-					$("#pills-near").empty()
-					{% for result in results_by_distance %}{% if result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-near").append(
+					$("#pills-near .row").empty()
+					{% for result in results_by_distance %}{% if result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-near .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
@@ -312,8 +315,8 @@
 					)
 					{% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
-					$("#pills-near").empty()
-					{% for result in results_by_distance %}{% if result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-near").append(
+					$("#pills-near .row").empty()
+					{% for result in results_by_distance %}{% if result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-near .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
@@ -344,8 +347,8 @@
 				}
 			} else {
 				if ($("input[type=radio]:checked")[0].value == 1) {
-					$("#pills-near").empty()
-					{% for result in results_by_distance %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-near").append(
+					$("#pills-near .row").empty()
+					{% for result in results_by_distance %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-near .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
@@ -374,8 +377,8 @@
 					)
 					{% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
-					$("#pills-near").empty()
-					{% for result in results_by_distance %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-near").append(
+					$("#pills-near .row").empty()
+					{% for result in results_by_distance %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-near .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
