@@ -5,14 +5,15 @@ from django.shortcuts import render, redirect
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
-from .forms import *
-from .models import User as UserExtra, Illness, Other_Illness
-from .var import *
+from appointment.models import Query, Appointment
 from baseapp.models import Language
-from dentist.models import *
+from dentist.models import User as DentistUser, Clinic, Cabinet_Image, Service
 from illness.models import *
 from illness.forms import *
 from login.forms import PasswordUpdateForm
+from .forms import *
+from .models import User as UserExtra, Illness, Other_Illness
+from .var import *
 
 # Create your views here.
 
@@ -23,12 +24,17 @@ def profile(request):
     user = User.objects.get(username=request.user.username)
     user_extra = UserExtra.objects.get(user=user)
     try:
-        appointment = Appointment.objects.get(user=user_extra)
-        dentist = Dentist.objects.get(pk=appointment.dentist_id)
-        clinic = Clinic.objects.get(pk=dentist.clinic_id)
-        cabinet_images = Cabinet_Image.objects.filter(dentist__pk=dentist.id)
         try:
-            services = Service.objects.filter(dentist__pk=dentist.id)
+            appointment = Appointment.objects.get(user=user_extra)
+        except:
+            appointment = Query.objects.get(user=user_extra)
+        dentist_extra = DentistUser.objects.get(pk=appointment.dentist_id)
+        dentist = User.objects.get(pk=dentist_extra.user_id)
+        clinic = Clinic.objects.get(pk=dentist_extra.clinic_id)
+        cabinet_images = Cabinet_Image.objects.filter(
+            dentist__pk=dentist_extra.id)
+        try:
+            services = Service.objects.filter(dentist__pk=dentist_extra.id)
         except:
             services = None
         if len(cabinet_images) > 1:
@@ -36,6 +42,7 @@ def profile(request):
                 'user_extra': user_extra,
                 'appointment': appointment,
                 'dentist': dentist,
+                'dentist_extra': dentist_extra,
                 'clinic': clinic,
                 'services': services,
                 'cabinet_image': cabinet_images[0],
@@ -47,6 +54,7 @@ def profile(request):
                 'user_extra': user_extra,
                 'appointment': appointment,
                 'dentist': dentist,
+                'dentist_extra': dentist_extra,
                 'clinic': clinic,
                 'services': services,
                 'cabinet_image': cabinet_images[0],
@@ -58,6 +66,7 @@ def profile(request):
                 'user_extra': user_extra,
                 'appointment': appointment,
                 'dentist': dentist,
+                'dentist_extra': dentist_extra,
                 'clinic': clinic,
                 'services': services,
                 'cabinet_images': None,

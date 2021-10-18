@@ -168,7 +168,7 @@ def sign_in(request):
                     language = Language.objects.get(pk=user_extra.language_id).name
                     translation.activate(language)
                     request.session[translation.LANGUAGE_SESSION_KEY] = language
-                    request.session[request.user.username] = request.user.username
+                    request.session[user.get_username()] = user.get_username()
                     if 'next' in request.POST:
                         return redirect(request.POST['next'])
                     else:

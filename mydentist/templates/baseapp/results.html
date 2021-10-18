@@ -53,16 +53,16 @@
 					<div class="tab-content" id="pills-tabContent-2">
 						<div class="tab-pane fade show active" id="pills-price" role="tabpanel" aria-labelledby="pills-price-tab">
 							<div class="row">
-								{% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}<div class="col-md-4 col-sm-12">
+								{% for result in results_by_price %}{% if not result.dentist_extra.is_fullday and result.dentist_extra.gender_id == 1 %}<div class="col-md-4 col-sm-12">
 									<div class="stom_card">
 										<div class="card_img_holder">
-											<img src="/media/{{ result.dentist.image }}">
+											<img src="/media/{{ result.dentist_extra.image }}">
 										</div>
 										<div class="card_clinic">
 											{{ result.clinic.name }}
 										</div>
 										<div class="card_info">
-											{% trans "FISh:" %} {{ result.dentist.fullname }}
+											{% trans "FISh:" %} {{ result.dentist.last_name }} {{ result.dentist.first_name }}
 										</div>
 										<div class="card_info">
 											{% trans "Manzil:" %} {{ result.clinic.address }}
@@ -71,14 +71,14 @@
 											{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}
 										</div>{% endif %}
 										<div class="card_info">
-											{% trans "Ishlash vaqti:" %} {{ result.dentist.worktime_begin }} - {{ result.dentist.worktime_end }}
+											{% trans "Ishlash vaqti:" %} {{ result.dentist_extra.worktime_begin }} - {{ result.dentist_extra.worktime_end }}
 										</div>
 										<div class="card_info">
-											{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}
+											{% trans "Telefon raqami:" %} {{ result.dentist_extra.phone_number }}
 										</div>
 										<div class="btn_holder">
-											<a href="{% url 'dentist:dentist' slug=result.dentist.slug %}" class="btn my_btn_2">{% trans "Narxlarni ko'rish" %}</a>
-											<a href="{% url 'dentist:dentist' slug=result.dentist.slug %}" class="btn my_btn_2">{% trans "Qabulga yozilish" %}</a>
+											<a href="{% url 'dentist:dentist' slug=result.dentist_extra.slug %}" class="btn my_btn_2">{% trans "Narxlarni ko'rish" %}</a>
+											<a href="{% url 'dentist:dentist' slug=result.dentist_extra.slug %}" class="btn my_btn_2">{% trans "Qabulga yozilish" %}</a>
 										</div>
 									</div>
 								</div>{% endif %}{% endfor %}
@@ -86,16 +86,16 @@
 						</div>
 						<div class="tab-pane fade" id="pills-near" role="tabpanel" aria-labelledby="pills-near-tab">
 							<div class="row">
-								{% for result in results_by_distance %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}<div class="col-md-4 col-sm-12">
+								{% for result in results_by_distance %}{% if not result.dentist_extra.is_fullday and result.dentist_extra.gender_id == 1 %}<div class="col-md-4 col-sm-12">
 									<div class="stom_card">
 										<div class="card_img_holder">
-											<img src="/media/{{ result.dentist.image }}">
+											<img src="/media/{{ result.dentist_extra.image }}">
 										</div>
 										<div class="card_clinic">
 											{{ result.clinic.name }}
 										</div>
 										<div class="card_info">
-											{% trans "FISh:" %} {{ result.dentist.fullname }}
+											{% trans "FISh:" %} {{ result.dentist.last_name }} {{ result.dentist.first_name }}
 										</div>
 										<div class="card_info">
 											{% trans "Manzil:" %} {{ result.clinic.address }}
@@ -104,14 +104,14 @@
 											{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}
 										</div>{% endif %}
 										<div class="card_info">
-											{% trans "Ishlash vaqti:" %} {{ result.dentist.worktime_begin }} - {{ result.dentist.worktime_end }}
+											{% trans "Ishlash vaqti:" %} {{ result.dentist_extra.worktime_begin }} - {{ result.dentist_extra.worktime_end }}
 										</div>
 										<div class="card_info">
-											{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}
+											{% trans "Telefon raqami:" %} {{ result.dentist_extra.phone_number }}
 										</div>
 										<div class="btn_holder">
-											<a href="{% url 'dentist:dentist' slug=result.dentist.slug %}" class="btn my_btn_2">{% trans "Narxlarni ko'rish" %}</a>
-											<a href="{% url 'dentist:dentist' slug=result.dentist.slug %}" class="btn my_btn_2">{% trans "Qabulga yozilish" %}</a>
+											<a href="{% url 'dentist:dentist' slug=result.dentist_extra.slug %}" class="btn my_btn_2">{% trans "Narxlarni ko'rish" %}</a>
+											<a href="{% url 'dentist:dentist' slug=result.dentist_extra.slug %}" class="btn my_btn_2">{% trans "Qabulga yozilish" %}</a>
 										</div>
 									</div>
 								</div>{% endif %}{% endfor %}
@@ -160,16 +160,16 @@
 			if (checkbox) {
 				if ($("input[type=radio]:checked")[0].value == 1) {
 					$("#pills-price .row").empty()
-					{% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-price .row").append(
+					{% for result in results_by_price %}{% if result.dentist_extra.is_fullday and result.dentist_extra.gender_id == 1 %}$("#pills-price .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
-									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
+									$("<img>").attr("src", "/media/{{ result.dentist_extra.image }}")
 								)
 							).append(
 								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.last_name }} {{ result.dentist.first_name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "Manzil:" %} {{ result.clinic.address }}")
 							){% if result.clinic.orientir %}.append(
@@ -177,12 +177,12 @@
 							){% endif %}.append(
 								$("<div></div>").addClass("card_info").html("{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist_extra.phone_number }}")
 							).append(
 								$("<div></div>").addClass("btn_holder").append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Narxlarni ko'rish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Narxlarni ko'rish" %}")
 								).append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Qabulga yozilish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Qabulga yozilish" %}")
 								)
 							)
 						)
@@ -190,16 +190,16 @@
 					{% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
 					$("#pills-price .row").empty()
-					{% for result in results_by_price %}{% if result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-price .row").append(
+					{% for result in results_by_price %}{% if result.dentist_extra.is_fullday and result.dentist_extra.gender_id == 2 %}$("#pills-price .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
-									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
+									$("<img>").attr("src", "/media/{{ result.dentist_extra.image }}")
 								)
 							).append(
 								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.last_name }} {{ result.dentist.first_name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "Manzil:" %} {{ result.clinic.address }}")
 							){% if result.clinic.orientir %}.append(
@@ -207,12 +207,12 @@
 							){% endif %}.append(
 								$("<div></div>").addClass("card_info").html("{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist_extra.phone_number }}")
 							).append(
 								$("<div></div>").addClass("btn_holder").append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Narxlarni ko'rish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Narxlarni ko'rish" %}")
 								).append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Qabulga yozilish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Qabulga yozilish" %}")
 								)
 							)
 						)
@@ -222,29 +222,29 @@
 			} else {
 				if ($("input[type=radio]:checked")[0].value == 1) {
 					$("#pills-price .row").empty()
-					{% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-price .row").append(
+					{% for result in results_by_price %}{% if not result.dentist_extra.is_fullday and result.dentist_extra.gender_id == 1 %}$("#pills-price .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
-									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
+									$("<img>").attr("src", "/media/{{ result.dentist_extra.image }}")
 								)
 							).append(
 								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.last_name }} {{ result.dentist.first_name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "Manzil:" %} {{ result.clinic.address }}")
 							){% if result.clinic.orientir %}.append(
 								$("<div></div>").addClass("card_info").html("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
 							){% endif %}.append(
-								$("<div></div>").addClass("card_info").html("{% trans "Ishlash vaqti:" %} {{ result.dentist.worktime_begin }} - {{ result.dentist.worktime_end }}")
+								$("<div></div>").addClass("card_info").html("{% trans "Ishlash vaqti:" %} {{ result.dentist_extra.worktime_begin }} - {{ result.dentist_extra.worktime_end }}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist_extra.phone_number }}")
 							).append(
 								$("<div></div>").addClass("btn_holder").append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Narxlarni ko'rish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Narxlarni ko'rish" %}")
 								).append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Qabulga yozilish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Qabulga yozilish" %}")
 								)
 							)
 						)
@@ -252,29 +252,29 @@
 					{% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
 					$("#pills-price .row").empty()
-					{% for result in results_by_price %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-price .row").append(
+					{% for result in results_by_price %}{% if not result.dentist_extra.is_fullday and result.dentist_extra.gender_id == 2 %}$("#pills-price .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
-									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
+									$("<img>").attr("src", "/media/{{ result.dentist_extra.image }}")
 								)
 							).append(
 								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.last_name }} {{ result.dentist.first_name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "Manzil:" %} {{ result.clinic.address }}")
 							){% if result.clinic.orientir %}.append(
 								$("<div></div>").addClass("card_info").html("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
 							){% endif %}.append(
-								$("<div></div>").addClass("card_info").html("{% trans "Ishlash vaqti:" %} {{ result.dentist.worktime_begin }} - {{ result.dentist.worktime_end }}")
+								$("<div></div>").addClass("card_info").html("{% trans "Ishlash vaqti:" %} {{ result.dentist_extra.worktime_begin }} - {{ result.dentist_extra.worktime_end }}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist_extra.phone_number }}")
 							).append(
 								$("<div></div>").addClass("btn_holder").append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Narxlarni ko'rish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Narxlarni ko'rish" %}")
 								).append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Qabulga yozilish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Qabulga yozilish" %}")
 								)
 							)
 						)
@@ -286,16 +286,16 @@
 			if (checkbox) {
 				if ($("input[type=radio]:checked")[0].value == 1) {
 					$("#pills-near .row").empty()
-					{% for result in results_by_distance %}{% if result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-near .row").append(
+					{% for result in results_by_distance %}{% if result.dentist_extra.is_fullday and result.dentist_extra.gender_id == 1 %}$("#pills-near .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
-									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
+									$("<img>").attr("src", "/media/{{ result.dentist_extra.image }}")
 								)
 							).append(
 								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.last_name }} {{ result.dentist.first_name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "Manzil:" %} {{ result.clinic.address }}")
 							){% if result.clinic.orientir %}.append(
@@ -303,12 +303,12 @@
 							){% endif %}.append(
 								$("<div></div>").addClass("card_info").html("{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist_extra.phone_number }}")
 							).append(
 								$("<div></div>").addClass("btn_holder").append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Narxlarni ko'rish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Narxlarni ko'rish" %}")
 								).append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Qabulga yozilish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Qabulga yozilish" %}")
 								)
 							)
 						)
@@ -316,16 +316,16 @@
 					{% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
 					$("#pills-near .row").empty()
-					{% for result in results_by_distance %}{% if result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-near .row").append(
+					{% for result in results_by_distance %}{% if result.dentist_extra.is_fullday and result.dentist_extra.gender_id == 2 %}$("#pills-near .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
-									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
+									$("<img>").attr("src", "/media/{{ result.dentist_extra.image }}")
 								)
 							).append(
 								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.last_name }} {{ result.dentist.first_name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "Manzil:" %} {{ result.clinic.address }}")
 							){% if result.clinic.orientir %}.append(
@@ -333,12 +333,12 @@
 							){% endif %}.append(
 								$("<div></div>").addClass("card_info").html("{% trans "Ishlash vaqti:" %} {% trans "24 soat" %}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist_extra.phone_number }}")
 							).append(
 								$("<div></div>").addClass("btn_holder").append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Narxlarni ko'rish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Narxlarni ko'rish" %}")
 								).append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Qabulga yozilish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Qabulga yozilish" %}")
 								)
 							)
 						)
@@ -348,29 +348,29 @@
 			} else {
 				if ($("input[type=radio]:checked")[0].value == 1) {
 					$("#pills-near .row").empty()
-					{% for result in results_by_distance %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 1 %}$("#pills-near .row").append(
+					{% for result in results_by_distance %}{% if not result.dentist_extra.is_fullday and result.dentist_extra.gender_id == 1 %}$("#pills-near .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
-									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
+									$("<img>").attr("src", "/media/{{ result.dentist_extra.image }}")
 								)
 							).append(
 								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.last_name }} {{ result.dentist.first_name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "Manzil:" %} {{ result.clinic.address }}")
 							){% if result.clinic.orientir %}.append(
 								$("<div></div>").addClass("card_info").html("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
 							){% endif %}.append(
-								$("<div></div>").addClass("card_info").html("{% trans "Ishlash vaqti:" %} {{ result.dentist.worktime_begin }} - {{ result.dentist.worktime_end }}")
+								$("<div></div>").addClass("card_info").html("{% trans "Ishlash vaqti:" %} {{ result.dentist_extra.worktime_begin }} - {{ result.dentist_extra.worktime_end }}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist_extra.phone_number }}")
 							).append(
 								$("<div></div>").addClass("btn_holder").append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Narxlarni ko'rish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Narxlarni ko'rish" %}")
 								).append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Qabulga yozilish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Qabulga yozilish" %}")
 								)
 							)
 						)
@@ -378,29 +378,29 @@
 					{% endif %}{% endfor %}
 				} else if ($("input[type=radio]:checked")[0].value == 2) {
 					$("#pills-near .row").empty()
-					{% for result in results_by_distance %}{% if not result.dentist.is_fullday and result.dentist.gender_id == 2 %}$("#pills-near .row").append(
+					{% for result in results_by_distance %}{% if not result.dentist_extra.is_fullday and result.dentist_extra.gender_id == 2 %}$("#pills-near .row").append(
 						$("<div></div>").addClass("col-md-4 col-sm-12").append(
 							$("<div></div>").addClass("stom_card").append(
 								$("<div></div>").addClass("card_img_holder").append(
-									$("<img>").attr("src", "/media/{{ result.dentist.image }}")
+									$("<img>").attr("src", "/media/{{ result.dentist_extra.image }}")
 								)
 							).append(
 								$("<div></div>").addClass("card_clinic").html("{{ result.clinic.name }}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.fullname }}")
+								$("<div></div>").addClass("card_info").html("{% trans "FISh:" %} {{ result.dentist.last_name }} {{ result.dentist.first_name }}")
 							).append(
 								$("<div></div>").addClass("card_info").html("{% trans "Manzil:" %} {{ result.clinic.address }}")
 							){% if result.clinic.orientir %}.append(
 								$("<div></div>").addClass("card_info").html("{% trans "Mo'ljal:" %} {{ result.clinic.orientir }}")
 							){% endif %}.append(
-								$("<div></div>").addClass("card_info").html("{% trans "Ishlash vaqti:" %} {{ result.dentist.worktime_begin }} - {{ result.dentist.worktime_end }}")
+								$("<div></div>").addClass("card_info").html("{% trans "Ishlash vaqti:" %} {{ result.dentist_extra.worktime_begin }} - {{ result.dentist_extra.worktime_end }}")
 							).append(
-								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist.phone_number }}")
+								$("<div></div>").addClass("card_info").html("{% trans "Telefon raqami:" %} {{ result.dentist_extra.phone_number }}")
 							).append(
 								$("<div></div>").addClass("btn_holder").append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Narxlarni ko'rish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Narxlarni ko'rish" %}")
 								).append(
-									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist.slug %}").html("{% trans "Qabulga yozilish" %}")
+									$("<a></a>").addClass("btn my_btn_2").attr("href", "{% url 'dentist:dentist' slug=result.dentist_extra.slug %}").html("{% trans "Qabulga yozilish" %}")
 								)
 							)
 						)

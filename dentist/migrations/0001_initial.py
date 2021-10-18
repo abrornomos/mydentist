@@ -73,7 +73,7 @@ class Migration(migrations.Migration):
                 ('time', models.DateTimeField(verbose_name='Qabul vaqti')),
                 ('attend', models.CharField(max_length=50, verbose_name='Qabul holati')),
                 ('dentist', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='dentist.dentist', verbose_name='Tish shifokori')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='patient.user', verbose_name='Foydalanuvchi')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='patient.user', verbose_name='Bemor')),
             ],
             options={
                 'verbose_name': "So'rov",

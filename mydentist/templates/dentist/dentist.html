@@ -2,7 +2,7 @@
 {% load static i18n %}
 
 {% block title %}
-	{{ dentist.fullname }}
+	{{ dentist.last_name }} {{ dentist.first_name }}
 {% endblock %}
 
 {% block content %}
@@ -10,21 +10,21 @@
         <div class="row mb-3">
             <div class="col-md-4 col-sm-12">
                 <div class="sub_title_gray_2 center mb-3">
-                    {{ dentist.fullname }}
+                    {{ dentist.last_name }} {{ dentist.first_name }}
                 </div>
-                <img class="avatar" src="/media/{{ dentist.image }}" alt="{{ dentist.fullname }}">
+                <img class="avatar" src="/media/{{ dentist_extra.image }}" alt="{{ dentist.last_name }} {{ dentist.first_name }}">
             </div>
             <div class="col-md-8 col-sm-12">
                 <div class="row pt-5">
                     <div class="col-md-9 col-sm-12">
                         <div class="info_holder">
                             <div class="info_name">{% trans "Ish sohasi:" %}</div>
-                            <div class="info_desc">{{ dentist.speciality }}</div>
+                            <div class="info_desc">{{ dentist_extra.speciality }}</div>
                         </div>
-                        {% if dentist.experience %}
+                        {% if dentist_extra.experience %}
                             <div class="info_holder">
                                 <div class="info_name">{% trans "Ish tajribasi:" %}</div>
-                                <div class="info_desc">{{ dentist.experience }}</div>
+                                <div class="info_desc">{{ dentist_extra.experience }}</div>
                             </div>
                         {% endif %}
                         <div class="info_holder">
@@ -39,13 +39,13 @@
                         {% endif %}
                         <div class="info_holder">
                             <div class="info_name">{% trans "Ish tartibi:" %}</div>
-                            {% if dentist.is_fullday %}
+                            {% if dentist_extra.is_fullday %}
                                 <div class="info_desc">
                                     {% trans "24 soat" %}
                                 </div>
                             {% else %}
                                 <div class="info_desc">
-                                    {{ dentist.worktime_begin }} - {{ dentist.worktime_end }}
+                                    {{ dentist_extra.worktime_begin }} - {{ dentist_extra.worktime_end }}
                                 </div>
                             {% endif %}
                         </div>
@@ -180,7 +180,7 @@
                 // Свойства.
                 properties: {
                     // Контент метки.
-                    iconContent: "{{ dentist.fullname }}"
+                    iconContent: "{{ result.dentist.last_name }} {{ result.dentist.first_name }}"
                 }
             }, {
                 // Опции.

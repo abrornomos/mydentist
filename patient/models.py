@@ -4,7 +4,7 @@ from django.utils.translation import ugettext_lazy as _
 # Create your models here.
 class User(models.Model):
 
-    user = models.ForeignKey("auth.User", verbose_name=_("Foydalanuvchi"), on_delete=models.CASCADE)
+    user = models.OneToOneField("auth.User", verbose_name=_("Bemor"), on_delete=models.CASCADE)
     phone_number = models.CharField(_("Telefon raqami"), max_length=25)
     address = models.CharField(_("Manzili"), max_length=255)
     birthday = models.DateField(_("Tug'ilgan sanasi"), auto_now=False, auto_now_add=False)
@@ -12,16 +12,16 @@ class User(models.Model):
     language = models.ForeignKey("baseapp.Language", verbose_name=_("Tili"), on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name = _("Foydalanuvchi")
-        verbose_name_plural = _("Foydalanuvchilar")
+        verbose_name = _("Bemor")
+        verbose_name_plural = _("Bemorlar")
 
     def __str__(self):
-        return self.user.__str__()
+        return f"{self.user.first_name} {self.user.last_name}"
 
 
 class Illness(models.Model):
 
-    user = models.ForeignKey("patient.User", verbose_name=_("Foydalanuvchi"), on_delete=models.CASCADE)
+    user = models.OneToOneField("patient.User", verbose_name=_("Bemor"), on_delete=models.CASCADE)
     diabet = models.ForeignKey("illness.Diabet", verbose_name=_("Qandli diabet"), on_delete=models.CASCADE)
     anesthesia = models.ForeignKey("illness.Anesthesia", verbose_name=_("Narkoz"), on_delete=models.CASCADE)
     hepatitis = models.ForeignKey("illness.Hepatitis", verbose_name=_("Gepatit B"), on_delete=models.CASCADE)
@@ -32,15 +32,16 @@ class Illness(models.Model):
     dizziness = models.ForeignKey("illness.Dizziness", verbose_name=_("Bosh aylanishi"), on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name_plural = _("Foydalanuvchi kasalliklari")
+        verbose_name = _("Bemor kasalligi")
+        verbose_name_plural = _("Bemor kasalliklari")
 
     def __str__(self):
-        return self.name
+        return self.user.__str__()
 
 
 class Other_Illness(models.Model):
 
-    user = models.ForeignKey("patient.User", verbose_name=_("Foydalanuvchi"), on_delete=models.CASCADE)
+    user = models.OneToOneField("patient.User", verbose_name=_("Bemor"), on_delete=models.CASCADE)
     epilepsy = models.ForeignKey("illness.Epilepsy", verbose_name=_("Epilepsiya"), on_delete=models.CASCADE)
     blood_disease = models.ForeignKey("illness.Blood_disease", verbose_name=_("Qon kasali"), on_delete=models.CASCADE)
     medications = models.ForeignKey("illness.Medications", verbose_name=_("Doimiy dorilar"), on_delete=models.CASCADE)
@@ -52,7 +53,8 @@ class Other_Illness(models.Model):
     pregnancy = models.ForeignKey("illness.Pregnancy", verbose_name=_("Homiladorlik"), on_delete=models.CASCADE)
 
     class Meta:
-        verbose_name_plural = _("Foydalanuvchi kasalliklari")
+        verbose_name = _("Bemor kasalligi")
+        verbose_name_plural = _("Bemor kasalliklari")
 
     def __str__(self):
-        return self.name
+        return self.user.__str__()

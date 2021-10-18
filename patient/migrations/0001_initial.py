@@ -25,11 +25,11 @@ class Migration(migrations.Migration):
                 ('birthday', models.DateField(verbose_name="Tug'ilgan sanasi")),
                 ('image', models.ImageField(upload_to='patients/photos/', verbose_name='Rasmi')),
                 ('language', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='baseapp.language', verbose_name='Tili')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Foydalanuvchi')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL, verbose_name='Bemor')),
             ],
             options={
-                'verbose_name': 'Foydalanuvchi',
-                'verbose_name_plural': 'Foydalanuvchilar',
+                'verbose_name': 'Bemor',
+                'verbose_name_plural': 'Bemorlar',
             },
         ),
         migrations.CreateModel(
@@ -44,10 +44,10 @@ class Migration(migrations.Migration):
                 ('dizziness', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='illness.dizziness', verbose_name='Bosh aylanishi')),
                 ('hepatitis', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='illness.hepatitis', verbose_name='Gepatit B')),
                 ('pressure', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='illness.pressure', verbose_name='Qon bosimi')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='patient.user', verbose_name='Foydalanuvchi')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='patient.user', verbose_name='Bemor')),
             ],
             options={
-                'verbose_name_plural': 'Foydalanuvchi kasalliklari',
+                'verbose_name_plural': 'Bemor kasalliklari',
             },
         ),
     ]

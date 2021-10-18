@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 # Create your models here.
 
+
 class Language(models.Model):
 
     name = models.CharField(_("Til nomi"), max_length=25)

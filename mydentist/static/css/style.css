@@ -7,7 +7,9 @@
   background-color: #3CEE58;
   border-radius: 25px;
   padding: 0px 8px;
+  text-align: center;
   width: auto;
+  max-width: 80px;
 }
 
 @-webkit-keyframes hover_effect {

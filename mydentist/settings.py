@@ -13,8 +13,9 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
-BASE_DIR = Path(__file__).resolve().parent.parent
 PROJECT_DIR = Path(__file__).resolve().parent
+BASE_DIR = PROJECT_DIR.parent
+GLOBAL_DIR = BASE_DIR.parent
 
 
 # Quick-start development settings - unsuitable for production
@@ -38,11 +39,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'appointment',
     'baseapp',
     'dentist',
+    'illness',
     'login',
-    'patient',
-    'illness'
+    'patient'
 ]
 
 MIDDLEWARE = [
@@ -147,7 +149,7 @@ STATICFILES_DIRS = [
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = PROJECT_DIR / 'media'
+MEDIA_ROOT = GLOBAL_DIR / 'media'
 
 LOGIN_URL = "/auth/login/"
 

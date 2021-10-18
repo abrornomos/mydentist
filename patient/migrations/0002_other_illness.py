@@ -25,10 +25,10 @@ class Migration(migrations.Migration):
                 ('pregnancy', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='illness.pregnancy', verbose_name='Homiladorlik')),
                 ('stroke', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='illness.stroke', verbose_name='Insultga uchraganmisiz?')),
                 ('tuberculosis', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='illness.tuberculosis', verbose_name='Sil kasalligi')),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='patient.user', verbose_name='Foydalanuvchi')),
+                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='patient.user', verbose_name='Bemor')),
             ],
             options={
-                'verbose_name_plural': 'Foydalanuvchi kasalliklari',
+                'verbose_name_plural': 'Bemor kasalliklari',
             },
         ),
     ]
