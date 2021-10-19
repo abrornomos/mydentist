@@ -13,7 +13,7 @@ class Query(models.Model):
         verbose_name_plural = _("So'rovlar")
 
     def __str__(self):
-        return f"{self.dentist.__str__()} - {self.time}"
+        return f"{self.dentist.__str__()} - {self.patient.__str__()}"
 
 
 class Appointment(models.Model):

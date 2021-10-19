@@ -52,7 +52,7 @@
                     </div>
                     <div class="col-md-3 col-sm-12">
                         {% if user.is_authenticated %}
-                            {% if appointment is None %}
+                            {% if query is None %}
                                 <button type="button" class="btn my_btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">{% trans "Qabulga yozilish" %}</button>
                                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-scrollable">

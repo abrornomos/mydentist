@@ -20,7 +20,7 @@ def dentist(request, slug):
             dentist = User.objects.get(pk=dentist_extra.user_id)
             query = Query.objects.create(
                 dentist=dentist_extra,
-                user=user_extra,
+                patient=user_extra,
                 reason=queryform.cleaned_data['reason'],
                 comment=queryform.cleaned_data['comment'],
             )
@@ -29,7 +29,7 @@ def dentist(request, slug):
     try:
         user = User.objects.get(username=request.user.username)
         user_extra = UserExtra.objects.get(user=user)
-        query = Query.objects.get(user=user_extra)
+        query = Query.objects.get(patient=user_extra)
     except:
         query = None
     current_language = get_language()
