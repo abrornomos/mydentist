@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-21 10:38+0500\n"
+"POT-Creation-Date: 2021-10-25 23:07+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,102 +26,94 @@ msgstr ""
 msgid "Asosiy ma'lumotlar"
 msgstr ""
 
-#: .\baseapp\forms.py:26
-msgid "24 soat"
-msgstr ""
-
-#: .\baseapp\forms.py:36
-msgid "Yaqinligi bo'yicha"
-msgstr ""
-
-#: .\baseapp\models.py:8
+#: .\baseapp\models.py:9
 msgid "Til nomi"
 msgstr ""
 
-#: .\baseapp\models.py:11
+#: .\baseapp\models.py:12
 msgid "Til"
 msgstr ""
 
-#: .\baseapp\models.py:12
+#: .\baseapp\models.py:13
 msgid "Tillar"
 msgstr ""
 
-#: .\baseapp\models.py:20 .\baseapp\models.py:23
+#: .\baseapp\models.py:21 .\baseapp\models.py:24
 msgid "Hudud nomi"
 msgstr ""
 
-#: .\baseapp\models.py:24
+#: .\baseapp\models.py:25
 msgid "Hudud nomlari"
 msgstr ""
 
-#: .\baseapp\models.py:32 .\baseapp\models.py:35
+#: .\baseapp\models.py:33 .\baseapp\models.py:36
 msgid "Jins"
 msgstr ""
 
-#: .\baseapp\models.py:36
+#: .\baseapp\models.py:37
 msgid "Jinslar"
 msgstr ""
 
-#: .\baseapp\var.py:5
+#: .\baseapp\var.py:29
 msgid "Toshkent"
 msgstr ""
 
-#: .\baseapp\var.py:6
+#: .\baseapp\var.py:33
 msgid "Toshkent viloyati"
 msgstr ""
 
-#: .\baseapp\var.py:7
+#: .\baseapp\var.py:37
 msgid "Samarqand viloyati"
 msgstr ""
 
-#: .\baseapp\var.py:8
+#: .\baseapp\var.py:41
 msgid "Buxoro viloyati"
 msgstr ""
 
-#: .\baseapp\var.py:9
+#: .\baseapp\var.py:45
 msgid "Andijon viloyati"
 msgstr ""
 
-#: .\baseapp\var.py:10
+#: .\baseapp\var.py:49
 msgid "Farg'ona viloyati"
 msgstr ""
 
-#: .\baseapp\var.py:11
+#: .\baseapp\var.py:53
 msgid "Namangan viloyati"
 msgstr ""
 
-#: .\baseapp\var.py:12
+#: .\baseapp\var.py:57
 msgid "Qashqadaryo viloyati"
 msgstr ""
 
-#: .\baseapp\var.py:13
+#: .\baseapp\var.py:61
 msgid "Surhondaryo viloyati"
 msgstr ""
 
-#: .\baseapp\var.py:14
+#: .\baseapp\var.py:65
 msgid "Sirdaryo viloyati"
 msgstr ""
 
-#: .\baseapp\var.py:15
+#: .\baseapp\var.py:69
 msgid "Jizzax viloyati"
 msgstr ""
 
-#: .\baseapp\var.py:16
+#: .\baseapp\var.py:73
 msgid "Xorazm viloyati"
 msgstr ""
 
-#: .\baseapp\var.py:17
-msgid "Navoiy viloyati"
+#: .\baseapp\var.py:77
+msgid "Navoiy viloyat"
 msgstr ""
 
-#: .\baseapp\var.py:18
+#: .\baseapp\var.py:81
 msgid "Qoraqalpog'iston Respublikasi"
 msgstr ""
 
-#: .\baseapp\var.py:21
+#: .\baseapp\var.py:86
 msgid "Erkak"
 msgstr ""
 
-#: .\baseapp\var.py:22
+#: .\baseapp\var.py:87
 msgid "Ayol"
 msgstr ""

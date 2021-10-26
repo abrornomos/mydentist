@@ -1,6 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
+from baseapp.var import GENDERS
 from .var import *
 
 
@@ -28,15 +29,14 @@ class UserForm(forms.Form):
         max_length=150,
         localize=True
     )
-    email = forms.EmailField(
-        label=_("Elektron manzil"),
-        widget=forms.EmailInput(
+    gender = forms.CharField(
+        label=_("Jins"),
+        widget=forms.Select(
             attrs={
-                'class': "form-control",
-                'placeholder': _("Elektron pochtangiz")
-            }
-        ),
-        localize=True
+                'class': "form-select"
+            },
+            choices=GENDERS
+        )
     )
     birth_year = forms.CharField(
         widget=forms.TextInput(
@@ -74,6 +74,16 @@ class UserForm(forms.Form):
             }
         ),
         max_length=20,
+        localize=True
+    )
+    email = forms.EmailField(
+        label=_("Elektron manzil"),
+        widget=forms.EmailInput(
+            attrs={
+                'class': "form-control",
+                'placeholder': _("Elektron pochtangiz")
+            }
+        ),
         localize=True
     )
     address = forms.CharField(

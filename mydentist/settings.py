@@ -159,3 +159,14 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+DEFAULT_FROM_EMAIL = 'abrornomos2018@gmail.com'
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_SSL = False    # use port 465
+EMAIL_USE_TLS = True    # use port 587
+EMAIL_HOST_USER = 'abrornomos2018@gmail.com'
+EMAIL_HOST_PASSWORD = 'nomos2018'

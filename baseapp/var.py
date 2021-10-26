@@ -82,6 +82,11 @@ REGIONS = [
     },
 ]
 
+GENDERS = [
+    ('1', _("Erkak")),
+    ('2', _("Ayol")),
+]
+
 # REGIONS = {
 #     'Ташкент': "Toshkent",
 #     'Ташкентская область': "Toshkent viloyati",

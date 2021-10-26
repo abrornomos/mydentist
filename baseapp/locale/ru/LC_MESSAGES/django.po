@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-21 10:38+0500\n"
+"POT-Creation-Date: 2021-10-25 23:07+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -28,105 +28,103 @@ msgstr "Администрирование сайта MyDentist"
 msgid "Asosiy ma'lumotlar"
 msgstr "Основные данные"
 
-#: .\baseapp\forms.py:26
-msgid "24 soat"
-msgstr "24 часа"
-
-#: .\baseapp\forms.py:36
-msgid "Yaqinligi bo'yicha"
-msgstr "По близости"
-
-#: .\baseapp\models.py:8
+#: .\baseapp\models.py:9
 msgid "Til nomi"
 msgstr "Название языка"
 
-#: .\baseapp\models.py:11
+#: .\baseapp\models.py:12
 msgid "Til"
 msgstr "Язык"
 
-#: .\baseapp\models.py:12
+#: .\baseapp\models.py:13
 msgid "Tillar"
 msgstr "Языки"
 
-#: .\baseapp\models.py:20 .\baseapp\models.py:23
+#: .\baseapp\models.py:21 .\baseapp\models.py:24
 msgid "Hudud nomi"
 msgstr "Название региона"
 
-#: .\baseapp\models.py:24
+#: .\baseapp\models.py:25
 msgid "Hudud nomlari"
 msgstr "Названия регионов"
 
-#: .\baseapp\models.py:32 .\baseapp\models.py:35
+#: .\baseapp\models.py:33 .\baseapp\models.py:36
 msgid "Jins"
 msgstr "Пол"
 
-#: .\baseapp\models.py:36
+#: .\baseapp\models.py:37
 msgid "Jinslar"
 msgstr "Полы"
 
-#: .\baseapp\var.py:5
+#: .\baseapp\var.py:29
 msgid "Toshkent"
 msgstr "Ташкент"
 
-#: .\baseapp\var.py:6
+#: .\baseapp\var.py:33
 msgid "Toshkent viloyati"
 msgstr "Ташкентская область"
 
-#: .\baseapp\var.py:7
+#: .\baseapp\var.py:37
 msgid "Samarqand viloyati"
 msgstr "Самаркандская область"
 
-#: .\baseapp\var.py:8
+#: .\baseapp\var.py:41
 msgid "Buxoro viloyati"
 msgstr "Бухарская область"
 
-#: .\baseapp\var.py:9
+#: .\baseapp\var.py:45
 msgid "Andijon viloyati"
 msgstr "Андижанская область"
 
-#: .\baseapp\var.py:10
+#: .\baseapp\var.py:49
 msgid "Farg'ona viloyati"
 msgstr "Ферганская область"
 
-#: .\baseapp\var.py:11
+#: .\baseapp\var.py:53
 msgid "Namangan viloyati"
 msgstr "Наманганская область"
 
-#: .\baseapp\var.py:12
+#: .\baseapp\var.py:57
 msgid "Qashqadaryo viloyati"
 msgstr "Кашкадарьинская область"
 
-#: .\baseapp\var.py:13
+#: .\baseapp\var.py:61
 msgid "Surhondaryo viloyati"
 msgstr "Сурхандарьинская область"
 
-#: .\baseapp\var.py:14
+#: .\baseapp\var.py:65
 msgid "Sirdaryo viloyati"
 msgstr "Сырдарьинская область"
 
-#: .\baseapp\var.py:15
+#: .\baseapp\var.py:69
 msgid "Jizzax viloyati"
 msgstr "Джизакская область"
 
-#: .\baseapp\var.py:16
+#: .\baseapp\var.py:73
 msgid "Xorazm viloyati"
 msgstr "Хорезмская область"
 
-#: .\baseapp\var.py:17
-msgid "Navoiy viloyati"
+#: .\baseapp\var.py:77
+msgid "Navoiy viloyat"
 msgstr "Навоийская область"
 
-#: .\baseapp\var.py:18
+#: .\baseapp\var.py:81
 msgid "Qoraqalpog'iston Respublikasi"
 msgstr "Республика Каракалпакстан"
 
-#: .\baseapp\var.py:21
+#: .\baseapp\var.py:86
 msgid "Erkak"
 msgstr "Мужчина"
 
-#: .\baseapp\var.py:22
+#: .\baseapp\var.py:87
 msgid "Ayol"
 msgstr "Женщина"
+
+#~ msgid "24 soat"
+#~ msgstr "24 часа"
+
+#~ msgid "Yaqinligi bo'yicha"
+#~ msgstr "По близости"
 
 #~ msgid "Администрирование сайта MyDentist"
 #~ msgstr "MyDentist sayti boshqaruvi"

@@ -3,14 +3,15 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.utils import translation
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import get_language, ugettext_lazy as _
 from datetime import datetime
 from appointment.models import Query, Appointment
 from baseapp.models import Language
-from dentist.models import User as DentistUser, Clinic, Cabinet_Image, Service
+from dentist.models import User as DentistUser, User_translation, Clinic, Clinic_translation, Service, Service_translation, Cabinet_Image
 from illness.models import *
 from illness.forms import *
 from login.forms import PasswordUpdateForm
+from mydentist.handler import check_language
 from .forms import *
 from .models import User as UserExtra, Illness, Other_Illness
 from .var import *
@@ -21,68 +22,101 @@ from .var import *
 def profile(request):
     if request.user.username not in request.session:
         return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+    else:
+        check_language(request)
     user = User.objects.get(username=request.user.username)
     user_extra = UserExtra.objects.get(user=user)
     try:
         try:
-            appointment = Appointment.objects.get(user=user_extra)
+            appointment = Appointment.objects.get(patient=user_extra)
+            query = None
+            dentist = DentistUser.objects.get(pk=appointment.dentist_id)
+            dentist_extra = User_translation.objects.get(dentist=dentist, language__pk=user_extra.language_id)
+            clinic = Clinic.objects.get(pk=dentist.clinic_id)
+            clinic_extra = Clinic_translation.objects.get(clinic=clinic, language__pk=user_extra.language_id)
+            cabinet_images = Cabinet_Image.objects.filter(dentist__pk=dentist.id)
+            try:
+                services_obj = Service_translation.objects.filter(language__pk=user_extra.language_id, service__dentist=dentist)
+                services = []
+                for service_extra in services_obj:
+                    services.append({
+                        'service': Service.objects.get(pk=service_extra.service_id),
+                        'service_extra': service_extra
+                    })
+            except:
+                services = []
         except:
-            appointment = Query.objects.get(user=user_extra)
-        dentist_extra = DentistUser.objects.get(pk=appointment.dentist_id)
-        dentist = User.objects.get(pk=dentist_extra.user_id)
-        clinic = Clinic.objects.get(pk=dentist_extra.clinic_id)
-        cabinet_images = Cabinet_Image.objects.filter(
-            dentist__pk=dentist_extra.id)
-        try:
-            services = Service.objects.filter(dentist__pk=dentist_extra.id)
-        except:
-            services = None
-        if len(cabinet_images) > 1:
-            return render(request, "patient/profile.html", {
-                'user_extra': user_extra,
-                'appointment': appointment,
-                'dentist': dentist,
-                'dentist_extra': dentist_extra,
-                'clinic': clinic,
-                'services': services,
-                'cabinet_image': cabinet_images[0],
-                'cabinet_images': cabinet_images[1:],
-                'counter': range(len(cabinet_images)),
-            })
-        elif len(cabinet_images) == 1:
-            return render(request, "patient/profile.html", {
-                'user_extra': user_extra,
-                'appointment': appointment,
-                'dentist': dentist,
-                'dentist_extra': dentist_extra,
-                'clinic': clinic,
-                'services': services,
-                'cabinet_image': cabinet_images[0],
-                'cabinet_images': None,
-                'counter': range(len(cabinet_images)),
-            })
-        else:
-            return render(request, "patient/profile.html", {
-                'user_extra': user_extra,
-                'appointment': appointment,
-                'dentist': dentist,
-                'dentist_extra': dentist_extra,
-                'clinic': clinic,
-                'services': services,
-                'cabinet_images': None,
-                'counter': 0,
-            })
+            appointment = None
+            query = Query.objects.get(patient=user_extra)
+            dentist = DentistUser.objects.get(pk=query.dentist_id)
+            dentist_extra = User_translation.objects.get(dentist=dentist, language__pk=user_extra.language_id)
+            clinic = Clinic.objects.get(pk=dentist.clinic_id)
+            clinic_extra = Clinic_translation.objects.get(clinic=clinic, language__pk=user_extra.language_id)
+            cabinet_images = Cabinet_Image.objects.filter(dentist__pk=dentist.id)
+            try:
+                services_obj = Service_translation.objects.filter(language__pk=user_extra.language_id, service__dentist=dentist)
+                services = []
+                for service_extra in services_obj:
+                    services.append({
+                        'service': Service.objects.get(pk=service_extra.service_id),
+                        'service_extra': service_extra
+                    })
+            except:
+                services = []
     except:
+        appointment = None
+        query = None
+        dentist = None
+        dentist_extra = None
+        clinic = None
+        clinic_extra = None
+        cabinet_images = []
+        services = []
+    if len(cabinet_images) > 1:
         return render(request, "patient/profile.html", {
             'user_extra': user_extra,
-            'appointment': None,
-            'dentist': None,
+            'appointment': appointment,
+            'dentist': dentist,
+            'dentist_extra': dentist_extra,
+            'clinic': clinic,
+            'clinic_extra': clinic_extra,
+            'services': services,
+            'cabinet_image': cabinet_images[0],
+            'cabinet_images': cabinet_images[1:],
+            'counter': range(len(cabinet_images)),
+        })
+    elif len(cabinet_images) == 1:
+        return render(request, "patient/profile.html", {
+            'user_extra': user_extra,
+            'appointment': appointment,
+            'dentist': dentist,
+            'dentist_extra': dentist_extra,
+            'clinic': clinic,
+            'clinic_extra': clinic_extra,
+            'services': services,
+            'cabinet_image': cabinet_images[0],
+            'cabinet_images': None,
+            'counter': range(len(cabinet_images)),
+        })
+    else:
+        return render(request, "patient/profile.html", {
+            'user_extra': user_extra,
+            'appointment': appointment,
+            'dentist': dentist,
+            'dentist_extra': dentist_extra,
+            'clinic': clinic,
+            'clinic_extra': clinic_extra,
+            'services': services,
+            'cabinet_images': None,
+            'counter': 0,
         })
 
 
 def settings(request, active_tab="profile"):
     if request.user.username not in request.session:
         return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+    else:
+        check_language(request)
     if 'success_message' in request.session:
         if request.session['success_message'] == "Updated successfully":
             success_message = "Updated successfully"
@@ -96,11 +130,12 @@ def settings(request, active_tab="profile"):
     userform = UserForm({
         'last_name': user.last_name,
         'name': user.first_name,
-        'email': user.email,
+        'gender': user_extra.gender_id,
         'birth_year': user_extra.birthday.year,
         'birth_month': MONTHS[user_extra.birthday.month - 1],
         'birth_day': user_extra.birthday.day,
         'phone_number': user_extra.phone_number,
+        'email': user.email,
         'address': user_extra.address,
     })
     languageform = LanguageForm({
@@ -108,7 +143,6 @@ def settings(request, active_tab="profile"):
     })
     if 'incorrect_password' in request.session:
         passwordupdateform = PasswordUpdateForm(request.session['incorrect_password'])
-        print(request.session['incorrect_password'])
         del request.session['incorrect_password']
     else:
         passwordupdateform = PasswordUpdateForm()
@@ -150,8 +184,10 @@ def settings(request, active_tab="profile"):
 
 
 def update(request, form):
-    if not request.user.username not in request.session:
+    if request.user.username not in request.session:
         return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+    else:
+        check_language(request)
     if request.method == "POST":
         if form == "profile":
             userform = UserForm(request.POST)
@@ -161,14 +197,14 @@ def update(request, form):
                 user_extra = UserExtra.objects.get(user=user)
                 user.first_name = userform.cleaned_data['name']
                 user.last_name = userform.cleaned_data['last_name']
-                user.email = userform.cleaned_data['email']
+                user_extra.gender_id = userform.cleaned_data['gender']
                 year = int(userform.cleaned_data['birth_year'])
                 month = MONTHS.index(userform.cleaned_data['birth_month']) + 1
                 day = int(userform.cleaned_data['birth_day'])
                 user_extra.birthday = datetime(year, month, day)
                 user_extra.phone_number = userform.cleaned_data['phone_number']
+                user.email = userform.cleaned_data['email']
                 user_extra.address = userform.cleaned_data['address']
-                print(languageform.cleaned_data['language'])
                 user_extra.language_id = languageform.cleaned_data['language']
                 language = Language.objects.get(pk=user_extra.language_id).name
                 translation.activate(language)

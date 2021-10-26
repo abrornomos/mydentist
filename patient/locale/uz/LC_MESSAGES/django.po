@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-21 10:38+0500\n"
+"POT-Creation-Date: 2021-10-25 23:07+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -19,31 +19,27 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #: .\patient\apps.py:8
-msgid "Foydalanuvchi ma'lumotlari"
+msgid "Bemor ma'lumotlari"
 msgstr ""
 
-#: .\patient\forms.py:10
+#: .\patient\forms.py:11
 msgid "Familiya"
 msgstr ""
 
-#: .\patient\forms.py:14
+#: .\patient\forms.py:15
 msgid "Familiyangiz"
 msgstr ""
 
-#: .\patient\forms.py:21
+#: .\patient\forms.py:22
 msgid "Ism"
 msgstr ""
 
-#: .\patient\forms.py:25
+#: .\patient\forms.py:26
 msgid "Ismingiz"
 msgstr ""
 
-#: .\patient\forms.py:32
-msgid "Elektron manzil"
-msgstr ""
-
-#: .\patient\forms.py:36
-msgid "Elektron pochtangiz"
+#: .\patient\forms.py:33 .\patient\models.py:8
+msgid "Jins"
 msgstr ""
 
 #: .\patient\forms.py:69
@@ -55,28 +51,33 @@ msgid "Telefon raqamingiz"
 msgstr ""
 
 #: .\patient\forms.py:80
-msgid "Manzil"
+msgid "Elektron manzil"
 msgstr ""
 
 #: .\patient\forms.py:84
-msgid "Manzilingiz"
+msgid "Elektron pochtangiz"
+msgstr ""
+
+#: .\patient\forms.py:90 .\patient\models.py:9
+msgid "Manzil"
 msgstr ""
 
 #: .\patient\forms.py:94
+msgid "Manzilingiz"
+msgstr ""
+
+#: .\patient\forms.py:104
 msgid "Til"
 msgstr ""
 
-#: .\patient\models.py:7 .\patient\models.py:15 .\patient\models.py:24
-#: .\patient\models.py:43
-msgid "Foydalanuvchi"
+#: .\patient\models.py:6 .\patient\models.py:15 .\patient\models.py:24
+#: .\patient\models.py:44 .\patient\models.py:66 .\patient\models.py:91
+#: .\patient\models.py:103
+msgid "Bemor"
 msgstr ""
 
-#: .\patient\models.py:8
+#: .\patient\models.py:7
 msgid "Telefon raqami"
-msgstr ""
-
-#: .\patient\models.py:9
-msgid "Manzili"
 msgstr ""
 
 #: .\patient\models.py:10
@@ -92,7 +93,7 @@ msgid "Tili"
 msgstr ""
 
 #: .\patient\models.py:16
-msgid "Foydalanuvchilar"
+msgid "Bemorlar"
 msgstr ""
 
 #: .\patient\models.py:25
@@ -127,44 +128,96 @@ msgstr ""
 msgid "Bosh aylanishi"
 msgstr ""
 
-#: .\patient\models.py:35 .\patient\models.py:55
-msgid "Foydalanuvchi kasalliklari"
+#: .\patient\models.py:35 .\patient\models.py:56
+msgid "Bemor kasalligi"
 msgstr ""
 
-#: .\patient\models.py:44
-msgid "Epilepsiya"
+#: .\patient\models.py:36 .\patient\models.py:57
+msgid "Bemor kasalliklari"
 msgstr ""
 
 #: .\patient\models.py:45
-msgid "Qon kasali"
+msgid "Epilepsiya"
 msgstr ""
 
 #: .\patient\models.py:46
-msgid "Doimiy dorilar"
+msgid "Qon kasali"
 msgstr ""
 
 #: .\patient\models.py:47
-msgid "Insultga uchraganmisiz?"
+msgid "Doimiy dorilar"
 msgstr ""
 
 #: .\patient\models.py:48
-msgid "Yurak xurujiga uchraganmisiz?"
+msgid "Insultga uchraganmisiz?"
 msgstr ""
 
 #: .\patient\models.py:49
-msgid "Onkologik kasalliklar"
+msgid "Yurak xurujiga uchraganmisiz?"
 msgstr ""
 
 #: .\patient\models.py:50
-msgid "Sil kasalligi"
+msgid "Onkologik kasalliklar"
 msgstr ""
 
 #: .\patient\models.py:51
-msgid "Spirtli ichimlik ichasizmi?"
+msgid "Sil kasalligi"
 msgstr ""
 
 #: .\patient\models.py:52
+msgid "Spirtli ichimlik ichasizmi?"
+msgstr ""
+
+#: .\patient\models.py:53
 msgid "Homiladorlik"
+msgstr ""
+
+#: .\patient\models.py:64
+msgid "Tish raqami"
+msgstr ""
+
+#: .\patient\models.py:65 .\patient\models.py:81 .\patient\models.py:106
+msgid "Tish holati"
+msgstr ""
+
+#: .\patient\models.py:69
+msgid "Tish"
+msgstr ""
+
+#: .\patient\models.py:70
+msgid "Tishlar"
+msgstr ""
+
+#: .\patient\models.py:77
+msgid "Holat nomi"
+msgstr ""
+
+#: .\patient\models.py:78
+msgid "Holat qo'shimchasi"
+msgstr ""
+
+#: .\patient\models.py:82 .\patient\models.py:107
+msgid "Tish holatlari"
+msgstr ""
+
+#: .\patient\models.py:89
+msgid "Ish nomi"
+msgstr ""
+
+#: .\patient\models.py:90
+msgid "Qilinganligi"
+msgstr ""
+
+#: .\patient\models.py:94
+msgid "Qilingan ish"
+msgstr ""
+
+#: .\patient\models.py:95
+msgid "Qilingan ishlar"
+msgstr ""
+
+#: .\patient\models.py:102
+msgid "Ish jarayonidagi rasm"
 msgstr ""
 
 #: .\patient\var.py:4

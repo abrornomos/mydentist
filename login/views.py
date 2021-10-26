@@ -2,12 +2,12 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.utils import translation
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import get_language, ugettext_lazy as _
 from datetime import datetime
 from pathlib import Path
 from .models import *
 from .forms import *
-from baseapp.models import Language
+from baseapp.models import Language, Gender
 from illness.models import *
 from illness.forms import *
 from patient.models import User as UserExtra, Illness, Other_Illness
@@ -48,7 +48,8 @@ def register(request):
                     address=userform.cleaned_data['address'],
                     birthday=datetime(year, month, day),
                     image="patients/photos/default.png",
-                    language=Language.objects.get(name="ru")
+                    language=Language.objects.get(name=get_language()),
+                    gender=Gender.objects.get(pk=userform.cleaned_data['gender'])
                 )
                 if illnessform.cleaned_data['allergy'] == 2:
                     try:
@@ -160,7 +161,7 @@ def sign_in(request):
                 user = authenticate(
                     request,
                     username=user_check.username,
-                    password=request.POST['password']
+                    password=loginform.cleaned_data['password']
                 )
                 if user is not None:
                     login(request, user)
@@ -179,34 +180,34 @@ def sign_in(request):
                         'error_message': _("Xato parol")
                     })
             except:
-                try:
-                    user_check = UserExtra.objects.get(phone_number=loginform.cleaned_data['email'])
-                    user_check = User.objects.get(pk=user_check.user_id)
-                    user = authenticate(
-                        request,
-                        username=user_check.username,
-                        password=request.POST['password']
-                    )
-                    if user is not None:
-                        login(request, user)
-                        user_extra = UserExtra.objects.get(user=user)
-                        translation.activate(user_extra.language)
-                        request.session[translation.LANGUAGE_SESSION_KEY] = user_extra.language
-                        request.session[user.get_username()] = user.get_username()
-                        if 'next' in request.POST:
-                            return redirect(request.POST['next'])
-                        else:
-                            return redirect("patient:profile")
-                    else:
-                        return render(request, "login/login.html", {
-                            'loginform': loginform,
-                            'error_message': _("Xato parol")
-                        })
-                except:
-                    return render(request, "login/login.html", {
-                        'loginform': loginform,
-                        'error_message': _("Xato telefon raqam yoki elektron manzil")
-                    })
+                # try:
+                #     user_check = UserExtra.objects.get(phone_number=loginform.cleaned_data['email'])
+                #     user_check = User.objects.get(pk=user_check.user_id)
+                #     user = authenticate(
+                #         request,
+                #         username=user_check.username,
+                #         password=request.POST['password']
+                #     )
+                #     if user is not None:
+                #         login(request, user)
+                #         user_extra = UserExtra.objects.get(user=user)
+                #         translation.activate(user_extra.language)
+                #         request.session[translation.LANGUAGE_SESSION_KEY] = user_extra.language
+                #         request.session[user.get_username()] = user.get_username()
+                #         if 'next' in request.POST:
+                #             return redirect(request.POST['next'])
+                #         else:
+                #             return redirect("patient:profile")
+                #     else:
+                #         return render(request, "login/login.html", {
+                #             'loginform': loginform,
+                #             'error_message': _("Xato parol")
+                #         })
+                # except:
+                return render(request, "login/login.html", {
+                    'loginform': loginform,
+                    'error_message': _("Xato e-mail")
+                })
         else:
             return render(request, "login/login.html", {
                 'loginform': loginform,

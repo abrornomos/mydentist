@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-21 10:38+0500\n"
+"POT-Creation-Date: 2021-10-25 23:07+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -23,7 +23,7 @@ msgid "Kirish ma'lumotlari"
 msgstr ""
 
 #: .\login\forms.py:7
-msgid "Telefon raqam yoki elektron manzil"
+msgid "E-mail"
 msgstr ""
 
 #: .\login\forms.py:16 .\login\forms.py:59
@@ -42,14 +42,14 @@ msgstr ""
 msgid "Parolni tasdiqlang"
 msgstr ""
 
-#: .\login\views.py:128
+#: .\login\views.py:129
 msgid "Parollar to'g'ri kemayapti"
 msgstr ""
 
-#: .\login\views.py:178 .\login\views.py:201
+#: .\login\views.py:180
 msgid "Xato parol"
 msgstr ""
 
-#: .\login\views.py:206
-msgid "Xato telefon raqam yoki elektron manzil"
+#: .\login\views.py:209
+msgid "Xato e-mail"
 msgstr ""

@@ -2,6 +2,7 @@ from django.db.models import Count
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _, get_language
 from dentist.models import *
+from mydentist.handler import check_language
 from .forms import *
 from .models import *
 from .var import *
@@ -15,13 +16,19 @@ def index(request):
         request.session['post'] = request.POST
         return redirect("baseapp:results")
     else:
+        try:
+            del request.session['post']
+        except:
+            pass
         searchform = SearchForm()
         geoform = GeoForm()
         authenticated = request.user.username in request.session
+        if authenticated:
+            check_language(request)
         language = get_language()
         language = Language.objects.get(name=language)
-        services_obj = Service.objects.filter(
-            dentist__clinic__language__pk=language.id
+        services_obj = Service_translation.objects.filter(
+            language__pk=language.id
         ).values('name').annotate(
             name_count=Count('name')
         )
@@ -43,17 +50,19 @@ def index(request):
 
 def results(request):
     authenticated = request.user.username in request.session
+    if authenticated:
+        check_language(request)
     if 'post' in request.session:
         searchform = SearchForm(request.session['post'])
         geoform = GeoForm(request.session['post'])
         if searchform.is_valid() and geoform.is_valid():
-            services_obj = Service.objects.filter(
-                name=searchform.cleaned_data['service']
-            ).filter(
-                dentist__clinic__region__pk=searchform.cleaned_data['region']
+            services_obj = Service_translation.objects.filter(
+                language__name=get_language(),
+                name=searchform.cleaned_data['service'],
+                service__dentist__clinic__region__pk=searchform.cleaned_data['region'],
             )
             results_by_price = get_results(
-                list(services_obj.order_by('price'))
+                list(services_obj.order_by('service__price'))
             )
             results_by_distance = get_results(
                 sort_by_distance(

@@ -1,8 +1,8 @@
 {% extends authenticated|yesno:'app_user.html,app.html' %}
-{% load static i18n %}
+{% load static i18n dentist_tags %}
 
 {% block title %}
-	{{ dentist.last_name }} {{ dentist.first_name }}
+	{{ dentist_extra.fullname }}
 {% endblock %}
 
 {% block content %}
@@ -10,9 +10,9 @@
         <div class="row mb-3">
             <div class="col-md-4 col-sm-12">
                 <div class="sub_title_gray_2 center mb-3">
-                    {{ dentist.last_name }} {{ dentist.first_name }}
+                    {{ dentist_extra.fullname }}
                 </div>
-                <img class="avatar" src="/media/{{ dentist_extra.image }}" alt="{{ dentist.last_name }} {{ dentist.first_name }}">
+                <img class="avatar" src="/media/{{ dentist.image }}" alt="{{ dentist_extra.fullname }}">
             </div>
             <div class="col-md-8 col-sm-12">
                 <div class="row pt-5">
@@ -21,38 +21,38 @@
                             <div class="info_name">{% trans "Ish sohasi:" %}</div>
                             <div class="info_desc">{{ dentist_extra.speciality }}</div>
                         </div>
-                        {% if dentist_extra.experience %}
+                        {% if dentist.experience %}
                             <div class="info_holder">
                                 <div class="info_name">{% trans "Ish tajribasi:" %}</div>
-                                <div class="info_desc">{{ dentist_extra.experience }}</div>
+                                <div class="info_desc">{{ dentist.experience }}</div>
                             </div>
                         {% endif %}
                         <div class="info_holder">
                             <div class="info_name">{% trans "Shifoxona:" %}</div>
-                            <div class="info_desc">{{ clinic.address }}</div>
+                            <div class="info_desc">{{ clinic_extra.address }}</div>
                         </div>
-                        {% if clinic.orientir %}
+                        {% if clinic_extra.orientir %}
                             <div class="info_holder">
                                 <div class="info_name">{% trans "Mo'ljal:" %}</div>
-                                <div class="info_desc">{{ clinic.orientir }}</div>
+                                <div class="info_desc">{{ clinic_extra.orientir }}</div>
                             </div>
                         {% endif %}
                         <div class="info_holder">
                             <div class="info_name">{% trans "Ish tartibi:" %}</div>
-                            {% if dentist_extra.is_fullday %}
+                            {% if dentist.is_fullday %}
                                 <div class="info_desc">
                                     {% trans "24 soat" %}
                                 </div>
                             {% else %}
                                 <div class="info_desc">
-                                    {{ dentist_extra.worktime_begin }} - {{ dentist_extra.worktime_end }}
+                                    {{ dentist.worktime_begin }} - {{ dentist.worktime_end }}
                                 </div>
                             {% endif %}
                         </div>
                     </div>
                     <div class="col-md-3 col-sm-12">
-                        {% if user.is_authenticated %}
-                            {% if query is None %}
+                        {% if authenticated %}
+                            {% if query is None and appointment is None %}
                                 <button type="button" class="btn my_btn" data-bs-toggle="modal" data-bs-target="#staticBackdrop">{% trans "Qabulga yozilish" %}</button>
                                 <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                                     <div class="modal-dialog modal-dialog-scrollable">
@@ -92,21 +92,21 @@
                 </div>
                 {% if services is not None %}
                     <div class="info_holder mt-3">
-                        <div class="big_title">Цены</div>
+                        <div class="big_title">{% trans "Narxlar" %}</div>
                         <table class="table my_table table-success table-striped">
                             <thead>
                                 <tr>
-                                    <th scope="col">Название услуги</th>
-                                    <th scope="col">Цена</th>
-                                    <th scope="col">Длительность</th>
+                                    <th scope="col">{% trans "Xizmat nomi" %}</th>
+                                    <th scope="col">{% trans "Narxi" %}</th>
+                                    <th scope="col">{% trans "Davomiyligi" %}</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {% for service in services %}
                                     <tr>
-                                        <td>{{ service.name }}</td>
-                                        <td>{{ service.price }}</td>
-                                        <td>{{ service.duration }}</td>
+                                        <td>{{ service.service_extra.name }}</td>
+                                        <td>{{ service.service.price }} {% trans "so'm" %}</td>
+                                        <td>{% convert_time service.service.duration %}</td>
                                     </tr>
                                 {% endfor %}
                             </tbody>
@@ -180,7 +180,7 @@
                 // Свойства.
                 properties: {
                     // Контент метки.
-                    iconContent: "{{ result.dentist.last_name }} {{ result.dentist.first_name }}"
+                    iconContent: "{{ dentist_extra.fullname }}"
                 }
             }, {
                 // Опции.

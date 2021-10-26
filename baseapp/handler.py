@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User
 from geopy.distance import distance
-from dentist.models import User as DentistUser, Clinic
+from dentist.models import User as DentistUser, User_translation, Clinic, Clinic_translation, Service
 
 
 def sort_by_distance(services, location):
@@ -14,12 +14,12 @@ def sort_by_distance(services, location):
                 (
                     Clinic.objects.get(
                         pk=DentistUser.objects.get(
-                            pk=service.dentist_id
+                            pk=Service.objects.get(pk=service.service_id).dentist_id
                         ).clinic_id
                     ).latitude,
                     Clinic.objects.get(
                         pk=DentistUser.objects.get(
-                            pk=service.dentist_id
+                            pk=Service.objects.get(pk=service.service_id).dentist_id
                         ).clinic_id
                     ).longitude,
                 ),
@@ -28,31 +28,30 @@ def sort_by_distance(services, location):
                 (
                     Clinic.objects.get(
                         pk=DentistUser.objects.get(
-                            pk=middle.dentist_id
+                            pk=Service.objects.get(pk=middle.service_id).dentist_id
                         ).clinic_id
                     ).latitude,
                     Clinic.objects.get(
                         pk=DentistUser.objects.get(
-                            pk=middle.dentist_id
+                            pk=Service.objects.get(pk=middle.service_id).dentist_id
                         ).clinic_id
                     ).longitude,
                 ),
                 location
             ).kilometers
         ]
-        print(less)
         greater = [
             service for service in services[1:]
             if distance(
                 (
-                    Clinic.objects.get(
+                    Clinic.objects.get( 
                         pk=DentistUser.objects.get(
-                            pk=service.dentist_id
+                            pk=Service.objects.get(pk=service.service_id).dentist_id
                         ).clinic_id
                     ).latitude,
                     Clinic.objects.get(
                         pk=DentistUser.objects.get(
-                            pk=service.dentist_id
+                            pk=Service.objects.get(pk=service.service_id).dentist_id
                         ).clinic_id
                     ).longitude,
                 ),
@@ -61,12 +60,12 @@ def sort_by_distance(services, location):
                 (
                     Clinic.objects.get(
                         pk=DentistUser.objects.get(
-                            pk=middle.dentist_id
+                            pk=Service.objects.get(pk=middle.service_id).dentist_id
                         ).clinic_id
                     ).latitude,
                     Clinic.objects.get(
                         pk=DentistUser.objects.get(
-                            pk=middle.dentist_id
+                            pk=Service.objects.get(pk=middle.service_id).dentist_id
                         ).clinic_id
                     ).longitude,
                 ),
@@ -79,12 +78,15 @@ def sort_by_distance(services, location):
 def get_results(services):
     results = []
     for service in services:
-        dentist_extra = DentistUser.objects.get(pk=service.dentist_id)
-        dentist = User.objects.get(pk=dentist_extra.user_id)
-        clinic = Clinic.objects.get(pk=dentist_extra.clinic_id)
+        service_obj = Service.objects.get(pk=service.service_id)
+        dentist = DentistUser.objects.get(pk=service_obj.dentist_id)
+        dentist_extra = User_translation.objects.filter(dentist=dentist, language__pk=service.language_id)[0]
+        clinic = Clinic.objects.get(pk=dentist.clinic_id)
+        clinic_extra = Clinic_translation.objects.filter(clinic=clinic, language__pk=service.language_id)[0]
         results.append({
             'dentist': dentist,
             'dentist_extra': dentist_extra,
-            'clinic': clinic
+            'clinic': clinic,
+            'clinic_extra': clinic_extra,
         })
     return results

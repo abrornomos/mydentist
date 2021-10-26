@@ -326,30 +326,22 @@
         request_path = request_path.split("/")
         $("#pills-profile-tab").on("click", function() {
             temp = request_path
-            console.log(temp)
             temp[temp.length - 1] = "profile"
-            console.log(temp)
             window.history.replaceState({}, "", temp.join("/"))
         })
         $("#pills-password-tab").on("click", function() {
             temp = request_path
-            console.log(temp)
             temp[temp.length - 1] = "password"
-            console.log(temp)
             window.history.replaceState({}, "", temp.join("/"))
         })
         $("#pills-illness-tab").on("click", function() {
             temp = request_path
-            console.log(temp)
             temp[request_path.length - 1] = "illness"
-            console.log(temp)
             window.history.replaceState({}, "", temp.join("/"))
         })
         $("#pills-other-illness-tab").on("click", function() {
             temp = request_path
-            console.log(temp)
             temp[request_path.length - 1] = "other-illness"
-            console.log(temp)
             window.history.replaceState({}, "", temp.join("/"))
         })
     </script>
