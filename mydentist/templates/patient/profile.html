@@ -101,7 +101,7 @@
                                 <div class="container">
                                     <div class="stom col-12 p-2 mt-3">
                                         <a class="x-button d-flex justify-content-end mx-1" id="x-button"><i class="fal fa-times"></i></a>
-                                        <div class="row mb-3 mx-4">
+                                        <div class="row mb-3 mx-sm-4">
                                             <div class="col-md-4 col-sm-12">
                                                 <div class="sub_title_gray_2 center mb-3">
                                                     {{ dentist_extra.fullname }}
@@ -148,24 +148,26 @@
                                                 {% if services is not None %}
                                                     <div class="info_holder mt-3">
                                                         <div class="big_title">{% trans "Narxlar" %}</div>
-                                                        <table class="table my_table table-success table-striped">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th scope="col">{% trans "Xizmat nomi" %}</th>
-                                                                    <th scope="col">{% trans "Narxi" %}</th>
-                                                                    <th scope="col">{% trans "Davomiyligi" %}</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                {% for service in services %}
+                                                        <div class="my_table">
+                                                            <table class="table my_table table-success table-striped">
+                                                                <thead>
                                                                     <tr>
-                                                                        <td>{{ service.service_extra.name }}</td>
-                                                                        <td>{{ service.service.price }} {% trans "so'm" %}</td>
-                                                                        <td>{% convert_time service.service.duration %}</td>
+                                                                        <th scope="col">{% trans "Xizmat nomi" %}</th>
+                                                                        <th scope="col">{% trans "Narxi" %}</th>
+                                                                        <th scope="col">{% trans "Davomiyligi" %}</th>
                                                                     </tr>
-                                                                {% endfor %}
-                                                            </tbody>
-                                                        </table>
+                                                                </thead>
+                                                                <tbody>
+                                                                    {% for service in services %}
+                                                                        <tr>
+                                                                            <td>{{ service.service_extra.name }}</td>
+                                                                            <td>{{ service.service.price }} {% trans "so'm" %}</td>
+                                                                            <td>{% convert_time service.service.duration %}</td>
+                                                                        </tr>
+                                                                    {% endfor %}
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
                                                     </div>
                                                 {% endif %}
                                             </div>

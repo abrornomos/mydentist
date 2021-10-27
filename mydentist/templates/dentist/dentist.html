@@ -91,9 +91,10 @@
                     </div>
                 </div>
                 {% if services is not None %}
-                    <div class="info_holder mt-3">
-                        <div class="big_title">{% trans "Narxlar" %}</div>
-                        <table class="table my_table table-success table-striped">
+                <div class="info_holder mt-3">
+                    <div class="big_title">{% trans "Narxlar" %}</div>
+                    <div class="my_table">
+                        <table class="table table-success table-striped">
                             <thead>
                                 <tr>
                                     <th scope="col">{% trans "Xizmat nomi" %}</th>
@@ -112,6 +113,7 @@
                             </tbody>
                         </table>
                     </div>
+                </div>
                 {% endif %}
                 <div class="info_holder">
                     <div class="map">
