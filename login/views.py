@@ -1,12 +1,21 @@
+from datetime import datetime
+from django.conf import settings as global_settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+from django.http import Http404
 from django.shortcuts import render, redirect
 from django.utils import translation
+from django.utils.encoding import force_bytes, force_text
+from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.translation import get_language, ugettext_lazy as _
-from datetime import datetime
+from dotenv import load_dotenv
+from os import getenv
 from pathlib import Path
+from smtplib import SMTP_SSL
 from .models import *
 from .forms import *
+from .tokens import reset_password_token
 from baseapp.models import Language, Gender
 from illness.models import *
 from illness.forms import *
@@ -226,3 +235,56 @@ def sign_out(request):
         del request.session[request.user.username]
     logout(request)
     return redirect("login:login")
+
+
+def password_reset(request):
+    if request.user.username in request.session:
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+    if request.method == "POST":
+        emailform = EmailForm(request.POST)
+        if emailform.is_valid():
+            # load_dotenv(global_settings.BASE_DIR / ".env")
+            # print(getenv("EMAIL_HOST"))
+            # print(getenv("EMAIL_HOST_USER"))
+            # print(getenv("EMAIL_HOST_PASSWORD"))
+            # smtp = SMTP_SSL(getenv("EMAIL_HOST"))
+            # smtp.login(getenv("EMAIL_HOST_USER"), getenv("EMAIL_HOST_PASSWORD"))
+            # smtp.sendmail(getenv("EMAIL_HOST_USER"), emailform.cleaned_data['email'], "Parolni tiklash uchun quyidagi havolaga kiring")
+            # smtp.quit()
+            # return redirect("login:password_reset_done")
+            email = emailform.cleaned_data['email']
+            user = User.objects.get(email=email)
+            link = f"{urlsafe_base64_encode(force_bytes(user.username))}/{reset_password_token.make_token(user)}"
+            text = f"You're receiving this email because you requested a password reset for your user account at {request.META.get('HTTP_HOST')}.\n\nPlease go to the following page and choose a new password: {request.META.get('HTTP_ORIGIN')}/auth/reset/{link}\n\nYour username, in case you’ve forgotten: {user.username}\n\nThanks for using our site!"
+            print(global_settings.EMAIL_HOST_USER)
+            result_email = send_mail(_("Parolni tiklash"), text, global_settings.EMAIL_HOST_USER, [email])
+            return redirect("login:password_reset_done")
+            if result_email:
+                return redirect("login:password_reset_done")
+    else:
+        emailform = EmailForm()
+        return render(request, "login/password_reset.html", {
+            'emailform': emailform
+        })
+
+
+def password_reset_done(request):
+    if request.user.username in request.session:
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+    return render(request, "login/password_reset_sent.html")
+
+
+def reset(request, uidb64, token):
+    try:
+        username = force_text(urlsafe_base64_decode(uidb64))
+        is_token_correct = reset_password_token.check_token(User.objects.get(username=username), token)
+        if is_token_correct:
+            return redirect("login:password_reset_complete")
+    except:
+        return Http404(_("Havolani muddati yakunlandi"))
+
+
+def reset_done(request):
+    if request.user.username in request.session:
+        return redirect(request.META.get('HTTP_REFERER', '/'))
+    return render(request, "login/password_reset_done.html")

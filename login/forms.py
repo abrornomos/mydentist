@@ -53,6 +53,17 @@ class PasswordUpdateForm(forms.Form):
     )
 
 
+class EmailForm(forms.Form):
+    email = forms.CharField(
+        label=_("E-mail"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control"
+            }
+        ),
+        localize=True
+    )
+
 
 class PasswordForm(forms.Form):
     password = forms.CharField(
