@@ -254,11 +254,16 @@ def password_reset(request):
             # return redirect("login:password_reset_done")
             email = emailform.cleaned_data['email']
             user = User.objects.get(email=email)
-            link = f"{urlsafe_base64_encode(force_bytes(user.username))}/{reset_password_token.make_token(user)}"
-            text = f"You're receiving this email because you requested a password reset for your user account at {request.META.get('HTTP_HOST')}.\n\nPlease go to the following page and choose a new password: {request.META.get('HTTP_ORIGIN')}/auth/reset/{link}\n\nYour username, in case you’ve forgotten: {user.username}\n\nThanks for using our site!"
-            print(global_settings.EMAIL_HOST_USER)
+            uidb64 = urlsafe_base64_encode(force_bytes(user.username))
+            token = reset_password_token.make_token(user)
+            password_reset = PasswordReset.objects.create(
+                email=email,
+                uidb64=uidb64,
+                token=token,
+                is_active=True
+            )
+            text = f"You're receiving this email because you requested a password reset for your user account at {request.META.get('HTTP_HOST')}.\n\nPlease go to the following page and choose a new password: {request.META.get('HTTP_ORIGIN')}/auth/reset/{uidb64}/{token}\n\nThanks for using our site!"
             result_email = send_mail(_("Parolni tiklash"), text, global_settings.EMAIL_HOST_USER, [email])
-            return redirect("login:password_reset_done")
             if result_email:
                 return redirect("login:password_reset_done")
     else:
@@ -276,12 +281,51 @@ def password_reset_done(request):
 
 def reset(request, uidb64, token):
     try:
-        username = force_text(urlsafe_base64_decode(uidb64))
-        is_token_correct = reset_password_token.check_token(User.objects.get(username=username), token)
+        user = User.objects.get(username=force_text(urlsafe_base64_decode(uidb64)))
+        is_token_correct = reset_password_token.check_token(user, token)
         if is_token_correct:
-            return redirect("login:password_reset_complete")
+            try:
+                password_reset = PasswordReset.objects.get(
+                    email=user.email,
+                    uidb64=uidb64,
+                    token=token
+                )
+                if password_reset.is_active:
+                    if request.method == "POST":
+                        passwordform = PasswordForm(request.POST)
+                        if passwordform.is_valid():
+                            if passwordform.cleaned_data['password'] == passwordform.cleaned_data['password_confirm']:
+                                user.set_password(passwordform.cleaned_data['password'])
+                                user.save()
+                                password_reset.is_active = False
+                                password_reset.save()
+                                return redirect("login:password_reset_complete")
+                            else:
+                                passwordform = PasswordForm(request.POST)
+                                return render(request, "login/password_reset_form.html", {
+                                    'passwordform': passwordform,
+                                    'error_message': _("Parollar mos kelmayapti")
+                                })
+                        else:
+                            passwordform = PasswordForm(request.POST)
+                            return render(request, "login/password_reset_form.html", {
+                                'passwordform': passwordform,
+                                'error_message': None
+                            })
+                    else:
+                        passwordform = PasswordForm()
+                        return render(request, "login/password_reset_form.html", {
+                            'passwordform': passwordform,
+                            'error_message': None
+                        })
+                else:
+                    raise Http404(_("Havolani muddati yakunlandi"))
+            except:
+                raise Http404(_("Havolani muddati yakunlandi"))
+        else:
+            raise Http404(_("Havolani muddati yakunlandi"))
     except:
-        return Http404(_("Havolani muddati yakunlandi"))
+        raise Http404(_("Havolani muddati yakunlandi"))
 
 
 def reset_done(request):
