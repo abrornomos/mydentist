@@ -1,13 +1,15 @@
 {% load static i18n %}
 
 <!DOCTYPE html>
-<html lang="uz" class="h-100">
+{% get_current_language as LANGUAGE_CODE %}
+<html lang="{{ LANGUAGE_CODE }}" class="h-100">
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
         <link href="{% static 'vendor/css/bootstrap.min.css' %}" rel="stylesheet">
         <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        <link rel="icon" href="{% static 'favicon.ico' %}">
         <title>{% block title %}{% endblock %} - MyDentist</title>
     </head>
     <body class="d-flex flex-column h-100">

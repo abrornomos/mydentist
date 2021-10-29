@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'appointment',
     'baseapp',
     'dentist',
+    'dentx',
     'illness',
     'login',
     'patient'

@@ -1,0 +1,70 @@
+{% load static i18n %}
+
+<!DOCTYPE html>
+<html lang="uz">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" rel="stylesheet">
+        <link href="{% static 'vendor/css/bootstrap.min.css' %}" rel="stylesheet">
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
+        <title>{% block title %}{% endblock %} - DentX</title>
+    </head>
+    <body>
+        <div class="container-fluid">
+            <div class="my_header">
+                <a href="{% url 'appointment:appointments' %}" class="my_header-logo">DentX</a>
+                <a href="{% url 'appointment:appointments' %}" class="my_header-item{% if "/appointments/" in request.path %} active-item{% endif %}">
+                    <i class="far fa-calendar-alt"></i>
+                    <span>Записи</span>
+                </a>
+                <a href="{% url 'baseapp:board' %}" class="my_header-item{% if "/board/" in request.path %} active-item{% endif %}">
+                    <i class="fas fa-th-list"></i>
+                    <span>Доска</span>
+                </a>
+                <a href="#" class="my_header-item{% if "/patients/" in request.path %} active-item{% endif %}">
+                    <i class="fas fa-user"></i>
+                    <span>Пациенты</span>
+                </a>
+                <div class="my_panel">
+                    <div class="inner_panel d-flex justify-content-between"> 
+                        <div class="input-group panel_item d-flex align-items-center">
+                            <input onchange="loadDoc()" id="my_search" type="text" class="form-control" placeholder="Поиск пациентов" aria-label="Recipient's username" aria-describedby="button-addon2">
+                            <button class="btn search_btn btn-outline-secondary" type="button" id="button-addon2">Поиск</button>
+                        </div>
+                        <div id="search_result"></div>
+                        <div class="panel_item">
+                            <div class="dropdown position-static">
+                                <button class="btn my_notification position-relative" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-bell"></i>
+                                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">99+</span>
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="panel_item">
+                            <div class="dropdown">
+                                <button class="btn my_accaunt position-relative" style="background-image: url('/media/{{ dentist.image }}');" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                </button>
+                                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="#">Action</a></li>
+                                    <li><a class="dropdown-item" href="#">Another action</a></li>
+                                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% block content %}{% endblock %}
+        <script src="{% static 'vendor/js/bootstrap.bundle.min.js' %}"></script>
+        <script src="{% static 'vendor/js/jquery-3.6.0.min.js' %}"></script>
+        <script src="{% static 'js/script.js' %}"></script>
+        {% block javascript %}{% endblock %}
+    </body>
+</html>
