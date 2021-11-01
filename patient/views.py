@@ -12,9 +12,9 @@ from illness.models import *
 from illness.forms import *
 from login.forms import PasswordUpdateForm
 from mydentist.handler import check_language
+from mydentist.var import *
 from .forms import *
 from .models import User as UserExtra, Illness, Other_Illness
-from .var import *
 
 # Create your views here.
 

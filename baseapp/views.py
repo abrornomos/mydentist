@@ -1,11 +1,13 @@
 from django.db.models import Count
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _, get_language
+from json import dumps
 from dentist.models import *
 from mydentist.handler import check_language
+from mydentist.var import CHOICES
 from .forms import *
 from .models import *
-from .var import *
 from .handler import *
 
 # Create your views here.
@@ -25,8 +27,7 @@ def index(request):
         authenticated = request.user.username in request.session
         if authenticated:
             check_language(request)
-        language = get_language()
-        language = Language.objects.get(name=language)
+        language = Language.objects.get(name=get_language())
         services_obj = Service_translation.objects.filter(
             language__pk=language.id
         ).values('name').annotate(
@@ -40,52 +41,96 @@ def index(request):
             })
         return render(request, "baseapp/index.html", {
             'searchform': searchform,
-            'regions': REGIONS,
-            'region': REGIONS[0],
+            'regions': CHOICES['regions'],
+            'region': CHOICES['regions'][0],
             'services': services,
             'service': services[0],
             'geoform': geoform,
             'authenticated': authenticated
         })
 
+
 def results(request):
     authenticated = request.user.username in request.session
     if authenticated:
         check_language(request)
+    return render(request, "baseapp/results.html", {
+        'authenticated': authenticated
+    })
+
+
+def get_dentists(request):
     if 'post' in request.session:
         searchform = SearchForm(request.session['post'])
         geoform = GeoForm(request.session['post'])
         if searchform.is_valid() and geoform.is_valid():
-            services_obj = Service_translation.objects.filter(
-                language__name=get_language(),
-                name=searchform.cleaned_data['service'],
-                service__dentist__clinic__region__pk=searchform.cleaned_data['region'],
-            )
-            results_by_price = get_results(
-                list(services_obj.order_by('service__price'))
-            )
-            results_by_distance = get_results(
-                sort_by_distance(
-                    list(services_obj),
-                    (
-                        geoform.cleaned_data['latitude'],
-                        geoform.cleaned_data['longitude']
+            if request.POST['sort_by'] == "price":
+                services_obj = Service_translation.objects.filter(
+                    name=searchform.cleaned_data['service'],
+                    service__dentist__clinic__region__pk=searchform.cleaned_data['region']
+                )
+                if request.POST['female'] == "true" and request.POST['time'] == "true":
+                    services_obj = Service_translation.objects.filter(
+                        name=searchform.cleaned_data['service'],
+                        service__dentist__clinic__region__pk=searchform.cleaned_data['region'],
+                        service__dentist__gender__pk=2,
+                        service__dentist__is_fullday=True
+                    )
+                elif request.POST['female'] == "true":
+                    services_obj = Service_translation.objects.filter(
+                        name=searchform.cleaned_data['service'],
+                        service__dentist__clinic__region__pk=searchform.cleaned_data['region'],
+                        service__dentist__gender__pk=2
+                    )
+                elif request.POST['time'] == "true":
+                    services_obj = Service_translation.objects.filter(
+                        name=searchform.cleaned_data['service'],
+                        service__dentist__clinic__region__pk=searchform.cleaned_data['region'],
+                        service__dentist__is_fullday=True
+                    )
+                results = get_results(
+                    list(services_obj.order_by('service__price'))
+                )
+            elif request.POST['sort_by'] == "near":
+                services_obj = Service_translation.objects.filter(
+                    name=searchform.cleaned_data['service'],
+                    service__dentist__clinic__region__pk=searchform.cleaned_data['region']
+                )
+                if request.POST['female'] == "true" and request.POST['time'] == "true":
+                    services_obj = Service_translation.objects.filter(
+                        name=searchform.cleaned_data['service'],
+                        service__dentist__clinic__region__pk=searchform.cleaned_data['region'],
+                        service__dentist__gender__pk=2,
+                        service__dentist__is_fullday=True
+                    )
+                elif request.POST['female'] == "true":
+                    services_obj = Service_translation.objects.filter(
+                        name=searchform.cleaned_data['service'],
+                        service__dentist__clinic__region__pk=searchform.cleaned_data['region'],
+                        service__dentist__gender__pk=2
+                    )
+                elif request.POST['time'] == "true":
+                    services_obj = Service_translation.objects.filter(
+                        name=searchform.cleaned_data['service'],
+                        service__dentist__clinic__region__pk=searchform.cleaned_data['region'],
+                        service__dentist__is_fullday=True
+                    )
+                results = get_results(
+                    sort_by_distance(
+                        list(services_obj),
+                        (
+                            geoform.cleaned_data['latitude'],
+                            geoform.cleaned_data['longitude']
+                        )
                     )
                 )
-            )
-            return render(request, "baseapp/results.html", {
-                "results": True,
-                "results_by_price": results_by_price,
-                "results_by_distance": results_by_distance,
-                'authenticated': authenticated
-            })
+            response = HttpResponse(dumps(results))
+            return response
         else:
-            return render(request, "baseapp/results.html", {
-                'results': False,
-                'authenticated': authenticated
-            })
+            response = HttpResponse()
+            response.status_code = 404
+            return response
     else:
-        return render(request, "baseapp/results.html", {
-            'results': False,
-            'authenticated': authenticated
-        })
+        response = HttpResponse()
+        response.status_code = 404
+        return response

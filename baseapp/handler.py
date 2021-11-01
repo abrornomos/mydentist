@@ -75,18 +75,30 @@ def sort_by_distance(services, location):
         return sort_by_distance(less, location) + [middle] + sort_by_distance(greater, location)
 
 
-def get_results(services):
+def get_results(services_obj):
     results = []
-    for service in services:
-        service_obj = Service.objects.get(pk=service.service_id)
-        dentist = DentistUser.objects.get(pk=service_obj.dentist_id)
-        dentist_extra = User_translation.objects.filter(dentist=dentist, language__pk=service.language_id)[0]
+    for service_obj in services_obj:
+        service = Service.objects.get(pk=service_obj.service_id)
+        dentist = DentistUser.objects.get(pk=service.dentist_id)
+        dentist_extra = User_translation.objects.filter(dentist=dentist, language__pk=service_obj.language_id)[0]
         clinic = Clinic.objects.get(pk=dentist.clinic_id)
-        clinic_extra = Clinic_translation.objects.filter(clinic=clinic, language__pk=service.language_id)[0]
+        clinic_extra = Clinic_translation.objects.filter(clinic=clinic, language__pk=service_obj.language_id)[0]
+        worktime_begin = dentist.worktime_begin
+        worktime_end = dentist.worktime_end
         results.append({
-            'dentist': dentist,
-            'dentist_extra': dentist_extra,
-            'clinic': clinic,
-            'clinic_extra': clinic_extra,
+            'image': dentist.image.url,
+            'clinic_name': clinic_extra.name,
+            'fullname': dentist_extra.fullname,
+            'address': clinic_extra.address,
+            'orientir': clinic_extra.orientir,
+            'latitude': clinic.latitude,
+            'longitude': clinic.longitude,
+            'worktime_begin': f"{worktime_begin.hour}:{worktime_begin.minute:02d}",
+            'worktime_end': f"{worktime_end.hour}:{worktime_end.minute:02d}",
+            'is_fullday': dentist.is_fullday,
+            'phone_number': dentist.phone_number,
+            'service_name': service_obj.name,
+            'service_price': service.price,
+            'slug': dentist.slug,
         })
     return results

@@ -1,5 +1,5 @@
 {% extends 'app_user.html' %}
-{% load static i18n dentist_tags patient_tags %}
+{% load static i18n mydentist_tags %}
 
 {% block title %}
 	{% trans "Mening profilim" %}
@@ -11,10 +11,10 @@
             <div class="big_title mb-4">{% trans "Mening profilim" %}</div>
             <div class="container">
                 <div class="row">
-                    <div class="col-md-2 offset-md-1">
-                        <div style="background-image: url(/media/{{ user_extra.image }});" class="profile-photo"></div>
+                    <div class="col-lg-3 col-md-4 offset-md-1">
+                        <img src="/media/{{ user_extra.image }}" class="avatar">
                     </div>
-                    <div class="col-md-7 offset-md-1">
+                    <div class="col-md-6 offset-lg-1">
                         <div class="info-pane">
                             <div class="info_holder mb-2">
                                 <div class="info_name">{% trans "Familiya" %}: </div>
@@ -26,7 +26,7 @@
                             </div>
                             <div class="info_holder mb-2">
                                 <div class="info_name">{% trans "Tug’ilgan sana" %}: </div>
-                                <div class="info_desc">{% time_format user_extra.birthday %}</div>
+                                <div class="info_desc">{% date_format user_extra.birthday %}</div>
                             </div>
                             <div class="info_holder mb-2">
                                 <div class="info_name">{% trans "Elektron manzil" %}: </div>
@@ -60,11 +60,11 @@
                                         </div>
                                         <div class="info_holder mb-2">
                                             <div class="info_name">{% trans "Qabul kuni" %}: </div>
-                                            <div class="info_desc">{% appoint_date appointment.begin %}</div>
+                                            <div class="info_desc">{% date_format appointment.begin %}</div>
                                         </div>
                                         <div class="info_holder">
                                             <div class="info_name">{% trans "Qabul vaqti" %}: </div>
-                                            <div class="info_desc">{% appoint_time appointment.begin %}</div>
+                                            <div class="info_desc">{% time_format appointment.begin %}</div>
                                         </div>
                                     {% elif appointment.status == "done" %}
                                         <div class="info_holder mb-2">
@@ -73,11 +73,11 @@
                                         </div>
                                         <div class="info_holder mb-2">
                                             <div class="info_name">{% trans "Qabul kuni" %}: </div>
-                                            <div class="info_desc">{% appoint_date appointment.begin %}</div>
+                                            <div class="info_desc">{% time_format appointment.begin %}</div>
                                         </div>
                                         <div class="info_holder">
                                             <div class="info_name">{% trans "Qabul vaqti" %}: </div>
-                                            <div class="info_desc">{% appoint_time appointment.begin %}</div>
+                                            <div class="info_desc">{% time_format appointment.begin %}</div>
                                         </div>
                                     {% elif appointment.status == "missed" %}
                                         <div class="info_holder mb-2">
@@ -86,11 +86,11 @@
                                         </div>
                                         <div class="info_holder mb-2">
                                             <div class="info_name">{% trans "Qabul kuni" %}: </div>
-                                            <div class="info_desc">{% appoint_date appointment.begin %}</div>
+                                            <div class="info_desc">{% date_format appointment.begin %}</div>
                                         </div>
                                         <div class="info_holder">
                                             <div class="info_name">{% trans "Qabul vaqti" %}: </div>
-                                            <div class="info_desc">{% appoint_time appointment.begin %}</div>
+                                            <div class="info_desc">{% time_format appointment.begin %}</div>
                                         </div>
                                     {% endif %}
                                 {% endif %}

@@ -97,7 +97,7 @@
                         <input class="form-check-input" type="checkbox" id="other_illness">
                     </div>
                 </div>
-                <div id="other_illness_holder" class="display_none">
+                <div id="other_illness_holder" class="d-none">
                     <div class="container">
                         <div class="row">
                             {% for field in otherillnessform %}
@@ -214,30 +214,30 @@
         })
         $("#id_allergy").on("change", function() {
             if ($("#id_allergy").val() == 2) {
-                $("#id_allergy_detail").addClass("display_block").removeClass("display_none")
+                $("#id_allergy_detail").addClass("d-block").removeClass("d-none")
             } else  {
-                $("#id_allergy_detail").removeClass("display_block").addClass("display_none")
+                $("#id_allergy_detail").removeClass("d-block").addClass("d-none")
             }
         })
         $("#other_illness").on("change", function() {
             if ($("#other_illness").is(":checked")) {
-                $("#other_illness_holder").addClass("display_block").removeClass("display_none")
+                $("#other_illness_holder").addClass("d-block").removeClass("d-none")
             } else {
-                $("#other_illness_holder").removeClass("display_block").addClass("display_none")
+                $("#other_illness_holder").removeClass("d-block").addClass("d-none")
             }
         })
         $("#id_medications").on("change", function() {
             if ($("#id_medications").val() == 2) {
-                $("#id_medications_detail").addClass("display_block").removeClass("display_none")
+                $("#id_medications_detail").addClass("d-block").removeClass("d-none")
             } else {
-                $("#id_medications_detail").removeClass("display_block").addClass("display_none")
+                $("#id_medications_detail").removeClass("d-block").addClass("d-none")
             }
         })
         $("#id_pregnancy").on("change", function() {
             if ($("#id_pregnancy").val() == 2) {
-                $("#id_pregnancy_detail").addClass("display_block").removeClass("display_none")
+                $("#id_pregnancy_detail").addClass("d-block").removeClass("d-none")
             } else {
-                $("#id_pregnancy_detail").removeClass("display_block").addClass("display_none")
+                $("#id_pregnancy_detail").removeClass("d-block").addClass("d-none")
             }
         })
         $("#birth_year_1").on("change", function() {

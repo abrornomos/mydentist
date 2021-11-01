@@ -23,6 +23,27 @@ class LoginForm(forms.Form):
     )
 
 
+class DentXLoginForm(forms.Form):
+    username = forms.CharField(
+        label=_("Login"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control"
+            }
+        ),
+        localize=True
+    )
+    password = forms.CharField(
+        label=_("Parol"),
+        widget=forms.PasswordInput(
+            attrs={
+                'class': "form-control"
+            }
+        ),
+        localize=True
+    )
+
+
 class PasswordUpdateForm(forms.Form):
     old_password = forms.CharField(
         label=_("Eski parol"),

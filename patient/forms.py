@@ -1,8 +1,7 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
 from datetime import datetime
-from baseapp.var import GENDERS
-from .var import *
+from mydentist.var import *
 
 
 class UserForm(forms.Form):
@@ -35,7 +34,7 @@ class UserForm(forms.Form):
             attrs={
                 'class': "form-select"
             },
-            choices=GENDERS
+            choices=CHOICES['gender']
         )
     )
     birth_year = forms.CharField(

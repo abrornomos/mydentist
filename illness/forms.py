@@ -1,6 +1,6 @@
 from django import forms
 from django.utils.translation import ugettext_lazy as _
-from .var import CHOICES
+from mydentist.var import CHOICES
 
 
 class IllnessForm(forms.Form):
@@ -68,7 +68,7 @@ class IllnessForm(forms.Form):
     allergy_detail = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': "form-control mt-3 display_none",
+                'class': "form-control mt-3 d-none",
                 'placeholder': _("Nimaga allergiya borligini yozing")
             }
         ),
@@ -132,7 +132,7 @@ class OtherIllnessForm(forms.Form):
     medications_detail = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': "form-control mt-3 display_none",
+                'class': "form-control mt-3 d-none",
                 'placeholder': _("Doimiy dorilaringizni yozing")
             }
         ),
@@ -202,7 +202,7 @@ class OtherIllnessForm(forms.Form):
     pregnancy_detail = forms.CharField(
         widget=forms.TextInput(
             attrs={
-                'class': "form-control mt-3 display_none",
+                'class': "form-control mt-3 d-none",
                 'placeholder': _("Nechi oyligini yozing")
             }
         ),

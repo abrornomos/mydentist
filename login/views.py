@@ -9,19 +9,16 @@ from django.utils import translation
 from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.translation import get_language, ugettext_lazy as _
-from dotenv import load_dotenv
-from os import getenv
 from pathlib import Path
-from smtplib import SMTP_SSL
-from .models import *
-from .forms import *
-from .tokens import reset_password_token
 from baseapp.models import Language, Gender
 from illness.models import *
 from illness.forms import *
 from patient.models import User as UserExtra, Illness, Other_Illness
 from patient.forms import *
-from patient.var import *
+from mydentist.var import *
+from .models import *
+from .forms import *
+from .tokens import reset_password_token
 
 # Create your views here.
 
@@ -243,15 +240,6 @@ def password_reset(request):
     if request.method == "POST":
         emailform = EmailForm(request.POST)
         if emailform.is_valid():
-            # load_dotenv(global_settings.BASE_DIR / ".env")
-            # print(getenv("EMAIL_HOST"))
-            # print(getenv("EMAIL_HOST_USER"))
-            # print(getenv("EMAIL_HOST_PASSWORD"))
-            # smtp = SMTP_SSL(getenv("EMAIL_HOST"))
-            # smtp.login(getenv("EMAIL_HOST_USER"), getenv("EMAIL_HOST_PASSWORD"))
-            # smtp.sendmail(getenv("EMAIL_HOST_USER"), emailform.cleaned_data['email'], "Parolni tiklash uchun quyidagi havolaga kiring")
-            # smtp.quit()
-            # return redirect("login:password_reset_done")
             email = emailform.cleaned_data['email']
             user = User.objects.get(email=email)
             uidb64 = urlsafe_base64_encode(force_bytes(user.username))
@@ -332,3 +320,42 @@ def reset_done(request):
     if request.user.username in request.session:
         return redirect(request.META.get('HTTP_REFERER', '/'))
     return render(request, "login/password_reset_done.html")
+
+
+def dentx_login(request):
+    if request.method == "POST":
+        loginform = DentXLoginForm(request.POST)
+        if loginform.is_valid():
+            user = authenticate(
+                request,
+                username=loginform.cleaned_data['username'],
+                password=loginform.cleaned_data['password']
+            )
+            if user is not None:
+                login(request, user)
+                request.session[user.get_username()] = user.get_username()
+                return redirect("dentx:appointments")
+            else:
+                return render(request, "login/dentx_login.html", {
+                    'loginform': loginform,
+                    'error_message': _("Noto'g'ri login yoki parol")
+                })
+        else:
+            loginform = DentXLoginForm()
+            return render(request, "login/dentx_login.html", {
+                'loginform': loginform,
+                'error_message': None
+            })
+    else:
+        loginform = DentXLoginForm()
+        return render(request, "login/dentx_login.html", {
+            'loginform': loginform,
+            'error_message': None
+        })
+
+
+def dentx_logout(request):
+    if request.user.username in request.session:
+        del request.session[request.user.username]
+    logout(request)
+    return redirect("dentx:login")
