@@ -4,11 +4,10 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _, get_language
 from json import dumps
 from dentist.models import *
-from mydentist.handler import check_language
+from mydentist.handler import *
 from mydentist.var import CHOICES
 from .forms import *
 from .models import *
-from .handler import *
 
 # Create your views here.
 

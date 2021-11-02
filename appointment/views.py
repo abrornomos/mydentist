@@ -8,9 +8,9 @@ from datetime import datetime, date, timedelta, tzinfo
 from baseapp.models import Language
 from dentist.models import User as DentistUser, User_translation as DentistUserTranslation, Service, Service_translation
 from patient.models import User as PatientUser
+from mydentist.handler import *
 from mydentist.var import *
 from .forms import *
-from .handler import *
 from .models import *
 
 # Create your views here.

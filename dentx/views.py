@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _
 from appointment.models import *
 from dentist.models import User as DentistUser
-from .handler import *
+from mydentist.handler import *
 
 # Create your views here.
 

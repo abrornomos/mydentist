@@ -333,3 +333,7 @@ def update(request, form):
                 request.session['success_message'] = "Updated successfully"
                 return redirect("patient:settings", active_tab="other-illness")
         return redirect("patient:settings", active_tab="profile")
+
+
+def patients(request):
+    pass

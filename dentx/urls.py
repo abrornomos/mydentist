@@ -1,6 +1,7 @@
 from django.urls import path
 from appointment import views as appointment_views
 from login import views as login_views
+from patient import views as patient_views
 from . import views as dentx_views
 
 urlpatterns = [
@@ -10,5 +11,5 @@ urlpatterns = [
     path('table/', appointment_views.table, name='table'),
     path('patients/list', appointment_views.patients, name='patients_list'),
     path('board/', dentx_views.board, name='board'),
-    # path('patients/', views.patients, name='patients'),
+    path('patients/', patient_views.patients, name='patients'),
 ]
