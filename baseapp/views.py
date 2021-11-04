@@ -3,7 +3,8 @@ from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _, get_language
 from json import dumps
-from dentist.models import *
+from dentist.models import User as DentistUser, Service_translation
+from patient.models import User as PatientUser
 from mydentist.handler import *
 from mydentist.var import CHOICES
 from .forms import *
@@ -25,7 +26,16 @@ def index(request):
         geoform = GeoForm()
         authenticated = request.user.username in request.session
         if authenticated:
-            check_language(request)
+            try:
+                user = PatientUser.objects.get(user__username=request.user.username)
+                authenticated = "patient"
+                check_language(request)
+            except:
+                try:
+                    user = DentistUser.objects.get(user__username=request.user.username)
+                    authenticated = "dentist"
+                except:
+                    pass
         language = Language.objects.get(name=get_language())
         services_obj = Service_translation.objects.filter(
             language__pk=language.id

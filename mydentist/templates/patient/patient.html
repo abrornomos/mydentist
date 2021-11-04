@@ -1,0 +1,469 @@
+{% extends 'dentx/app.html' %}
+{% load static i18n %}
+
+{% block title %}
+	{% trans "Bemorlar" %}
+{% endblock %}
+
+{% block content %}
+    <section class="container">
+    <div class="row ml-5 mt-5">
+        <div class="col-md-1 col-12"><img src="assets/img/user-md-solid.svg" alt="" class="image-fluid "></div>
+        
+        <div class="col-md-2 col-12 "><p>{{ patient_extra }}</p>  <a href="tel:{{ patient_extra.phone_number }}" class="text-decoration-none"><h6>{{ patient_extra.phone_number }}</h6> </a> <span class="badge bg-success">20</span> <span class="badge bg-primary">Erkak</span></div>
+        <div class="btn-toolbar mt-5 col-md-8 col-12 offset-md-1 d-flex justify-content-end " role="toolbar" aria-label="Toolbar with button groups" style="max-height: 40px">
+            <div class=" btn-group me-2 " role="group" aria-label="First group">
+                <button type="button" class="btn btn-warning text-secondary"><i class="fa fa-shopping-cart  "></i>наряд</button>
+            </div>
+            <div class=" btn-group me-2 " role="group" aria-label="First group">
+                <button type="button" class="btn btn-warning text-secondary"><i class="fa fa-shopping-cart  "></i></button>
+            </div>
+            
+            
+            <div class="btn-group me-2" role="group" aria-label="Second group">
+                <button type="button" class="btn text-secondary border"><i class=" fa fa-print"></i></button>
+            </div>
+            <div class="btn-group me-2" role="group" aria-label="Third group">
+                <button type="button" class="btn border text-secondary "><i class="fa fa-calendar"></i></button>
+            </div>
+            <div class="btn-group me-2" role="group" aria-label="Third group">
+                <button type="button" class="btn border text-secondary "><i class="fa fa-pencil"></i></button>
+            </div>
+            <div class=" btn-group me-2 col-3" role="group" aria-label="Third group">
+                <div class="input-group">
+                <input type="text" class="form-control" placeholder="500.000" aria-label="Input group example" aria-describedby="btnGroupAddon">
+                <div class="input-group-text bg-info" id="btnGroupAddon" style="color: white">+</div>
+            </div>
+        </div>
+       
+        </div>
+    </div>
+    <div class="row mt-5">
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Asosiy</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-profile-tab" data-bs-toggle="pill" data-bs-target="#pills-profile" type="button" role="tab" aria-controls="pills-profile" aria-selected="false">Yozilgan vaqti</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-contact-tab" data-bs-toggle="pill" data-bs-target="#pills-contact" type="button" role="tab" aria-controls="pills-contact" aria-selected="false">Davolanish jarayoni</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-image-tab" data-bs-toggle="pill" data-bs-target="#pills-image" type="button" role="tab" aria-controls="pills-image" aria-selected="false">Hisob-kitob</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-money-tab" data-bs-toggle="pill" data-bs-target="#pills-money" type="button" role="tab" aria-controls="pills-money" aria-selected="false">Tish kartasi</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="pills-simple-tab" data-bs-toggle="pill" data-bs-target="#pills-simple" type="button" role="tab" aria-controls="pills-simple" aria-selected="false">Rasmlar</button>
+        </li>
+    </ul>
+    <div class="tab-content" id="pills-tabContent">
+        <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+            <div class="register_panel my-5">
+                <form>
+                    <div class="mb-3 ">
+                        <label for="exampleInputname" class="form-label">ФИО</label>
+                        <input type="text" class="form-control" id="exampleInputname">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputnumber" class="form-label">Номер телефона</label>
+                        <div class="input-group mb-3">
+                            <span class="input-group-text" id="basic-addon3">+998</span>
+                            <input type="tel" class="form-control" id="exampleInputnumber" aria-describedby="numberhelp">
+                        </div>
+                        <div id="numberhelp" class="form-text">Ваши данные остаются в конфиденциальности</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputaddress" class="form-label">Адрес</label>
+                        <input type="text" class="form-control" id="exampleInputaddress">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputaddress1" class="form-label">День рождения</label>
+                        <div id="exampleInputaddress1" class="birthday_holder ">
+                            <div class="birth_item">
+                                <i id="birth_year_1" class="fas fa-sort-up"></i>
+                                <input maxlength="4" type="text" id="year_holder" value="2002">
+                                <i id="birth_year_2" class="fas fa-sort-down"></i>
+                            </div>
+                            <div class="birth_item">
+                                <i id="birth_month_1" class="fas fa-sort-up"></i>
+                                <input id="month_holder" value="Январь">
+                                <i id="birth_month_2" class="fas fa-sort-down"></i>
+                            </div>
+                            <div class="birth_item">
+                                <i id="birth_day_1" class="fas fa-sort-up"></i>
+                                <input maxlength="2" id="day_holder" value="20">
+                                <i id="birth_day_2" class="fas fa-sort-down"></i>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="mb-3">
+                        <label for="formFile" class="form-label">Ваше фото</label>
+                        <input class="form-control" type="file" id="formFile">
+                    </div>
+                    <div class="sub_title_gray center mt-5 mb-5">
+                        Данные о заболеваний
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputname" class="form-label">Сахарный диабет</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Нет</option>
+                            <option value="1">Есть</option>
+                            <option value="2">Не знаю</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputname" class="form-label">Количество применения наркоза</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>1</option>
+                            <option value="1">2</option>
+                            <option value="2">3</option>
+                            <option value="2">4</option>
+                            <option value="2">5</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputname" class="form-label">Гепатит Б</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Нет</option>
+                            <option value="1">Есть</option>
+                            <option value="2">Не знаю</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputname" class="form-label">СПИД</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Нет</option>
+                            <option value="1">Есть</option>
+                            <option value="2">Не знаю</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputname" class="form-label">Давление</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Норма</option>
+                            <option value="1">Низкое</option>
+                            <option value="2">Высокое</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputname" class="form-label">Аллергия</label>
+                        <select id="allergy_selector" class="form-select" aria-label="Default select example">
+                            <option value="0" selected>Нет</option>
+                            <option value="1">Есть     (Напишите от чего)</option>
+                        </select>
+                        <input placeholder="Напишите от чего аллергия" id="allergy_input" type="text" class="form-control mt-3 display_none">
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputname" class="form-label">Бронхиальная астма</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Нет</option>
+                            <option value="1">Есть</option>
+                            <option value="2">Не знаю</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputname" class="form-label">Головокружение</label>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>Нет</option>
+                            <option value="1">Часто</option>
+                            <option value="2">Иногда</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label for="exampleInputname" class="form-label">Остальные заболевания</label>
+                        <div class="form-check">
+                            <label class="form-check-label" for="other_illnes">
+                                Показать
+                            </label>
+                            <input class="form-check-input" type="checkbox" value="" id="other_illnes">
+                        </div>
+                    </div>
+                    <div id="other_illnes_holder" class="display_none">
+                        <div class="sub_title_gray center mt-5 mb-5">
+                            Остальные заболевания
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputname" class="form-label">Эпилепсия</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Нет</option>
+                                <option value="1">Есть</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputname" class="form-label">Заболевание крови</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Нет</option>
+                                <option value="1">Есть</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputname" class="form-label">Постоянные лекарства</label>
+                            <select id="medicine_selector" class="form-select" aria-label="Default select example">
+                                <option value="0" selected>Нет</option>
+                                <option value="1">Есть (Напишите какие)</option>
+                            </select>
+                            <input placeholder="Напишите какие лекарства" id="medicine_input" type="text" class="form-control mt-3 display_none">
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputname" class="form-label">Болели инсультом?</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Нет</option>
+                                <option value="1">Да</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputname" class="form-label">Болели инфарктом?</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Нет</option>
+                                <option value="1">Да</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputname" class="form-label">Онкологические заболевания</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Нет</option>
+                                <option value="1">Да</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputname" class="form-label">Туберкулёз</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Нет</option>
+                                <option value="1">Да</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputname" class="form-label">Принимаете ли алкоголь</label>
+                            <select class="form-select" aria-label="Default select example">
+                                <option selected>Нет</option>
+                                <option value="1">Да</option>
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="exampleInputname" class="form-label">Беременность</label>
+                            <select id="pregnancy_selector" class="form-select" aria-label="Default select example">
+                                <option value="0" selected>Нет</option>
+                                <option value="1">Есть (Напишите какие)</option>
+                            </select>
+                            <input placeholder="Напишите период беременности" id="pregnancy_input_1" type="text" class="form-control mt-3 display_none" >
+                            <input placeholder="Сколько месяцов" id="pregnancy_input_2" type="text" class="form-control mt-3 display_none" >
+                        </div>
+
+
+                    </div>
+
+                    <button type="submit" class="btn my_btn">Отправить</button>
+                </form>
+
+            
+        </div>
+            
+        </div>
+        <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+          
+            
+        </div>
+        <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+            <div class="form-check">
+                <label class="form-check-label" for="flexCheckDefault">
+                    Kansultatsiya
+                </label>
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            </div>
+            <div class="form-check">
+                <label class="form-check-label" for="flexCheckDefault1">
+                    Plomba
+                </label>
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
+            </div>
+            <div class="form-check">
+                <label class="form-check-label" for="flexCheckDefault2">
+                    Kansultatsiya
+                </label>
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
+            </div>
+            <div class="form-check">
+                <label class="form-check-label" for="flexCheckDefault3">
+                    Implant
+                </label>
+                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">
+            </div>
+<button class="btn btn-success mt-2"> Muolajani yakunlash</button>
+        </div>
+        <div class="tab-pane fade" id="pills-image" role="tabpanel" aria-labelledby="pills-contact-tab">
+            <table class="table table-bordered border-primary text-center">
+                <thead>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Muolaja nomi</th>
+                    <th scope="col">Vaqti(minut)</th>
+                    <th scope="col">Summa(so'mda)</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <th scope="row">1</th>
+                    <td>Kansultatsiya</td>
+                    <td>15</td>
+                    <td>50000</td>
+                </tr>
+                <tr>
+                    <th scope="row">2</th>
+                    <td>Plomba</td>
+                    <td>30</td>
+                    <td>200000</td>
+                </tr>
+                <tr>
+                    <th scope="row">3</th>
+                    <td >Implant</td>
+                    <td>30</td>
+                    <td>300000</td>
+                </tr>
+                <tr>
+                    <td colspan="3">Jami summa:</td>
+                    <td></td>
+                </tr>
+                </tbody>
+            </table>
+
+        </div>
+        <div class="tab-pane fade" id="pills-money" role="tabpanel" aria-labelledby="pills-contact-tab">
+            <div class="overflow tab-pane fade show active">
+                <div class="row mt-5 ">
+                    <div class="col-12">
+                        <div class="justify-content-evenly d-flex">
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">1</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">2</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">3</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">4</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">5</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">6</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">7</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">8</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">9</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">10</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">11</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">12</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">13</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">14</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">15</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">16</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row mt-5 ">
+                    <div class="col-12">
+                        <div class="justify-content-evenly d-flex">
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">1</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">2</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">3</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">4</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">5</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">6</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">7</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">8</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">9</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">10</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">11</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">12</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">13</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">14</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">15</span></div>
+                            <div class="d-flex  flex-column"> <img src="assets/img/dent/tooth-filling.svg" alt="" class="image-fluid" style="max-height: 40px">
+                                <br><span class="badge bg-secondary  ">16</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="pills-simple" role="tabpanel" aria-labelledby="pills-contact-tab">
+            <div class="mb-3">
+                <label for="formFile1" class="form-label">Rasm qo'shish</label>
+                <input class="form-control" type="file" id="formFile1">
+            </div>
+            <div id="carouselExampleDark" class="carousel carousel-dark slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active" data-bs-interval="10000">
+                        <img src="assets/img/people/profile1.jpg" class="d-block w-100 img-fluid" alt="..." height="">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>First slide label</h5>
+                            <p>Some representative placeholder content for the first slide.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item" data-bs-interval="2000">
+                        <img src="assets/img/photo_2021-03-28_01-04-43.jpg" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Second slide label</h5>
+                            <p>Some representative placeholder content for the second slide.</p>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <img src="assets/img/resurs.png" class="d-block w-100" alt="...">
+                        <div class="carousel-caption d-none d-md-block">
+                            <h5>Third slide label</h5>
+                            <p>Some representative placeholder content for the third slide.</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+        </div>
+    </div>
+    
+   
+    </div>
+    </section>
+{% endblock %}
+
+{% block javascript %}
+    <script type="text/javascript">
+    </script>
+{% endblock %}

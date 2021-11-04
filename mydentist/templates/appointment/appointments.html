@@ -122,8 +122,8 @@
         today = new Date()
         today.setTime(today.getTime() - ((today.getDay() + 6) % 7) * 24 * 60 * 60 * 1000)
         $.ajax({
-            url: "{% url 'dentx:table' %}",
-            success: function(result) {
+            url: "{% url 'dentx:table' %}"
+        }).always(function(result) {
                 $(".overflow").html(result)
                 $(".overflow td.time").on("dblclick", function() {
                     if ($(".modal-form").hasClass("d-none")) {
@@ -138,8 +138,7 @@
                         $(".modal-form").removeClass("d-block").addClass("d-none")
                     }
                 })
-            }
-        })
+            })
         $(".fa-angle-left").on("click", function() {
             $.ajax({
                 url : "{% url 'dentx:table' %}",

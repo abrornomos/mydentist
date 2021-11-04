@@ -14,7 +14,7 @@ from login.forms import PasswordUpdateForm
 from mydentist.handler import check_language
 from mydentist.var import *
 from .forms import *
-from .models import User as UserExtra, Illness, Other_Illness
+from .models import User as PatientUser, Illness, Other_Illness
 
 # Create your views here.
 
@@ -25,7 +25,7 @@ def profile(request):
     else:
         check_language(request)
     user = User.objects.get(username=request.user.username)
-    user_extra = UserExtra.objects.get(user=user)
+    user_extra = PatientUser.objects.get(user=user)
     try:
         try:
             appointment = Appointment.objects.get(patient=user_extra)
@@ -126,7 +126,7 @@ def settings(request, active_tab="profile"):
     else:
         success_message = None
     user = User.objects.get(username=request.user.username)
-    user_extra = UserExtra.objects.get(user=user)
+    user_extra = PatientUser.objects.get(user=user)
     userform = UserForm({
         'last_name': user.last_name,
         'name': user.first_name,
@@ -194,7 +194,7 @@ def update(request, form):
             languageform = LanguageForm(request.POST)
             if userform.is_valid() and languageform.is_valid():
                 user = User.objects.get(username=request.user.username)
-                user_extra = UserExtra.objects.get(user=user)
+                user_extra = PatientUser.objects.get(user=user)
                 user.first_name = userform.cleaned_data['name']
                 user.last_name = userform.cleaned_data['last_name']
                 user_extra.gender_id = userform.cleaned_data['gender']
@@ -250,7 +250,7 @@ def update(request, form):
             illnessform = IllnessForm(request.POST)
             if illnessform.is_valid():
                 user = User.objects.get(username=request.user.username)
-                user_extra = UserExtra.objects.get(user=user)
+                user_extra = PatientUser.objects.get(user=user)
                 illness = Illness.objects.get(user=user_extra)
                 if illnessform.cleaned_data['allergy'] == 2:
                     try:
@@ -285,7 +285,7 @@ def update(request, form):
             otherillnessform = OtherIllnessForm(request.POST)
             if otherillnessform.is_valid():
                 user = User.objects.get(username=request.user.username)
-                user_extra = UserExtra.objects.get(user=user)
+                user_extra = PatientUser.objects.get(user=user)
                 otherillness = Other_Illness.objects.get(user=user_extra)
                 if otherillnessform.cleaned_data['medications'] == 2:
                     try:
@@ -336,4 +336,33 @@ def update(request, form):
 
 
 def patients(request):
-    pass
+    if request.user.username not in request.session:
+        return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
+    user = User.objects.get(username=request.user.username)
+    dentist = DentistUser.objects.get(user=user)
+    patients_obj = PatientUser.objects.all()
+    results = []
+    for patient_obj in patients_obj:
+        results.append({
+            'patient': User.objects.get(pk=patient_obj.user_id),
+            'patient_extra': patient_obj
+        })
+    return render(request, "patient/patients.html", {
+        'dentist': dentist,
+        'results': results
+    })
+
+
+def patient(request, id):
+    if request.user.username not in request.session:
+        return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
+    user = User.objects.get(username=request.user.username)
+    dentist = DentistUser.objects.get(user=user)
+    patient_extra = PatientUser.objects.get(pk=id)
+    patient = User.objects.get(pk=patient_extra.user_id)
+    return render(request, "patient/patient.html", {
+        'dentist': dentist,
+        'patient': patient,
+        'patient_extra': patient_extra
+    })
+

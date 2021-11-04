@@ -17,9 +17,8 @@ from .models import *
 
 
 def appointments(request):
-    print(timezone.now().tzinfo)
     if request.user.username not in request.session:
-        return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+        return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     dentist_translation = DentistUserTranslation.objects.filter(

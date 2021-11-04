@@ -47,6 +47,7 @@
                                 </ul>
                             </div>
                             <div class="dropdown">
+                                {% if authenticated == "patient" %}
                                 <a class="nav-link profile_btn" id="profileDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                     <i class="fas fa-user"></i> {% trans "Profil" %}
                                 </a>
@@ -60,6 +61,11 @@
                                         </a>
                                     </li>
                                 </ul>
+                                {% elif authenticated == "dentist" %}
+                                <a href="{% url 'dentx:appointments' %}" class="nav-link profile_btn">
+                                    <i class="fas fa-user"></i> {% trans "Profil" %}
+                                </a>
+                                {% endif %}
                             </div>
                         </ul>
                     </div>

@@ -11,7 +11,7 @@ from mydentist.handler import *
 
 def board(request):
     if request.user.username not in request.session:
-        return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+        return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     queries = get_queries(Query.objects.filter(dentist=dentist))

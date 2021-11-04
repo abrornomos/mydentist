@@ -158,6 +158,7 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = GLOBAL_DIR / 'media'
 
 LOGIN_URL = "/auth/login/"
+LOGIN_URL_DENTX = "/dentx/auth/login/"
 
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 

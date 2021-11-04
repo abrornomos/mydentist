@@ -23,7 +23,7 @@
                     <i class="fas fa-th-list"></i>
                     <span>Доска</span>
                 </a>
-                <a href="#" class="my-header-item{% if "/patients/" in request.path %} active-item{% endif %}">
+                <a href="{% url 'dentx:patients' %}" class="my-header-item{% if "/patients/" in request.path %} active-item{% endif %}">
                     <i class="fas fa-user"></i>
                     <span>Пациенты</span>
                 </a>
