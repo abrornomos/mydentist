@@ -73,7 +73,7 @@ def register(request):
                         value=illnessform.cleaned_data['allergy'],
                     )
                 illness = Illness.objects.create(
-                    user=user_extra,
+                    patient=user_extra,
                     diabet=Diabet.objects.get(value=illnessform.cleaned_data['diabet']),
                     anesthesia=Anesthesia.objects.get(value=illnessform.cleaned_data['anesthesia']),
                     hepatitis=Hepatitis.objects.get(value=illnessform.cleaned_data['hepatitis']),
@@ -114,7 +114,7 @@ def register(request):
                         value=otherillnessform.cleaned_data['pregnancy'],
                     )
                 otherillness = Other_Illness.objects.create(
-                    user=user_extra,
+                    patient=user_extra,
                     epilepsy=Epilepsy.objects.get(value=otherillnessform.cleaned_data['epilepsy']),
                     blood_disease=Blood_disease.objects.get(value=otherillnessform.cleaned_data['blood_disease']),
                     medications=medications,

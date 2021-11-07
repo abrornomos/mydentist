@@ -7,6 +7,7 @@ from django.utils.translation import get_language
 from datetime import datetime, date, timedelta, tzinfo
 from baseapp.models import Language
 from dentist.models import User as DentistUser, User_translation as DentistUserTranslation, Service, Service_translation
+from patient.forms import PatientForm
 from patient.models import User as PatientUser
 from mydentist.handler import *
 from mydentist.var import *
@@ -26,14 +27,15 @@ def appointments(request):
         language__name=Language.objects.get(pk=dentist.language_id)
     )[0]
     if request.method == "POST":
+        patientform = PatientForm(request.POST)
         appointmentform = AppointmentForm(request.POST)
-        if appointmentform.is_valid():
-            name = appointmentform.cleaned_data['name'].split(" ")
+        if patientform.is_valid() and appointmentform.is_valid():
+            name = patientform.cleaned_data['name'].split(" ")
             if len(name) == 2:
-                phone_number = appointmentform.cleaned_data['phone_number']
+                phone_number = patientform.cleaned_data['phone_number']
                 patient = PatientUser.objects.get(phone_number=phone_number)
                 patient_user = User.objects.get(pk=patient.user_id)
-                if name[0] == patient_user.last_name and name[1] == patient_user.first_name and phone_number == patient.phone_number and str(patient.birthday) == appointmentform.cleaned_data['birthday'] and patient.gender_id == int(appointmentform.cleaned_data['gender']) and patient.address == appointmentform.cleaned_data['address']:
+                if name[0] == patient_user.last_name and name[1] == patient_user.first_name and phone_number == patient.phone_number and str(patient.birthday) == patientform.cleaned_data['birthday'] and patient.gender_id == int(patientform.cleaned_data['gender']) and patient.address == patientform.cleaned_data['address']:
                     service_translation = Service_translation.objects.filter(
                         name=appointmentform.cleaned_data['service'],
                         language__pk=dentist.language_id
@@ -92,8 +94,10 @@ def appointments(request):
     while day_begin < day_end:
         times.append(day_begin.strftime('%H:%M'))
         day_begin += timedelta(minutes=15)
+    patientform = PatientForm()
     appointmentform = AppointmentForm()
     return render(request, "appointment/appointments.html", {
+        'patientform': patientform,
         'appointmentform': appointmentform,
         'dentist': dentist,
         'dentist_translation': dentist_translation,

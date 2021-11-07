@@ -21,42 +21,125 @@
                     <i class="fal fa-compress d-none" id="full-screen2"></i>
                 </span>
             </div>
-            <div class="modal-form d-none">
-                <div class="container">
+            <div class="d-none hidden-button">
+                <button data-bs-toggle="modal" data-bs-target="#appointmentModal"></button>
+            </div>
+            <div class="modal fade" id="appointmentModal" tabindex="-1" aria-labelledby="appointmentModalLabel" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">{{ patientform.name.label }}</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form class="form-group" method="POST">
+                                {% csrf_token %}
+                                <div class="pats">
+                                    <div class="mb-1 d-flex justify-content-between">
+                                        <label for="id_name">{{ patientform.name.label }}</label>
+                                    </div>
+                                    <div class="input-group w-100">
+                                        {{ patientform.name }}
+                                        <span class="input-group-text">
+                                            <p>
+                                                <i class="fas fa-caret-down"></i>
+                                            </p>
+                                        </span>
+                                    </div>
+                                    <div class="bottom-inputs d-flex justify-content-between flex-wrap mt-2">
+                                        <div class="left col-12 col-lg-3 d-flex flex-column align-items-start">
+                                            <label class="mb-1 left" for="id_phone_number">{{ patientform.phone_number.label }}</label>
+                                            {{ patientform.phone_number }}
+                                        </div> 
+                                        <div class="center col-12 col-lg-3 d-flex flex-column align-items-start">
+                                            <label class="mb-1 left" for="id_birthday">{{ patientform.birthday.label }}</label>
+                                            {{ patientform.birthday }}
+                                        </div>
+                                        <div class="end col-12 col-lg-3">
+                                            <label class="mb-1 left" for="id_gender">{{ patientform.gender.label }}</label>
+                                            <div>
+                                            {% for el in patientform.gender %}
+                                                {{ el }}
+                                            {% endfor %}
+                                            </div>
+                                        </div>
+                                        <div class="end col-12 col-lg-3 d-flex flex-column align-items-start">
+                                            <label class="mb-1 left" for="id_address">{{ patientform.address.label }}</label>
+                                            {{ patientform.address }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="work-time">
+                                    <div class="form-title">
+                                        <p><i class="fal fa-calendar-week"></i></p>
+                                    </div>
+                                    <div class="bottom-inputs d-flex justify-content-between flex-wrap mt-4">
+                                        <div class="left col-12 col-lg-3">
+                                            <label class="mb-1 left" for="id_service">{{ appointmentform.service.label }}</label>
+                                            {{ appointmentform.service }}
+                                        </div>
+                                        {{ appointmentform.begin_day }}
+                                        <div class="center col-12 col-lg-3 d-flex flex-column align-items-start">
+                                            <label class="mb-1 left" for="id_begin_time">{{ appointmentform.begin_time.label }}</label>
+                                            {{ appointmentform.begin_time }}
+                                        </div>
+                                        <div class="end col-12 col-lg-3">
+                                            <label class="mb-1 left" for="id_duration">{{ appointmentform.duration.label }}</label>
+                                            {{ appointmentform.duration }}
+                                        </div>
+                                        <div class="end col-12 col-lg-3">
+                                            <label class="mb-1 left" for="id_comment">{{ appointmentform.comment.label }}</label>
+                                            {{ appointmentform.comment }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button class="btn btn-primary me-md-2 mt-2" type="submit">Tasdiqlamoq</button>
+                                    <button class="btn btn-secondary mt-2" type="button" data-bs-dismiss="modal" aria-label="Close">Bekor qilmoq</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                {% comment %} <div class="container">
                     <div class="block-form col-12">
                         <form class="form-group" method="POST">
                             {% csrf_token %}
                             <div class="pats">
                                 <div class="mb-1 d-flex justify-content-between">
-                                    <label for="id_name">{{ appointmentform.name.label }}</label>
+                                    <label for="id_name">{{ patientform.name.label }}</label>
                                     <span class="times">
                                         <i class="fal fa-times"></i>
                                     </span>
                                 </div>
                                 <div class="input-group w-100">
-                                    {{ appointmentform.name }}
-                                    <span class="input-group-text"><p><i class="fas fa-caret-down"></i></p></span>
+                                    {{ patientform.name }}
+                                    <span class="input-group-text">
+                                        <p>
+                                            <i class="fas fa-caret-down"></i>
+                                        </p>
+                                    </span>
                                 </div>
                                 <div class="bottom-inputs d-flex justify-content-between flex-wrap mt-2">
                                     <div class="left col-12 col-lg-3 d-flex flex-column align-items-start">
-                                        <label class="mb-1 left" for="id_phone_number">{{ appointmentform.phone_number.label }}</label>
-                                        {{ appointmentform.phone_number }}
+                                        <label class="mb-1 left" for="id_phone_number">{{ patientform.phone_number.label }}</label>
+                                        {{ patientform.phone_number }}
                                     </div> 
                                     <div class="center col-12 col-lg-3 d-flex flex-column align-items-start">
-                                        <label class="mb-1 left" for="id_birthday">{{ appointmentform.birthday.label }}</label>
-                                        {{ appointmentform.birthday }}
+                                        <label class="mb-1 left" for="id_birthday">{{ patientform.birthday.label }}</label>
+                                        {{ patientform.birthday }}
                                     </div>
                                     <div class="end col-12 col-lg-3">
-                                        <label class="mb-1 left" for="id_gender">{{ appointmentform.gender.label }}</label>
+                                        <label class="mb-1 left" for="id_gender">{{ patientform.gender.label }}</label>
                                         <div>
-                                        {% for el in appointmentform.gender %}
+                                        {% for el in patientform.gender %}
                                             {{ el }}
                                         {% endfor %}
                                         </div>
                                     </div>
                                     <div class="end col-12 col-lg-3 d-flex flex-column align-items-start">
-                                        <label class="mb-1 left" for="id_address">{{ appointmentform.address.label }}</label>
-                                        {{ appointmentform.address }}
+                                        <label class="mb-1 left" for="id_address">{{ patientform.address.label }}</label>
+                                        {{ patientform.address }}
                                     </div>
                                 </div>
                             </div>
@@ -90,7 +173,7 @@
                             </div>
                         </form>
                     </div>
-                </div>
+                </div> {% endcomment %}
             </div>
             <div class="overflow"></div>
         </div>
@@ -124,20 +207,16 @@
         $.ajax({
             url: "{% url 'dentx:table' %}"
         }).always(function(result) {
-                $(".overflow").html(result)
-                $(".overflow td.time").on("dblclick", function() {
-                    if ($(".modal-form").hasClass("d-none")) {
-                        $(".modal-form").addClass("d-block").removeClass("d-none")
-                        temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
-                        $("#id_begin_day").val(temp[0])
-                        time = $(this).parent().children(":first-child").text()
-                        text = ` ${temp[1]}, ${temp[0]}, ${time}`
-                        $("#id_begin_time").val(time).change()
-                        $(".form-title p").text(text)
-                    } else {
-                        $(".modal-form").removeClass("d-block").addClass("d-none")
-                    }
-                })
+            $(".overflow").html(result)
+            $(".overflow td.time").on("dblclick", function() {
+                $(".hidden-button > button")[0].click()
+                temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
+                $("#id_begin_day").val(temp[0])
+                time = $(this).parent().children(":first-child").text()
+                text = ` ${temp[1]}, ${temp[0]}, ${time}`
+                $("#id_begin_time").val(time).change()
+                $(".form-title p").text(text)
+            })
             })
         $(".fa-angle-left").on("click", function() {
             $.ajax({
@@ -154,17 +233,13 @@
             }).always(function(result) {
                 $(".overflow").html(result.responseText)
                 $(".overflow td.time").on("dblclick", function() {
-                    if ($(".modal-form").hasClass("d-none")) {
-                        $(".modal-form").addClass("d-block").removeClass("d-none")
-                        temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
-                        $("#id_begin_day").val(temp[0])
-                        time = $(this).parent().children(":first-child").text()
-                        text = ` ${temp[1]}, ${temp[0]}, ${time}`
-                        $("#id_begin_time").val(time).change()
-                        $(".form-title p").text(text)
-                    } else {
-                        $(".modal-form").removeClass("d-block").addClass("d-none")
-                    }
+                    $(".hidden-button > button")[0].click()
+                    temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
+                    $("#id_begin_day").val(temp[0])
+                    time = $(this).parent().children(":first-child").text()
+                    text = ` ${temp[1]}, ${temp[0]}, ${time}`
+                    $("#id_begin_time").val(time).change()
+                    $(".form-title p").text(text)
                 })
             })
             today.setTime(today.getTime() - 7 * 24 * 60 * 60 * 1000)
@@ -184,17 +259,13 @@
             }).always(function(result) {
                 $(".overflow").html(result.responseText)
                 $(".overflow td.time").on("dblclick", function() {
-                    if ($(".modal-form").hasClass("d-none")) {
-                        $(".modal-form").addClass("d-block").removeClass("d-none")
-                        temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
-                        $("#id_begin_day").val(temp[0])
-                        time = $(this).parent().children(":first-child").text()
-                        text = ` ${temp[1]}, ${temp[0]}, ${time}`
-                        $("#id_begin_time").val(time).change()
-                        $(".form-title p").text(text)
-                    } else {
-                        $(".modal-form").removeClass("d-block").addClass("d-none")
-                    }
+                    $(".hidden-button > button")[0].click()
+                    temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
+                    $("#id_begin_day").val(temp[0])
+                    time = $(this).parent().children(":first-child").text()
+                    text = ` ${temp[1]}, ${temp[0]}, ${time}`
+                    $("#id_begin_time").val(time).change()
+                    $(".form-title p").text(text)
                 })
             })
             today.setTime(today.getTime() + 7 * 24 * 60 * 60 * 1000)
@@ -218,13 +289,6 @@
                 $(".controls").removeClass("full-con")
             } else {
                 $("#full-screen").removeClass("d-block").addClass("d-none")
-            }
-        })
-        $(".times").on("click", function() {
-            if ($(".modal-form").hasClass("d-block")) {
-                $(".modal-form").addClass("d-none").removeClass("d-block")
-            } else {
-                $(".modal-form").removeClass("d-block").addClass("d-none")
             }
         })
         $("span.input-group-text").on("click", function() {

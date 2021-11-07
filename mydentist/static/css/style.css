@@ -841,7 +841,7 @@ table {
   border-radius: 0;
 }
 
-.modal-form p {
+.modal p {
   margin: 0;
 }
 
@@ -904,7 +904,7 @@ table {
 }
 
 .pats input {
-outline-color: #15C4D7;
+  outline-color: #15C4D7;
 }
 
 .pats, .work-time {
@@ -922,19 +922,18 @@ outline-color: #15C4D7;
   width: 80%;
 }
 
-span.times {
-  color: #535151;
-  font-size: 20px;
-  transition: 0.3s;
-}
-
-span.times:hover {
-  cursor: pointer;
-  color: #BB2D3B;
+span.input-group-text {
+  height: fit-content;
+  border-top-right-radius: 25px !important;
+  border-bottom-right-radius: 25px !important;
 }
 
 .avatar img {
   width: 60px;
+}
+
+.input-group > span:hover {
+  cursor: pointer;
 }
 
 .input-group div.w-100 {

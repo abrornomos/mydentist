@@ -7,6 +7,7 @@ from geopy.distance import distance
 from baseapp.models import Language
 from dentist.models import User as DentistUser, User_translation, Clinic, Clinic_translation, Service, Service_translation
 from patient.models import User as PatientUser
+from .var import CHOICES
 
 
 def set_language(request, user_language):
@@ -198,6 +199,14 @@ def get_services(services, language_id):
             )[0]
         })
     return results
+
+
+def get_option(select, index):
+    options = CHOICES[select]
+    for option in options:
+        if int(option[0]) == index:
+            return option[1]
+    return None
 
 
 # def sort_by_distance(dentists, location):

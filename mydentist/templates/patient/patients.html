@@ -25,42 +25,50 @@
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
-                                    <form action="">
+                                    <form class="form-group" method="POST">
+                                        {% csrf_token %}
                                         <div class="pats">
-                                            <p class="mb-1 d-flex justify-content-between">Bemor</p>
-                                            <input type="text" class="w-100 mb-3" placeholder="F.I.O" required>
+                                            <div class="mb-1 d-flex justify-content-between">
+                                                <label for="id_name">{{ patientform.name.label }}</label>
+                                            </div>
+                                            <div class="input-group w-100">
+                                                {{ patientform.name }}
+                                            </div>
                                             <div class="bottom-inputs d-flex justify-content-between flex-wrap mt-2">
                                                 <div class="left col-12 col-lg-3 d-flex flex-column align-items-start">
-                                                    <p class="mb-1">Telefon</p>
-                                                    <input type="text" required class=" wid">
-                                                </div>
+                                                    <label class="mb-1 left" for="id_phone_number">{{ patientform.phone_number.label }}</label>
+                                                    {{ patientform.phone_number }}
+                                                </div> 
                                                 <div class="center col-12 col-lg-3 d-flex flex-column align-items-start">
-                                                    <p class="mb-1 left">Tugilgan sana</p>
-                                                    <input type="date" class=" wid" required>
+                                                    <label class="mb-1 left" for="id_birthday">{{ patientform.birthday.label }}</label>
+                                                    {{ patientform.birthday }}
                                                 </div>
                                                 <div class="end col-12 col-lg-3">
-                                                    <p class="mb-1 left">Jins</p>
-                                                    <input type="radio" class="m-1" name="drone">Erkak
-                                                    <input type="radio" class="m-1" name="drone">Ayol
+                                                    <label class="mb-1 left" for="id_gender">{{ patientform.gender.label }}</label>
+                                                    <div>
+                                                    {% for el in patientform.gender %}
+                                                        {{ el }}
+                                                    {% endfor %}
+                                                    </div>
                                                 </div>
                                                 <div class="end col-12 col-lg-3 d-flex flex-column align-items-start">
-                                                    <p class="mb-1 left">Manzil</p>
-                                                    <input type="text" class=" wid">
+                                                    <label class="mb-1 left" for="id_address">{{ patientform.address.label }}</label>
+                                                    {{ patientform.address }}
                                                 </div>
                                             </div>
                                         </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-primary me-md-2 mt-2" type="submit">Tasdiqlamoq</button>
+                                            <button class="btn btn-secondary mt-2" type="button" data-bs-dismiss="modal" aria-label="Close">Bekor qilmoq</button>
+                                        </div>
                                     </form>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Bekor qilish</button>
-                                        <button type="button" class="btn btn-primary">Qo'shish</button>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="overflow mt-4">
+            <div class="overflow mt-5 border-top">
                 <ul class="d-flex justify-content-end list-group-horizontal me-auto my-2 my-lg-0 offset-lg-6" style="--bs-scroll-height: 100px;">
                     <li class="nav-item dropdown list-group-item">
                         <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Qarz</a>
@@ -121,14 +129,12 @@
                             <td>
                                 <a href="{% url 'dentx:patient' id=result.patient_extra.id %}" class="text-decoration-none">
                                     <h6>{{ result.patient_extra }}</h6>
-                                    <br>
                                     <h6>{{ result.patient_extra.birthday.year }}</h6>
-                                    <br>
                                     <h6>{{ result.patient_extra.phone_number }}</h6>
                                 </a>
                             </td>
-                            <td>Erkak</td>
-                            <td>Sergeli</td>
+                            <td>{{ result.gender }}</td>
+                            <td>{{ result.patient_extra.address }}</td>
                             <td>-</td>
                             <td>0 sum</td>
                             <td>Plomba qo'yish</td>

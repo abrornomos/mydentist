@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render, redirect
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
-from datetime import datetime
+from datetime import datetime, date
 from appointment.models import Query, Appointment
 from baseapp.models import Language
 from dentist.models import User as DentistUser, User_translation, Clinic, Clinic_translation, Service, Service_translation, Cabinet_Image
@@ -345,11 +345,14 @@ def patients(request):
     for patient_obj in patients_obj:
         results.append({
             'patient': User.objects.get(pk=patient_obj.user_id),
-            'patient_extra': patient_obj
+            'patient_extra': patient_obj,
+            'gender': GENDERS[patient_obj.gender_id - 1]
         })
+    patientform = PatientForm()
     return render(request, "patient/patients.html", {
         'dentist': dentist,
-        'results': results
+        'results': results,
+        'patientform': patientform
     })
 
 
@@ -360,9 +363,15 @@ def patient(request, id):
     dentist = DentistUser.objects.get(user=user)
     patient_extra = PatientUser.objects.get(pk=id)
     patient = User.objects.get(pk=patient_extra.user_id)
+    patient_illness = Illness.objects.get(patient=patient_extra)
+    patient_other_illness = Other_Illness.objects.get(patient=patient_extra)
+    year = (date.today() - patient_extra.birthday).days // 365
     return render(request, "patient/patient.html", {
         'dentist': dentist,
         'patient': patient,
-        'patient_extra': patient_extra
+        'patient_extra': patient_extra,
+        'patient_illness': patient_illness,
+        'patient_other_illness': patient_other_illness,
+        'year': year
     })
 

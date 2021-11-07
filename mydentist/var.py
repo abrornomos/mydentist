@@ -148,6 +148,11 @@ CHOICES = {
     ]
 }
 
+GENDERS = [
+    _("Erkak"),
+    _("Ayol")
+]
+
 MONTHS = [
     _("Yanvar"),
     _("Fevral"),

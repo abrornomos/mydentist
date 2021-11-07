@@ -4,55 +4,7 @@ from mydentist.var import CHOICES
 
 
 class AppointmentForm(forms.Form):
-    name = forms.CharField(
-        label=_("Bemor"),
-        widget=forms.TextInput(
-            attrs={
-                'class': "form-control mb-3",
-                'placeholder': _("Bemor FIOsi"),
-            }
-        ),
-        localize=True
-    )
-    phone_number = forms.CharField(
-        label=_("Telefon raqami"),
-        widget=forms.TextInput(
-            attrs={
-                'class': "form-control wid",
-                'placeholder': _("+9989XXXXXXXX"),
-            }
-        ),
-        localize=True
-    )
-    birthday = forms.CharField(
-        label=_("Tugilgan sana"),
-        widget=forms.DateInput(
-            attrs={
-                'class': "form-control wid",
-                'type': "date",
-            }
-        ),
-        localize=True
-    )
-    gender = forms.CharField(
-        label=_("Jins"),
-        widget=forms.RadioSelect(
-            attrs={
-                'class': "form-switch m-1",
-            },
-            choices=CHOICES['gender']
-        )
-    )
-    address = forms.CharField(
-        label=_("Manzil"),
-        widget=forms.TextInput(
-            attrs={
-                'class': "form-control w-100",
-                'placeholder': _("Manzilni kiriting"),
-            }
-        ),
-        localize=True
-    )
+    
     service = forms.CharField(
         label=_("Xizmat"),
         widget=forms.Select(
