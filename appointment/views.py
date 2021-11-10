@@ -4,7 +4,7 @@ from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.utils import timezone
 from django.utils.translation import get_language
-from datetime import datetime, date, timedelta, tzinfo
+from datetime import datetime, date, timedelta
 from baseapp.models import Language
 from dentist.models import User as DentistUser, User_translation as DentistUserTranslation, Service, Service_translation
 from patient.forms import PatientForm
@@ -18,8 +18,13 @@ from .models import *
 
 
 def appointments(request):
-    if request.user.username not in request.session:
-        return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
+    if not is_authenticated(request, "dentist"):
+        if not is_authenticated(request, "patient"):
+            return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+        else:
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+    else:
+        check_language(request, "dentist")
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     dentist_translation = DentistUserTranslation.objects.filter(
@@ -181,5 +186,4 @@ def patients(request):
             'gender': patient.gender_id,
             'address': patient.address
         })
-    print(patients)
     return JsonResponse(patients, safe=False)

@@ -11,7 +11,7 @@ from dentist.models import User as DentistUser, User_translation, Clinic, Clinic
 from illness.models import *
 from illness.forms import *
 from login.forms import PasswordUpdateForm
-from mydentist.handler import check_language
+from mydentist.handler import *
 from mydentist.var import *
 from .forms import *
 from .models import User as PatientUser, Illness, Other_Illness
@@ -20,10 +20,13 @@ from .models import User as PatientUser, Illness, Other_Illness
 
 
 def profile(request):
-    if request.user.username not in request.session:
-        return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+    if not is_authenticated(request, "patient"):
+        if not is_authenticated(request, "dentist"):
+            return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+        else:
+            return redirect(request.META.get('HTTP_REFERER', '/'))
     else:
-        check_language(request)
+        check_language(request, "patient")
     user = User.objects.get(username=request.user.username)
     user_extra = PatientUser.objects.get(user=user)
     try:
@@ -72,6 +75,20 @@ def profile(request):
         clinic_extra = None
         cabinet_images = []
         services = []
+    authenticated = is_authenticated(request, "patient")
+    if authenticated:
+        try:
+            user = PatientUser.objects.get(
+                user__username=request.user.username)
+            authenticated = "patient"
+            check_language(request, "patient")
+        except:
+            try:
+                user = DentistUser.objects.get(
+                    user__username=request.user.username)
+                authenticated = "dentist"
+            except:
+                pass
     if len(cabinet_images) > 1:
         return render(request, "patient/profile.html", {
             'user_extra': user_extra,
@@ -84,6 +101,7 @@ def profile(request):
             'cabinet_image': cabinet_images[0],
             'cabinet_images': cabinet_images[1:],
             'counter': range(len(cabinet_images)),
+            'authenticated': authenticated,
         })
     elif len(cabinet_images) == 1:
         return render(request, "patient/profile.html", {
@@ -97,6 +115,7 @@ def profile(request):
             'cabinet_image': cabinet_images[0],
             'cabinet_images': None,
             'counter': range(len(cabinet_images)),
+            'authenticated': authenticated,
         })
     else:
         return render(request, "patient/profile.html", {
@@ -109,14 +128,18 @@ def profile(request):
             'services': services,
             'cabinet_images': None,
             'counter': 0,
+            'authenticated': authenticated,
         })
 
 
 def settings(request, active_tab="profile"):
-    if request.user.username not in request.session:
-        return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+    if not is_authenticated(request, "patient"):
+        if not is_authenticated(request, "dentist"):
+            return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+        else:
+            return redirect(request.META.get('HTTP_REFERER', '/'))
     else:
-        check_language(request)
+        check_language(request, "patient")
     if 'success_message' in request.session:
         if request.session['success_message'] == "Updated successfully":
             success_message = "Updated successfully"
@@ -146,7 +169,7 @@ def settings(request, active_tab="profile"):
         del request.session['incorrect_password']
     else:
         passwordupdateform = PasswordUpdateForm()
-    illness = Illness.objects.get(user=user_extra)
+    illness = Illness.objects.get(patient=user_extra)
     illnessform = IllnessForm({
         'diabet': Diabet.objects.get(pk=illness.diabet_id).value,
         'anesthesia': Anesthesia.objects.get(pk=illness.anesthesia_id).value,
@@ -158,7 +181,7 @@ def settings(request, active_tab="profile"):
         'asthma': Asthma.objects.get(pk=illness.asthma_id).value,
         'dizziness': Dizziness.objects.get(pk=illness.dizziness_id).value,
     })
-    otherillness = Other_Illness.objects.get(user=user_extra)
+    otherillness = Other_Illness.objects.get(patient=user_extra)
     otherillnessform = OtherIllnessForm({
         'epilepsy': Epilepsy.objects.get(pk=otherillness.epilepsy_id).value,
         'blood_disease': Blood_disease.objects.get(pk=otherillness.blood_disease_id).value,
@@ -172,6 +195,20 @@ def settings(request, active_tab="profile"):
         'pregnancy': Pregnancy.objects.get(pk=otherillness.pregnancy_id).value,
         'pregnancy_detail': Pregnancy.objects.get(pk=otherillness.pregnancy_id).desc,
     })
+    authenticated = is_authenticated(request, "patient")
+    if authenticated:
+        try:
+            user = PatientUser.objects.get(
+                user__username=request.user.username)
+            authenticated = "patient"
+            check_language(request, "patient")
+        except:
+            try:
+                user = DentistUser.objects.get(
+                    user__username=request.user.username)
+                authenticated = "dentist"
+            except:
+                pass
     return render(request, "patient/settings.html", {
         'userform': userform,
         'languageform': languageform,
@@ -180,14 +217,18 @@ def settings(request, active_tab="profile"):
         'otherillnessform': otherillnessform,
         'active_tab': active_tab,
         'success_message': success_message,
+        'authenticated': authenticated,
     })
 
 
 def update(request, form):
-    if request.user.username not in request.session:
-        return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+    if not is_authenticated(request, "patient"):
+        if not is_authenticated(request, "dentist"):
+            return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+        else:
+            return redirect(request.META.get('HTTP_REFERER', '/'))
     else:
-        check_language(request)
+        check_language(request, "patient")
     if request.method == "POST":
         if form == "profile":
             userform = UserForm(request.POST)
@@ -336,8 +377,13 @@ def update(request, form):
 
 
 def patients(request):
-    if request.user.username not in request.session:
-        return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
+    if not is_authenticated(request, "dentist"):
+        if not is_authenticated(request, "patient"):
+            return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+        else:
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+    else:
+        check_language(request, "dentist")
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     patients_obj = PatientUser.objects.all()
@@ -357,8 +403,13 @@ def patients(request):
 
 
 def patient(request, id):
-    if request.user.username not in request.session:
-        return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
+    if not is_authenticated(request, "dentist"):
+        if not is_authenticated(request, "patient"):
+            return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+        else:
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+    else:
+        check_language(request, "dentist")
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     patient_extra = PatientUser.objects.get(pk=id)

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 23:07+0500\n"
+"POT-Creation-Date: 2021-11-10 11:27+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,69 +20,80 @@ msgstr ""
 "%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
 "%100>=11 && n%100<=14)? 2 : 3);\n"
 
-#: .\mydentist\templates\app.html:29 .\mydentist\templates\app_user.html:29
+#: .\mydentist\templates\app.html:31 .\mydentist\templates\app_user.html:31
 msgid "Dastur haqida"
 msgstr "О программе"
 
-#: .\mydentist\templates\app.html:32 .\mydentist\templates\app_user.html:32
+#: .\mydentist\templates\app.html:34 .\mydentist\templates\app_user.html:34
 msgid "Stomatolog uchun"
 msgstr "Стоматологу"
 
-#: .\mydentist\templates\app.html:53
+#: .\mydentist\templates\app.html:55
+#: .\mydentist\templates\login\password_reset_done.html:14
 msgid "Kirish"
 msgstr "Вход"
 
-#: .\mydentist\templates\app.html:71 .\mydentist\templates\app_user.html:84
+#: .\mydentist\templates\app.html:73 .\mydentist\templates\app_user.html:86
 msgid "Bemor va stomatologlar uchun zamonaviy platforma"
 msgstr "Современная платформа для пациентов и стоматологов"
 
-#: .\mydentist\templates\app.html:74 .\mydentist\templates\app_user.html:87
+#: .\mydentist\templates\app.html:76 .\mydentist\templates\app_user.html:89
 msgid "Sayt fayllari"
 msgstr "Файлы сайта"
 
-#: .\mydentist\templates\app.html:75 .\mydentist\templates\app_user.html:88
+#: .\mydentist\templates\app.html:77 .\mydentist\templates\app_user.html:90
 msgid "Ommaviy oferta"
 msgstr "Публичная оферта"
 
-#: .\mydentist\templates\app.html:76 .\mydentist\templates\app_user.html:89
+#: .\mydentist\templates\app.html:78 .\mydentist\templates\app_user.html:91
 msgid "Foydalanish shartlari"
 msgstr "Правила пользования"
 
-#: .\mydentist\templates\app.html:79 .\mydentist\templates\app_user.html:92
+#: .\mydentist\templates\app.html:81 .\mydentist\templates\app_user.html:94
 msgid "Hududlar"
 msgstr "Регионы"
 
-#: .\mydentist\templates\app.html:80 .\mydentist\templates\app_user.html:93
+#: .\mydentist\templates\app.html:82 .\mydentist\templates\app_user.html:95
+#: .\mydentist\var.py:8
 msgid "Toshkent"
 msgstr "Ташкент"
 
-#: .\mydentist\templates\app.html:81 .\mydentist\templates\app_user.html:94
+#: .\mydentist\templates\app.html:83 .\mydentist\templates\app_user.html:96
+#: .\mydentist\var.py:24
 msgid "Andijon viloyati"
 msgstr "Андижанская область"
 
-#: .\mydentist\templates\app.html:82 .\mydentist\templates\app_user.html:95
+#: .\mydentist\templates\app.html:84 .\mydentist\templates\app_user.html:97
+#: .\mydentist\var.py:16
 msgid "Samarqand viloyati"
 msgstr "Самаркандская область"
 
-#: .\mydentist\templates\app_user.html:49
+#: .\mydentist\templates\app_user.html:52
+#: .\mydentist\templates\app_user.html:66
 msgid "Profil"
 msgstr "Профиль"
 
-#: .\mydentist\templates\app_user.html:53
+#: .\mydentist\templates\app_user.html:55
 #: .\mydentist\templates\patient\profile.html:5
 #: .\mydentist\templates\patient\profile.html:11
 msgid "Mening profilim"
 msgstr "Мой профиль"
 
 #: .\mydentist\templates\app_user.html:56
+#: .\mydentist\templates\dentx\app.html:55
 #: .\mydentist\templates\patient\settings.html:5
 #: .\mydentist\templates\patient\settings.html:11
 msgid "Sozlamalar"
 msgstr "Настройки"
 
-#: .\mydentist\templates\app_user.html:63
+#: .\mydentist\templates\app_user.html:60
+#: .\mydentist\templates\dentx\app.html:59
 msgid "Chiqish"
 msgstr "Выход"
+
+#: .\mydentist\templates\appointment\appointments.html:5
+msgid "Yozuvlar"
+msgstr "Записи"
 
 #: .\mydentist\templates\baseapp\index.html:5
 msgid "Bosh sahifa"
@@ -174,9 +185,9 @@ msgstr "Есть вопрос? Оставте свои даные мы вам п
 
 #: .\mydentist\templates\baseapp\index.html:123
 #: .\mydentist\templates\dentist\dentist.html:81
-#: .\mydentist\templates\login\login.html:43
+#: .\mydentist\templates\login\dentx_login.html:48
+#: .\mydentist\templates\login\login.html:41
 #: .\mydentist\templates\login\password_reset.html:18
-#: .\mydentist\templates\login\password_reset_done.html:12
 #: .\mydentist\templates\login\register.html:124
 msgid "Jo'natish"
 msgstr "Отправить"
@@ -209,134 +220,83 @@ msgstr "Список"
 msgid "Xarita"
 msgstr "Карта"
 
-#: .\mydentist\templates\baseapp\results.html:31
-
+#: .\mydentist\templates\baseapp\results.html:32
 msgid "Narxi bo'yicha"
 msgstr "По цене"
 
-#: .\mydentist\templates\baseapp\results.html:34
+#: .\mydentist\templates\baseapp\results.html:35
 msgid "Yaqinligi bo'yicha"
 msgstr "По близости"
 
-#: .\mydentist\templates\baseapp\results.html:41
-msgid "Erkak"
-msgstr "Мужчина"
-
-#: .\mydentist\templates\baseapp\results.html:45
+#: .\mydentist\templates\baseapp\results.html:43 .\mydentist\var.py:65
+#: .\mydentist\var.py:153
 msgid "Ayol"
 msgstr "Женщина"
 
-#: .\mydentist\templates\baseapp\results.html:49
-#: .\mydentist\templates\baseapp\results.html:178
-#: .\mydentist\templates\baseapp\results.html:208
-#: .\mydentist\templates\baseapp\results.html:304
-#: .\mydentist\templates\baseapp\results.html:334
+#: .\mydentist\templates\baseapp\results.html:47
+#: .\mydentist\templates\baseapp\results.html:149
 #: .\mydentist\templates\dentist\dentist.html:44
 #: .\mydentist\templates\patient\profile.html:138
 msgid "24 soat"
 msgstr "24 часа"
 
-#: .\mydentist\templates\baseapp\results.html:65
-#: .\mydentist\templates\baseapp\results.html:98
-#: .\mydentist\templates\baseapp\results.html:172
-#: .\mydentist\templates\baseapp\results.html:202
-#: .\mydentist\templates\baseapp\results.html:234
-#: .\mydentist\templates\baseapp\results.html:264
-#: .\mydentist\templates\baseapp\results.html:298
-#: .\mydentist\templates\baseapp\results.html:328
-#: .\mydentist\templates\baseapp\results.html:360
-#: .\mydentist\templates\baseapp\results.html:390
+#: .\mydentist\templates\baseapp\results.html:95
+#: .\mydentist\templates\dentist\dentist.html:157
+msgid "Xaritada joylashuv"
+msgstr "Расположение на карте"
+
+#: .\mydentist\templates\baseapp\results.html:136
 msgid "FISh:"
 msgstr "ФИО:"
 
-#: .\mydentist\templates\baseapp\results.html:68
-#: .\mydentist\templates\baseapp\results.html:101
-#: .\mydentist\templates\baseapp\results.html:174
-#: .\mydentist\templates\baseapp\results.html:204
-#: .\mydentist\templates\baseapp\results.html:236
-#: .\mydentist\templates\baseapp\results.html:266
-#: .\mydentist\templates\baseapp\results.html:300
-#: .\mydentist\templates\baseapp\results.html:330
-#: .\mydentist\templates\baseapp\results.html:362
-#: .\mydentist\templates\baseapp\results.html:392
+#: .\mydentist\templates\baseapp\results.html:138
 msgid "Manzil:"
 msgstr "Адрес:"
 
-#: .\mydentist\templates\baseapp\results.html:71
-#: .\mydentist\templates\baseapp\results.html:104
-#: .\mydentist\templates\baseapp\results.html:176
-#: .\mydentist\templates\baseapp\results.html:206
-#: .\mydentist\templates\baseapp\results.html:238
-#: .\mydentist\templates\baseapp\results.html:268
-#: .\mydentist\templates\baseapp\results.html:302
-#: .\mydentist\templates\baseapp\results.html:332
-#: .\mydentist\templates\baseapp\results.html:364
-#: .\mydentist\templates\baseapp\results.html:394
+#: .\mydentist\templates\baseapp\results.html:144
 #: .\mydentist\templates\dentist\dentist.html:36
 #: .\mydentist\templates\patient\profile.html:130
 msgid "Mo'ljal:"
 msgstr "Ориентир:"
 
-#: .\mydentist\templates\baseapp\results.html:74
-#: .\mydentist\templates\baseapp\results.html:107
-#: .\mydentist\templates\baseapp\results.html:178
-#: .\mydentist\templates\baseapp\results.html:208
-#: .\mydentist\templates\baseapp\results.html:240
-#: .\mydentist\templates\baseapp\results.html:270
-#: .\mydentist\templates\baseapp\results.html:304
-#: .\mydentist\templates\baseapp\results.html:334
-#: .\mydentist\templates\baseapp\results.html:366
-#: .\mydentist\templates\baseapp\results.html:396
+#: .\mydentist\templates\baseapp\results.html:149
+#: .\mydentist\templates\baseapp\results.html:153
 msgid "Ishlash vaqti:"
 msgstr "Время работы:"
 
-#: .\mydentist\templates\baseapp\results.html:77
-#: .\mydentist\templates\baseapp\results.html:110
-#: .\mydentist\templates\baseapp\results.html:180
-#: .\mydentist\templates\baseapp\results.html:210
-#: .\mydentist\templates\baseapp\results.html:242
-#: .\mydentist\templates\baseapp\results.html:272
-#: .\mydentist\templates\baseapp\results.html:306
-#: .\mydentist\templates\baseapp\results.html:336
-#: .\mydentist\templates\baseapp\results.html:368
-#: .\mydentist\templates\baseapp\results.html:398
+#: .\mydentist\templates\baseapp\results.html:157
 msgid "Telefon raqami:"
 msgstr "Номер телефона"
 
-#: .\mydentist\templates\baseapp\results.html:80
-#: .\mydentist\templates\baseapp\results.html:113
-#: .\mydentist\templates\baseapp\results.html:183
-#: .\mydentist\templates\baseapp\results.html:213
-#: .\mydentist\templates\baseapp\results.html:245
-#: .\mydentist\templates\baseapp\results.html:275
-#: .\mydentist\templates\baseapp\results.html:309
-#: .\mydentist\templates\baseapp\results.html:339
-#: .\mydentist\templates\baseapp\results.html:371
-#: .\mydentist\templates\baseapp\results.html:401
+#: .\mydentist\templates\baseapp\results.html:159
+#, fuzzy
+#| msgid "Xizmat nomi"
+msgid "Xizmat nomi:"
+msgstr "Название услуги"
+
+#: .\mydentist\templates\baseapp\results.html:161
+#, fuzzy
+#| msgid "Xizmat nomi"
+msgid "Xizmat narxi:"
+msgstr "Название услуги"
+
+#: .\mydentist\templates\baseapp\results.html:161
+#: .\mydentist\templates\dentist\dentist.html:109
+#: .\mydentist\templates\patient\profile.html:164
+msgid "so'm"
+msgstr "сум"
+
+#: .\mydentist\templates\baseapp\results.html:164
 msgid "Narxlarni ko'rish"
 msgstr "Посмотреть цены"
 
-#: .\mydentist\templates\baseapp\results.html:81
-#: .\mydentist\templates\baseapp\results.html:114
-#: .\mydentist\templates\baseapp\results.html:185
-#: .\mydentist\templates\baseapp\results.html:215
-#: .\mydentist\templates\baseapp\results.html:247
-#: .\mydentist\templates\baseapp\results.html:277
-#: .\mydentist\templates\baseapp\results.html:311
-#: .\mydentist\templates\baseapp\results.html:341
-#: .\mydentist\templates\baseapp\results.html:373
-#: .\mydentist\templates\baseapp\results.html:403
+#: .\mydentist\templates\baseapp\results.html:166
 #: .\mydentist\templates\dentist\dentist.html:56
 #: .\mydentist\templates\dentist\dentist.html:89
 msgid "Qabulga yozilish"
 msgstr "Запись на приём"
 
-#: .\mydentist\templates\baseapp\results.html:124
-#: .\mydentist\templates\dentist\dentist.html:155
-msgid "Xaritada joylashuv"
-msgstr "Расположение на карте"
-
-#: .\mydentist\templates\baseapp\results.html:134
+#: .\mydentist\templates\baseapp\results.html:204
 msgid "Kechirasiz, sizning so'rovingiz bo'yicha tish shifokorlari topilmadi"
 msgstr "Извините, не найдены стоматологи по Вашему запросу"
 
@@ -381,48 +341,55 @@ msgstr "Закрыть"
 msgid "Narxlar"
 msgstr "Цены"
 
-#: .\mydentist\templates\dentist\dentist.html:99
-#: .\mydentist\templates\patient\profile.html:154
+#: .\mydentist\templates\dentist\dentist.html:100
+#: .\mydentist\templates\patient\profile.html:155
 msgid "Xizmat nomi"
 msgstr "Название услуги"
 
-#: .\mydentist\templates\dentist\dentist.html:100
-#: .\mydentist\templates\patient\profile.html:155
+#: .\mydentist\templates\dentist\dentist.html:101
+#: .\mydentist\templates\patient\profile.html:156
 msgid "Narxi"
 msgstr "Цена"
 
-#: .\mydentist\templates\dentist\dentist.html:101
-#: .\mydentist\templates\patient\profile.html:156
+#: .\mydentist\templates\dentist\dentist.html:102
+#: .\mydentist\templates\patient\profile.html:157
 msgid "Davomiyligi"
 msgstr "Длительность"
 
-#: .\mydentist\templates\dentist\dentist.html:108
-#: .\mydentist\templates\patient\profile.html:163
-msgid "so'm"
-msgstr "сум"
-
-#: .\mydentist\templates\dentist\dentist.html:119
+#: .\mydentist\templates\dentist\dentist.html:121
 msgid "Kabinet rasmlari"
 msgstr "Фото кабинета"
 
-#: .\mydentist\templates\dentist\dentist.html:146
+#: .\mydentist\templates\dentist\dentist.html:148
 msgid "Kabinet rasmi"
 msgstr "Фото кабинета"
 
+#: .\mydentist\templates\dentx\board.html:5
+msgid "Doska"
+msgstr "Доска"
+
+#: .\mydentist\templates\login\dentx_login.html:12
+#: .\mydentist\templates\login\dentx_login.html:18
 #: .\mydentist\templates\login\login.html:5
 #: .\mydentist\templates\login\login.html:11
 msgid "Tizimga kirish"
 msgstr "Вход в систему"
 
-#: .\mydentist\templates\login\login.html:49
+#: .\mydentist\templates\login\dentx_login.html:54
+#: .\mydentist\templates\login\login.html:47
 msgid "Parolni unutdingizmi?"
 msgstr "Забыли пароль?"
 
-#: .\mydentist\templates\login\login.html:50
+#: .\mydentist\templates\login\dentx_login.html:55
+#: .\mydentist\templates\login\login.html:48
 msgid "Akkauntingiz yo'qmi?"
 msgstr "Нет аккаунта?"
 
-#: .\mydentist\templates\login\login.html:50
+#: .\mydentist\templates\login\dentx_login.html:55
+msgid "U holda biz bilan bog'lanib ro'yhatdan o'ting"
+msgstr "Свяжитесь с нами и зарегистрируйтесь"
+
+#: .\mydentist\templates\login\login.html:48
 msgid "Ro'yhatdan o'ting"
 msgstr "Зарегистрируйтесь в системе"
 
@@ -432,7 +399,7 @@ msgid "Parolni tiklash"
 msgstr "Сбросить пароль"
 
 #: .\mydentist\templates\login\password_reset_done.html:5
-#: .\mydentist\templates\login\password_reset_done.html:11
+#: .\mydentist\templates\login\password_reset_done.html:13
 msgid "Parolni tiklash yakunlandi"
 msgstr "Сброс пароля завершён"
 
@@ -441,7 +408,7 @@ msgstr "Сброс пароля завершён"
 msgid "Yangi parolni kiriting"
 msgstr "Введите новый пароль"
 
-#: .\mydentist\templates\login\password_reset_form.html:18
+#: .\mydentist\templates\login\password_reset_form.html:33
 msgid "Parolni yangliash"
 msgstr "Обновить пароль"
 
@@ -455,14 +422,19 @@ msgid ""
 "Agar siz kiritgan e-pochtada hisob mavjud boʻlsa, parolni oʻrnatish boʻyicha "
 "koʻrsatmalarni elektron pochta orqali yubordik. Siz ularni qisqa vaqt ichida "
 "qabul qilishingiz kerak."
-msgstr "Если у вас есть учетная запись по электронной почте, которую вы указали, мы отправим вам инструкции по установке пароля по электронной почте. Вы должны получить их как можно скорее."
+msgstr ""
+"Если у вас есть учетная запись по электронной почте, которую вы указали, мы "
+"отправим вам инструкции по установке пароля по электронной почте. Вы должны "
+"получить их как можно скорее."
 
 #: .\mydentist\templates\login\password_reset_sent.html:13
 msgid ""
 "Agar siz elektron pochta xabarini olmagan bo'lsangiz, ro'yxatdan o'tgan "
 "manzilingizni kiritganingizga ishonch hosil qiling va spam jildini "
 "tekshiring."
-msgstr "Если вы не получили письмо, обязательно введите свой зарегистрированный адрес и проверьте папку со спамом."
+msgstr ""
+"Если вы не получили письмо, обязательно введите свой зарегистрированный "
+"адрес и проверьте папку со спамом."
 
 #: .\mydentist\templates\login\register.html:5
 #: .\mydentist\templates\login\register.html:12
@@ -487,31 +459,114 @@ msgstr "Остальные заболевания"
 msgid "Ko'rsatish"
 msgstr "Показать"
 
+#: .\mydentist\templates\patient\patient.html:5
+#: .\mydentist\templates\patient\patients.html:5
+msgid "Bemorlar"
+msgstr "Пациенты"
+
+#: .\mydentist\templates\patient\patient.html:51
 #: .\mydentist\templates\patient\profile.html:20
 msgid "Familiya"
 msgstr "Фамилия"
 
+#: .\mydentist\templates\patient\patient.html:55
 #: .\mydentist\templates\patient\profile.html:24
 msgid "Ism"
 msgstr "Имя"
 
+#: .\mydentist\templates\patient\patient.html:59
+msgid "Jinsi"
+msgstr "Пол"
+
+#: .\mydentist\templates\patient\patient.html:63
 #: .\mydentist\templates\patient\profile.html:28
 msgid "Tug’ilgan sana"
 msgstr "Дата рождения"
 
+#: .\mydentist\templates\patient\patient.html:67
 #: .\mydentist\templates\patient\profile.html:32
 msgid "Elektron manzil"
 msgstr "Электронная почта"
 
+#: .\mydentist\templates\patient\patient.html:71
 #: .\mydentist\templates\patient\profile.html:36
 #, fuzzy
 #| msgid "Telefon raqami:"
 msgid "Telefon raqam"
 msgstr "Номер телефона"
 
+#: .\mydentist\templates\patient\patient.html:75
 #: .\mydentist\templates\patient\profile.html:40
 msgid "Manzil"
 msgstr "Адрес"
+
+#: .\mydentist\templates\patient\patient.html:83
+msgid "Qandli diabet"
+msgstr "Сахарный диабет"
+
+#: .\mydentist\templates\patient\patient.html:87
+msgid "Nechi marta narkoz qo'llanilgan?"
+msgstr "Количество применения наркоза"
+
+#: .\mydentist\templates\patient\patient.html:91
+msgid "Gepatit B"
+msgstr "Гепатит Б"
+
+#: .\mydentist\templates\patient\patient.html:95
+msgid "OITS"
+msgstr "СПИД"
+
+#: .\mydentist\templates\patient\patient.html:99
+msgid "Qon bosimi"
+msgstr "Давление"
+
+#: .\mydentist\templates\patient\patient.html:103
+msgid "Allergiya"
+msgstr "Аллергия"
+
+#: .\mydentist\templates\patient\patient.html:107
+msgid "Bronxial astma"
+msgstr "Бронхиальная астма"
+
+#: .\mydentist\templates\patient\patient.html:111
+msgid "Bosh aylanishi"
+msgstr "Головокружение"
+
+#: .\mydentist\templates\patient\patient.html:119
+msgid "Epilepsiya"
+msgstr "Эпилепсия"
+
+#: .\mydentist\templates\patient\patient.html:123
+msgid "Qon kasali"
+msgstr "Заболевание крови"
+
+#: .\mydentist\templates\patient\patient.html:127
+msgid "Doimiy dorilar"
+msgstr "Постоянные лекарства"
+
+#: .\mydentist\templates\patient\patient.html:131
+msgid "Insultga uchraganmisiz?"
+msgstr "Болели инсультом?"
+
+#: .\mydentist\templates\patient\patient.html:135
+msgid "Yurak xurujiga uchraganmisiz?"
+msgstr "Болели инфарктом?"
+
+#: .\mydentist\templates\patient\patient.html:139
+msgid "Onkologik kasalliklar"
+msgstr "Онкологические заболевания"
+
+#: .\mydentist\templates\patient\patient.html:143
+msgid "Sil kasalligi"
+msgstr "Туберкулёз"
+
+#: .\mydentist\templates\patient\patient.html:147
+msgid "Spirtli ichimlik ichasizmi?"
+msgstr "Принимаете ли алкоголь?"
+
+#: .\mydentist\templates\patient\patient.html:151
+msgid "Homiladorlik"
+msgstr "Беременность"
 
 #: .\mydentist\templates\patient\profile.html:45
 msgid "Qabuliga yozilgan tish shifokori"
@@ -579,8 +634,211 @@ msgid "Ma'lumotlarni o'zgartirish"
 msgstr "Изменить данные"
 
 #: .\mydentist\templates\patient\settings.html:94
-msgid "Parollar mos kemayapti"
+msgid "Parollar mos kelmayapti"
 msgstr "Пароли не совпадают"
+
+#: .\mydentist\var.py:12
+msgid "Toshkent viloyati"
+msgstr "Ташкентская область"
+
+#: .\mydentist\var.py:20
+msgid "Buxoro viloyati"
+msgstr "Бухарская область"
+
+#: .\mydentist\var.py:28
+msgid "Farg'ona viloyati"
+msgstr "Ферганская область"
+
+#: .\mydentist\var.py:32
+msgid "Namangan viloyati"
+msgstr "Наманганская область"
+
+#: .\mydentist\var.py:36
+msgid "Qashqadaryo viloyati"
+msgstr "Кашкадарьинская область"
+
+#: .\mydentist\var.py:40
+msgid "Surhondaryo viloyati"
+msgstr "Сурхандарьинская область"
+
+#: .\mydentist\var.py:44
+msgid "Sirdaryo viloyati"
+msgstr "Сырдарьинская область"
+
+#: .\mydentist\var.py:48
+msgid "Jizzax viloyati"
+msgstr "Джизакская область"
+
+#: .\mydentist\var.py:52
+msgid "Xorazm viloyati"
+msgstr "Хорезмская область"
+
+#: .\mydentist\var.py:56
+msgid "Navoiy viloyat"
+msgstr "Навоийская область"
+
+#: .\mydentist\var.py:60
+msgid "Qoraqalpog'iston Respublikasi"
+msgstr "Республика Каракалпакстан"
+
+#: .\mydentist\var.py:64 .\mydentist\var.py:152
+msgid "Erkak"
+msgstr "Мужчина"
+
+#: .\mydentist\var.py:68 .\mydentist\var.py:79 .\mydentist\var.py:84
+#: .\mydentist\var.py:94 .\mydentist\var.py:98 .\mydentist\var.py:103
+#: .\mydentist\var.py:108 .\mydentist\var.py:112 .\mydentist\var.py:116
+#: .\mydentist\var.py:120 .\mydentist\var.py:124 .\mydentist\var.py:128
+#: .\mydentist\var.py:132 .\mydentist\var.py:136 .\mydentist\var.py:140
+msgid "Yo'q"
+msgstr "Нет"
+
+#: .\mydentist\var.py:69 .\mydentist\var.py:80 .\mydentist\var.py:85
+#: .\mydentist\var.py:99 .\mydentist\var.py:109 .\mydentist\var.py:113
+#: .\mydentist\var.py:129 .\mydentist\var.py:133
+msgid "Bor"
+msgstr "Есть"
+
+#: .\mydentist\var.py:70 .\mydentist\var.py:81 .\mydentist\var.py:86
+#: .\mydentist\var.py:100
+msgid "Bilmadim"
+msgstr "Не знаю"
+
+#: .\mydentist\var.py:75
+msgid "3 va undan ko'proq"
+msgstr "3 и более"
+
+#: .\mydentist\var.py:76
+msgid "Qo'llanilmagan"
+msgstr "Не применяли"
+
+#: .\mydentist\var.py:89
+msgid "Normal"
+msgstr "Нормальное"
+
+#: .\mydentist\var.py:90
+msgid "Past"
+msgstr "Низкое"
+
+#: .\mydentist\var.py:91
+msgid "Baland"
+msgstr "Высокое"
+
+#: .\mydentist\var.py:95
+msgid "Bor (nimagaligini yozing)"
+msgstr "Есть (напишите от чего)"
+
+#: .\mydentist\var.py:104
+msgid "Ko'pincha"
+msgstr "Часто"
+
+#: .\mydentist\var.py:105
+msgid "Ba'zida"
+msgstr "Иногда"
+
+#: .\mydentist\var.py:117
+msgid "Bor (qaysilar)"
+msgstr "Есть (какие)"
+
+#: .\mydentist\var.py:121 .\mydentist\var.py:125 .\mydentist\var.py:137
+msgid "Ha"
+msgstr "Да"
+
+#: .\mydentist\var.py:141
+msgid "Bor (nechinchi oy)"
+msgstr "Есть (какой месяц)"
+
+#: .\mydentist\var.py:144
+msgid "15 daqiqa"
+msgstr "15 минут"
+
+#: .\mydentist\var.py:145
+msgid "30 daqiqa"
+msgstr "30 минут"
+
+#: .\mydentist\var.py:146
+msgid "45 daqiqa"
+msgstr "45 минут"
+
+#: .\mydentist\var.py:147
+msgid "1 soat"
+msgstr "1 час"
+
+#: .\mydentist\var.py:157
+msgid "Yanvar"
+msgstr "Январь"
+
+#: .\mydentist\var.py:158
+msgid "Fevral"
+msgstr "Февраль"
+
+#: .\mydentist\var.py:159
+msgid "Mart"
+msgstr "Март"
+
+#: .\mydentist\var.py:160
+msgid "Aprel"
+msgstr "Апрель"
+
+#: .\mydentist\var.py:161
+msgid "May"
+msgstr "Май"
+
+#: .\mydentist\var.py:162
+msgid "Iyun"
+msgstr "Июнь"
+
+#: .\mydentist\var.py:163
+msgid "Iyul"
+msgstr "Июль"
+
+#: .\mydentist\var.py:164
+msgid "Avgust"
+msgstr "Август"
+
+#: .\mydentist\var.py:165
+msgid "Sentyabr"
+msgstr "Сентябрь"
+
+#: .\mydentist\var.py:166
+msgid "Oktyabr"
+msgstr "Октябрь"
+
+#: .\mydentist\var.py:167
+msgid "Noyabr"
+msgstr "Ноябрь"
+
+#: .\mydentist\var.py:168
+msgid "Dekabr"
+msgstr "Декабрь"
+
+#: .\mydentist\var.py:172
+msgid "Dushanba"
+msgstr "Понедельник"
+
+#: .\mydentist\var.py:173
+msgid "Seshanba"
+msgstr "Вторник"
+
+#: .\mydentist\var.py:174
+msgid "Chorshanba"
+msgstr "Среда"
+
+#: .\mydentist\var.py:175
+msgid "Payshanba"
+msgstr "Четверг"
+
+#: .\mydentist\var.py:176
+msgid "Juma"
+msgstr "Пятница"
+
+#: .\mydentist\var.py:177
+msgid "Shanba"
+msgstr "Суббота"
+
+#: .\mydentist\var.py:178
+msgid "Yakshanba"
+msgstr "Воскресенье"
 
 #~ msgid "Tish shifokorlarni qidirish"
 #~ msgstr "Поиск стоматологов в"

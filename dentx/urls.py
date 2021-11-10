@@ -2,12 +2,16 @@ from django.shortcuts import redirect
 from django.urls import path
 from appointment import views as appointment_views
 from login import views as login_views
+from mydentist.handler import is_authenticated
 from patient import views as patient_views
 from . import views as dentx_views
 
 
 def dentx_redirect(request):
-    return redirect("dentx:login")
+    if is_authenticated(request, "dentist"):
+        return redirect("dentx:appointments")
+    else:
+        return redirect("dentx:login")
 
 
 urlpatterns = [

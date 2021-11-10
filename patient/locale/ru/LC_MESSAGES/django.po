@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 23:07+0500\n"
+"POT-Creation-Date: 2021-11-10 11:27+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,63 +24,79 @@ msgstr ""
 msgid "Bemor ma'lumotlari"
 msgstr "Данные пациента"
 
-#: .\patient\forms.py:11
+#: .\patient\forms.py:10
 msgid "Familiya"
 msgstr "Фамилия"
 
-#: .\patient\forms.py:15
+#: .\patient\forms.py:14
 msgid "Familiyangiz"
 msgstr "Ваша фамилия"
 
-#: .\patient\forms.py:22
+#: .\patient\forms.py:21
 msgid "Ism"
 msgstr "Имя"
 
-#: .\patient\forms.py:26
+#: .\patient\forms.py:25
 msgid "Ismingiz"
 msgstr "Ваше имя"
 
-#: .\patient\forms.py:33 .\patient\models.py:8
+#: .\patient\forms.py:32 .\patient\forms.py:149 .\patient\models.py:8
 msgid "Jins"
 msgstr "Пол"
 
-#: .\patient\forms.py:69
+#: .\patient\forms.py:68
 msgid "Telefon raqam"
 msgstr "Номер телефона"
 
-#: .\patient\forms.py:73
+#: .\patient\forms.py:72
 msgid "Telefon raqamingiz"
 msgstr "Ваш номер телефона"
 
-#: .\patient\forms.py:80
+#: .\patient\forms.py:79
 msgid "Elektron manzil"
 msgstr "Электронная почта"
 
-#: .\patient\forms.py:84
+#: .\patient\forms.py:83
 msgid "Elektron pochtangiz"
 msgstr "Ваша электронная почта"
 
-#: .\patient\forms.py:90 .\patient\models.py:9
+#: .\patient\forms.py:89 .\patient\forms.py:158 .\patient\models.py:9
 msgid "Manzil"
 msgstr "Адрес"
 
-#: .\patient\forms.py:94
+#: .\patient\forms.py:93
 msgid "Manzilingiz"
 msgstr "Ваш адрес"
 
-#: .\patient\forms.py:104
+#: .\patient\forms.py:103
 msgid "Til"
 msgstr "Язык"
 
-#: .\patient\models.py:6 .\patient\models.py:15 .\patient\models.py:24
-#: .\patient\models.py:44 .\patient\models.py:66 .\patient\models.py:91
-#: .\patient\models.py:103
+#: .\patient\forms.py:119 .\patient\models.py:6 .\patient\models.py:15
+#: .\patient\models.py:24 .\patient\models.py:44 .\patient\models.py:66
+#: .\patient\models.py:91 .\patient\models.py:103
 msgid "Bemor"
 msgstr "Пациент"
 
-#: .\patient\models.py:7
+#: .\patient\forms.py:123
+msgid "Bemor FIOsi"
+msgstr "ФИО пациента"
+
+#: .\patient\forms.py:129 .\patient\models.py:7
 msgid "Telefon raqami"
 msgstr "Номер телефона"
+
+#: .\patient\forms.py:133
+msgid "+9989XXXXXXXX"
+msgstr ""
+
+#: .\patient\forms.py:139
+msgid "Tugilgan sana"
+msgstr "Дата рождения"
+
+#: .\patient\forms.py:162
+msgid "Manzilni kiriting"
+msgstr "Введите адрес"
 
 #: .\patient\models.py:10
 msgid "Tug'ilgan sanasi"
@@ -222,53 +238,41 @@ msgstr "Сделанные работы"
 msgid "Ish jarayonidagi rasm"
 msgstr "Картинка из процесса работы"
 
-#: .\patient\var.py:4
-msgid "Yanvar"
-msgstr "Январь"
+#~ msgid "Yanvar"
+#~ msgstr "Январь"
 
-#: .\patient\var.py:5
-msgid "Fevral"
-msgstr "Февраль"
+#~ msgid "Fevral"
+#~ msgstr "Февраль"
 
-#: .\patient\var.py:6
-msgid "Mart"
-msgstr "Март"
+#~ msgid "Mart"
+#~ msgstr "Март"
 
-#: .\patient\var.py:7
-msgid "Aprel"
-msgstr "Апрель"
+#~ msgid "Aprel"
+#~ msgstr "Апрель"
 
-#: .\patient\var.py:8
-msgid "May"
-msgstr "Май"
+#~ msgid "May"
+#~ msgstr "Май"
 
-#: .\patient\var.py:9
-msgid "Iyun"
-msgstr "Июнь"
+#~ msgid "Iyun"
+#~ msgstr "Июнь"
 
-#: .\patient\var.py:10
-msgid "Iyul"
-msgstr "Июль"
+#~ msgid "Iyul"
+#~ msgstr "Июль"
 
-#: .\patient\var.py:11
-msgid "Avgust"
-msgstr "Август"
+#~ msgid "Avgust"
+#~ msgstr "Август"
 
-#: .\patient\var.py:12
-msgid "Sentyabr"
-msgstr "Сентябрь"
+#~ msgid "Sentyabr"
+#~ msgstr "Сентябрь"
 
-#: .\patient\var.py:13
-msgid "Oktyabr"
-msgstr "Октябрь"
+#~ msgid "Oktyabr"
+#~ msgstr "Октябрь"
 
-#: .\patient\var.py:14
-msgid "Noyabr"
-msgstr "Ноябрь"
+#~ msgid "Noyabr"
+#~ msgstr "Ноябрь"
 
-#: .\patient\var.py:15
-msgid "Dekabr"
-msgstr "Декабрь"
+#~ msgid "Dekabr"
+#~ msgstr "Декабрь"
 
 #~ msgid "Foydalanuvchi"
 #~ msgstr "Пользователь"

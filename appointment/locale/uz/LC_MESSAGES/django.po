@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 23:07+0500\n"
+"POT-Creation-Date: 2021-11-10 11:27+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,22 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+
+#: .\appointment\forms.py:9 .\appointment\models.py:22
+msgid "Xizmat"
+msgstr ""
+
+#: .\appointment\forms.py:21 .\appointment\models.py:23
+msgid "Boshlanish vaqti"
+msgstr ""
+
+#: .\appointment\forms.py:29
+msgid "Davomiyligi"
+msgstr ""
+
+#: .\appointment\forms.py:38
+msgid "Eslatma"
+msgstr ""
 
 #: .\appointment\models.py:6 .\appointment\models.py:20
 msgid "Tish shifokori"
@@ -40,14 +56,6 @@ msgstr ""
 
 #: .\appointment\models.py:13
 msgid "So'rovlar"
-msgstr ""
-
-#: .\appointment\models.py:22
-msgid "Xizmat"
-msgstr ""
-
-#: .\appointment\models.py:23
-msgid "Boshlanish vaqti"
 msgstr ""
 
 #: .\appointment\models.py:24

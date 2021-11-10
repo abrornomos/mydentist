@@ -2,7 +2,7 @@ from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.utils.translation import get_language
 from appointment.models import Appointment, Query
-from mydentist.handler import check_language
+from mydentist.handler import *
 from patient.models import User as UserExtra
 from .forms import *
 from .models import User as DentistUser, User_translation, Clinic, Clinic_translation, Service, Service_translation, Cabinet_Image
@@ -46,9 +46,20 @@ def dentist(request, slug):
     clinic = Clinic.objects.get(pk=dentist.clinic_id)
     clinic_extra = Clinic_translation.objects.get(language__name=current_language, clinic=clinic)
     cabinet_images = Cabinet_Image.objects.filter(dentist=dentist)
-    authenticated = request.user.username in request.session
+    authenticated = is_authenticated(request, "patient") or is_authenticated(request, "dentist")
     if authenticated:
-        check_language(request)
+        try:
+            user = PatientUser.objects.get(
+                user__username=request.user.username)
+            authenticated = "patient"
+            check_language(request, "patient")
+        except:
+            try:
+                user = DentistUser.objects.get(
+                    user__username=request.user.username)
+                authenticated = "dentist"
+            except:
+                pass
     try:
         services_obj = Service_translation.objects.filter(language__name=current_language, service__dentist=dentist)
         services = []

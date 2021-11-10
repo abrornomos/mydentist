@@ -24,12 +24,37 @@ def set_language(request, user_language):
     return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
-def check_language(request):
-    user = User.objects.get(user__username=request.user.username)
-    language = Language.objects.get(pk=user.language_id).name
-    if translation.get_language() != language:
-        translation.activate(language)
-        request.session[translation.LANGUAGE_SESSION_KEY] = language
+def is_authenticated(request, status):
+    if request.user.username in request.session:
+        if status == "dentist":
+            try:
+                user = DentistUser.objects.get(user__username=request.user.username)
+                return True
+            except:
+                return False
+        elif status == "patient":
+            try:
+                user = PatientUser.objects.get(user__username=request.user.username)
+                return True
+            except:
+                return False
+    else:
+        return False
+
+
+def check_language(request, status):
+    if status == "dentist":
+        dentist = DentistUser.objects.get(user__username=request.user.username)
+        language = Language.objects.get(pk=dentist.language_id).name
+        if translation.get_language() != language:
+            translation.activate(language)
+            request.session[translation.LANGUAGE_SESSION_KEY] = language
+    elif status == "patient":
+        patient = PatientUser.objects.get(user__username=request.user.username)
+        language = Language.objects.get(pk=patient.language_id).name
+        if translation.get_language() != language:
+            translation.activate(language)
+            request.session[translation.LANGUAGE_SESSION_KEY] = language
 
 
 def get_queries(queries):

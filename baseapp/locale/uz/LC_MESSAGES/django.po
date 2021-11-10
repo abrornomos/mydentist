@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 23:07+0500\n"
+"POT-Creation-Date: 2021-11-10 11:27+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,68 +52,4 @@ msgstr ""
 
 #: .\baseapp\models.py:37
 msgid "Jinslar"
-msgstr ""
-
-#: .\baseapp\var.py:29
-msgid "Toshkent"
-msgstr ""
-
-#: .\baseapp\var.py:33
-msgid "Toshkent viloyati"
-msgstr ""
-
-#: .\baseapp\var.py:37
-msgid "Samarqand viloyati"
-msgstr ""
-
-#: .\baseapp\var.py:41
-msgid "Buxoro viloyati"
-msgstr ""
-
-#: .\baseapp\var.py:45
-msgid "Andijon viloyati"
-msgstr ""
-
-#: .\baseapp\var.py:49
-msgid "Farg'ona viloyati"
-msgstr ""
-
-#: .\baseapp\var.py:53
-msgid "Namangan viloyati"
-msgstr ""
-
-#: .\baseapp\var.py:57
-msgid "Qashqadaryo viloyati"
-msgstr ""
-
-#: .\baseapp\var.py:61
-msgid "Surhondaryo viloyati"
-msgstr ""
-
-#: .\baseapp\var.py:65
-msgid "Sirdaryo viloyati"
-msgstr ""
-
-#: .\baseapp\var.py:69
-msgid "Jizzax viloyati"
-msgstr ""
-
-#: .\baseapp\var.py:73
-msgid "Xorazm viloyati"
-msgstr ""
-
-#: .\baseapp\var.py:77
-msgid "Navoiy viloyat"
-msgstr ""
-
-#: .\baseapp\var.py:81
-msgid "Qoraqalpog'iston Respublikasi"
-msgstr ""
-
-#: .\baseapp\var.py:86
-msgid "Erkak"
-msgstr ""
-
-#: .\baseapp\var.py:87
-msgid "Ayol"
 msgstr ""

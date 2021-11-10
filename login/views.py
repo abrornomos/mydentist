@@ -11,10 +11,12 @@ from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.translation import get_language, ugettext_lazy as _
 from pathlib import Path
 from baseapp.models import Language, Gender
+from dentist.models import User as DentistUser
 from illness.models import *
 from illness.forms import *
-from patient.models import User as UserExtra, Illness, Other_Illness
+from patient.models import User as PatientUser, Illness, Other_Illness
 from patient.forms import *
+from mydentist.handler import *
 from mydentist.var import *
 from .models import *
 from .forms import *
@@ -24,7 +26,7 @@ from .tokens import reset_password_token
 
 
 def register(request):
-    if request.user.username in request.session:
+    if is_authenticated(request, "patient") or is_authenticated(request, "dentist"):
         return redirect(request.META.get('HTTP_REFERER', '/'))
     if request.method == "POST":
         userform = UserForm(request.POST)
@@ -48,7 +50,7 @@ def register(request):
                 year = int(userform.cleaned_data['birth_year'])
                 month = MONTHS.index(userform.cleaned_data['birth_month']) + 1
                 day = int(userform.cleaned_data['birth_day'])
-                user_extra = UserExtra.objects.create(
+                user_extra = PatientUser.objects.create(
                     user=user,
                     phone_number=userform.cleaned_data['phone_number'],
                     address=userform.cleaned_data['address'],
@@ -157,7 +159,7 @@ def register(request):
 
 
 def sign_in(request):
-    if request.user.username in request.session:
+    if is_authenticated(request, "patient") or is_authenticated(request, "dentist"):
         return redirect(request.META.get('HTTP_REFERER', '/'))
     if request.method == "POST":
         loginform = LoginForm(request.POST)
@@ -171,7 +173,7 @@ def sign_in(request):
                 )
                 if user is not None:
                     login(request, user)
-                    user_extra = UserExtra.objects.get(user=user)
+                    user_extra = PatientUser.objects.get(user=user)
                     language = Language.objects.get(pk=user_extra.language_id).name
                     translation.activate(language)
                     request.session[translation.LANGUAGE_SESSION_KEY] = language
@@ -228,6 +230,8 @@ def sign_in(request):
 
 
 def sign_out(request):
+    if is_authenticated(request, "dentist"):
+        return redirect(request.META.get('HTTP_REFERER', '/'))
     if request.user.username in request.session:
         del request.session[request.user.username]
     logout(request)
@@ -235,7 +239,7 @@ def sign_out(request):
 
 
 def password_reset(request):
-    if request.user.username in request.session:
+    if is_authenticated(request, "patient") or is_authenticated(request, "dentist"):
         return redirect(request.META.get('HTTP_REFERER', '/'))
     if request.method == "POST":
         emailform = EmailForm(request.POST)
@@ -262,7 +266,7 @@ def password_reset(request):
 
 
 def password_reset_done(request):
-    if request.user.username in request.session:
+    if is_authenticated(request, "patient") or is_authenticated(request, "dentist"):
         return redirect(request.META.get('HTTP_REFERER', '/'))
     return render(request, "login/password_reset_sent.html")
 
@@ -317,12 +321,14 @@ def reset(request, uidb64, token):
 
 
 def reset_done(request):
-    if request.user.username in request.session:
+    if is_authenticated(request, "patient") or is_authenticated(request, "dentist"):
         return redirect(request.META.get('HTTP_REFERER', '/'))
     return render(request, "login/password_reset_done.html")
 
 
 def dentx_login(request):
+    if is_authenticated(request, "dentist") or is_authenticated(request, "patient"):
+        return redirect(request.META.get('HTTP_REFERER', '/'))
     if request.method == "POST":
         loginform = DentXLoginForm(request.POST)
         if loginform.is_valid():
@@ -333,8 +339,15 @@ def dentx_login(request):
             )
             if user is not None:
                 login(request, user)
+                dentist_extra = DentistUser.objects.get(user=user)
+                language = Language.objects.get(pk=dentist_extra.language_id).name
+                translation.activate(language)
+                request.session[translation.LANGUAGE_SESSION_KEY] = language
                 request.session[user.get_username()] = user.get_username()
-                return redirect("dentx:appointments")
+                if 'next' in request.POST:
+                    return redirect(request.POST['next'])
+                else:
+                    return redirect("dentx:appointments")
             else:
                 return render(request, "login/dentx_login.html", {
                     'loginform': loginform,
@@ -355,6 +368,8 @@ def dentx_login(request):
 
 
 def dentx_logout(request):
+    if is_authenticated(request, "patient"):
+        return redirect(request.META.get('HTTP_REFERER', '/'))
     if request.user.username in request.session:
         del request.session[request.user.username]
     logout(request)

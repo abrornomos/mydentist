@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 23:07+0500\n"
+"POT-Creation-Date: 2021-11-10 11:27+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -22,34 +22,75 @@ msgstr ""
 msgid "Kirish ma'lumotlari"
 msgstr ""
 
-#: .\login\forms.py:7
+#: .\login\forms.py:7 .\login\forms.py:79 .\login\models.py:7
 msgid "E-mail"
 msgstr ""
 
-#: .\login\forms.py:16 .\login\forms.py:59
+#: .\login\forms.py:16 .\login\forms.py:37 .\login\forms.py:91
 msgid "Parol"
 msgstr ""
 
 #: .\login\forms.py:28
+msgid "Login"
+msgstr ""
+
+#: .\login\forms.py:49
 msgid "Eski parol"
 msgstr ""
 
-#: .\login\forms.py:37
+#: .\login\forms.py:58
 msgid "Yangi parol"
 msgstr ""
 
-#: .\login\forms.py:46 .\login\forms.py:68
+#: .\login\forms.py:67 .\login\forms.py:100
 msgid "Parolni tasdiqlang"
 msgstr ""
 
-#: .\login\views.py:129
+#: .\login\models.py:8
+msgid "uidb64"
+msgstr ""
+
+#: .\login\models.py:9
+msgid "Token"
+msgstr ""
+
+#: .\login\models.py:10
+msgid "Faolligi"
+msgstr ""
+
+#: .\login\models.py:13
+msgid "Parol tiklanishi"
+msgstr ""
+
+#: .\login\models.py:14
+msgid "Parol tiklanishlari"
+msgstr ""
+
+#: .\login\views.py:137
 msgid "Parollar to'g'ri kemayapti"
 msgstr ""
 
-#: .\login\views.py:180
+#: .\login\views.py:188
 msgid "Xato parol"
 msgstr ""
 
-#: .\login\views.py:209
+#: .\login\views.py:217
 msgid "Xato e-mail"
+msgstr ""
+
+#: .\login\views.py:258
+msgid "Parolni tiklash"
+msgstr ""
+
+#: .\login\views.py:299
+msgid "Parollar mos kelmayapti"
+msgstr ""
+
+#: .\login\views.py:314 .\login\views.py:316 .\login\views.py:318
+#: .\login\views.py:320
+msgid "Havolani muddati yakunlandi"
+msgstr ""
+
+#: .\login\views.py:354
+msgid "Noto'g'ri login yoki parol"
 msgstr ""

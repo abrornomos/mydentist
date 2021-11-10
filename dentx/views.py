@@ -10,8 +10,13 @@ from mydentist.handler import *
 
 
 def board(request):
-    if request.user.username not in request.session:
-        return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
+    if not is_authenticated(request, "dentist"):
+        if not is_authenticated(request, "patient"):
+            return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+        else:
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+    else:
+        check_language(request, "dentist")
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     queries = get_queries(Query.objects.filter(dentist=dentist))
@@ -21,7 +26,3 @@ def board(request):
         'queries': queries,
         'appointments': appointments,
     })
-
-
-def patients(request):
-    pass

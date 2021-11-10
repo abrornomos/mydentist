@@ -29,14 +29,12 @@
                         {% endfor %}
                         <form method="POST">
                             {% csrf_token %}
+                            {% for field in loginform %}
                             <div class="mb-3">
-                                <label for="id_{{ loginform.email.name }}" class="form-label">{{ loginform.email.label }}</label>
-                                {{ loginform.email }}
+                                <label for="id_{{ field.name }}" class="form-label">{{ field.label }}</label>
+                                {{ field }}
                             </div>
-                            <div class="mb-3">
-                                <label for="id_{{ loginform.password.name }}" class="form-label">{{ loginform.password.label }}</label>
-                                {{ loginform.password }}
-                            </div>
+                            {% endfor %}
                             {% if request.GET.next %}
                                 <input type="hidden" name="next" value="{{ request.GET.next }}">
                             {% endif %}

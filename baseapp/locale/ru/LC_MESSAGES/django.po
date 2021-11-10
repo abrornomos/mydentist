@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 23:07+0500\n"
+"POT-Creation-Date: 2021-11-10 11:27+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -56,69 +56,53 @@ msgstr "Пол"
 msgid "Jinslar"
 msgstr "Полы"
 
-#: .\baseapp\var.py:29
-msgid "Toshkent"
-msgstr "Ташкент"
+#~ msgid "Toshkent"
+#~ msgstr "Ташкент"
 
-#: .\baseapp\var.py:33
-msgid "Toshkent viloyati"
-msgstr "Ташкентская область"
+#~ msgid "Toshkent viloyati"
+#~ msgstr "Ташкентская область"
 
-#: .\baseapp\var.py:37
-msgid "Samarqand viloyati"
-msgstr "Самаркандская область"
+#~ msgid "Samarqand viloyati"
+#~ msgstr "Самаркандская область"
 
-#: .\baseapp\var.py:41
-msgid "Buxoro viloyati"
-msgstr "Бухарская область"
+#~ msgid "Buxoro viloyati"
+#~ msgstr "Бухарская область"
 
-#: .\baseapp\var.py:45
-msgid "Andijon viloyati"
-msgstr "Андижанская область"
+#~ msgid "Andijon viloyati"
+#~ msgstr "Андижанская область"
 
-#: .\baseapp\var.py:49
-msgid "Farg'ona viloyati"
-msgstr "Ферганская область"
+#~ msgid "Farg'ona viloyati"
+#~ msgstr "Ферганская область"
 
-#: .\baseapp\var.py:53
-msgid "Namangan viloyati"
-msgstr "Наманганская область"
+#~ msgid "Namangan viloyati"
+#~ msgstr "Наманганская область"
 
-#: .\baseapp\var.py:57
-msgid "Qashqadaryo viloyati"
-msgstr "Кашкадарьинская область"
+#~ msgid "Qashqadaryo viloyati"
+#~ msgstr "Кашкадарьинская область"
 
-#: .\baseapp\var.py:61
-msgid "Surhondaryo viloyati"
-msgstr "Сурхандарьинская область"
+#~ msgid "Surhondaryo viloyati"
+#~ msgstr "Сурхандарьинская область"
 
-#: .\baseapp\var.py:65
-msgid "Sirdaryo viloyati"
-msgstr "Сырдарьинская область"
+#~ msgid "Sirdaryo viloyati"
+#~ msgstr "Сырдарьинская область"
 
-#: .\baseapp\var.py:69
-msgid "Jizzax viloyati"
-msgstr "Джизакская область"
+#~ msgid "Jizzax viloyati"
+#~ msgstr "Джизакская область"
 
-#: .\baseapp\var.py:73
-msgid "Xorazm viloyati"
-msgstr "Хорезмская область"
+#~ msgid "Xorazm viloyati"
+#~ msgstr "Хорезмская область"
 
-#: .\baseapp\var.py:77
-msgid "Navoiy viloyat"
-msgstr "Навоийская область"
+#~ msgid "Navoiy viloyat"
+#~ msgstr "Навоийская область"
 
-#: .\baseapp\var.py:81
-msgid "Qoraqalpog'iston Respublikasi"
-msgstr "Республика Каракалпакстан"
+#~ msgid "Qoraqalpog'iston Respublikasi"
+#~ msgstr "Республика Каракалпакстан"
 
-#: .\baseapp\var.py:86
-msgid "Erkak"
-msgstr "Мужчина"
+#~ msgid "Erkak"
+#~ msgstr "Мужчина"
 
-#: .\baseapp\var.py:87
-msgid "Ayol"
-msgstr "Женщина"
+#~ msgid "Ayol"
+#~ msgstr "Женщина"
 
 #~ msgid "24 soat"
 #~ msgstr "24 часа"

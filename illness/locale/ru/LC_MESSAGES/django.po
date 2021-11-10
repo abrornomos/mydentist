@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-10-25 23:07+0500\n"
+"POT-Creation-Date: 2021-11-10 11:27+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -126,65 +126,44 @@ msgstr "Описание"
 msgid "Narkoz"
 msgstr "Наркоз"
 
-#: .\illness\var.py:5 .\illness\var.py:16 .\illness\var.py:21
-#: .\illness\var.py:31 .\illness\var.py:35 .\illness\var.py:40
-#: .\illness\var.py:45 .\illness\var.py:49 .\illness\var.py:53
-#: .\illness\var.py:57 .\illness\var.py:61 .\illness\var.py:65
-#: .\illness\var.py:69 .\illness\var.py:73 .\illness\var.py:77
-msgid "Yo'q"
-msgstr "Нет"
+#~ msgid "Yo'q"
+#~ msgstr "Нет"
 
-#: .\illness\var.py:6 .\illness\var.py:17 .\illness\var.py:22
-#: .\illness\var.py:36 .\illness\var.py:46 .\illness\var.py:50
-#: .\illness\var.py:66 .\illness\var.py:70
-msgid "Bor"
-msgstr "Есть"
+#~ msgid "Bor"
+#~ msgstr "Есть"
 
-#: .\illness\var.py:7 .\illness\var.py:18 .\illness\var.py:23
-#: .\illness\var.py:37
-msgid "Bilmadim"
-msgstr "Не знаю"
+#~ msgid "Bilmadim"
+#~ msgstr "Не знаю"
 
-#: .\illness\var.py:12
-msgid "3 va undan ko'proq"
-msgstr "3 и более"
+#~ msgid "3 va undan ko'proq"
+#~ msgstr "3 и более"
 
-#: .\illness\var.py:13
-msgid "Qo'llanilmagan"
-msgstr "Не применяли"
+#~ msgid "Qo'llanilmagan"
+#~ msgstr "Не применяли"
 
-#: .\illness\var.py:26
-msgid "Normal"
-msgstr "Нормальное"
+#~ msgid "Normal"
+#~ msgstr "Нормальное"
 
-#: .\illness\var.py:27
-msgid "Past"
-msgstr "Низкое"
+#~ msgid "Past"
+#~ msgstr "Низкое"
 
-#: .\illness\var.py:28
-msgid "Baland"
-msgstr "Высокое"
+#~ msgid "Baland"
+#~ msgstr "Высокое"
 
-#: .\illness\var.py:32
-msgid "Bor (nimagaligini yozing)"
-msgstr "Есть (напишите от чего)"
+#~ msgid "Bor (nimagaligini yozing)"
+#~ msgstr "Есть (напишите от чего)"
 
-#: .\illness\var.py:41
-msgid "Ko'pincha"
-msgstr "Часто"
+#~ msgid "Ko'pincha"
+#~ msgstr "Часто"
 
-#: .\illness\var.py:42
-msgid "Ba'zida"
-msgstr "Иногда"
+#~ msgid "Ba'zida"
+#~ msgstr "Иногда"
 
-#: .\illness\var.py:54
-msgid "Bor (qaysilar)"
-msgstr "Есть (какие)"
+#~ msgid "Bor (qaysilar)"
+#~ msgstr "Есть (какие)"
 
-#: .\illness\var.py:58 .\illness\var.py:62 .\illness\var.py:74
-msgid "Ha"
-msgstr "Да"
+#~ msgid "Ha"
+#~ msgstr "Да"
 
-#: .\illness\var.py:78
-msgid "Bor (nechinchi oy)"
-msgstr "Есть (какой месяц)"
+#~ msgid "Bor (nechinchi oy)"
+#~ msgstr "Есть (какой месяц)"

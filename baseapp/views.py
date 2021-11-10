@@ -24,12 +24,12 @@ def index(request):
             pass
         searchform = SearchForm()
         geoform = GeoForm()
-        authenticated = request.user.username in request.session
+        authenticated = is_authenticated(request, "patient") or is_authenticated(request, "dentist")
         if authenticated:
             try:
                 user = PatientUser.objects.get(user__username=request.user.username)
                 authenticated = "patient"
-                check_language(request)
+                check_language(request, "patient")
             except:
                 try:
                     user = DentistUser.objects.get(user__username=request.user.username)
@@ -60,9 +60,20 @@ def index(request):
 
 
 def results(request):
-    authenticated = request.user.username in request.session
+    authenticated = is_authenticated(request, "patient") or is_authenticated(request, "dentist")
     if authenticated:
-        check_language(request)
+        try:
+            user = PatientUser.objects.get(
+                user__username=request.user.username)
+            authenticated = "patient"
+            check_language(request, "patient")
+        except:
+            try:
+                user = DentistUser.objects.get(
+                    user__username=request.user.username)
+                authenticated = "dentist"
+            except:
+                pass
     return render(request, "baseapp/results.html", {
         'authenticated': authenticated
     })
