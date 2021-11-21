@@ -21,6 +21,7 @@ urlpatterns = [
     path('appointments/', appointment_views.appointments, name='appointments'),
     path('table/', appointment_views.table, name='table'),
     path('patients/list', appointment_views.patients, name='patients_list'),
+    path('appointment', appointment_views.appointment, name='appointment'),
     path('board/', dentx_views.board, name='board'),
     path('patients/', patient_views.patients, name='patients'),
     path('patients/<int:id>', patient_views.patient, name='patient'),

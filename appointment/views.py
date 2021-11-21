@@ -11,6 +11,7 @@ from patient.forms import PatientForm
 from patient.models import User as PatientUser
 from mydentist.handler import *
 from mydentist.var import *
+from patient.views import patient
 from .forms import *
 from .models import *
 
@@ -187,3 +188,40 @@ def patients(request):
             'address': patient.address
         })
     return JsonResponse(patients, safe=False)
+
+
+def appointment(request):
+    try:
+        print(request.POST['date'])
+        date = request.POST['date'].split("<br>")[0]
+        day = date.split("-")[0]
+        month = MONTHS.index(date.split("-")[1].split(" ")[0].capitalize()) + 1
+        year = date.split(" ")[1]
+        time = request.POST['time']
+        hour = time.split(":")[0]
+        minute = time.split(":")[1]
+        appointment = Appointment.objects.get(
+            dentist__user__username=request.user.username,
+            begin__year=year,
+            begin__month=month,
+            begin__day=day
+        )
+        patient = PatientUser.objects.get(pk=appointment.patient_id)
+        service = Service_translation.objects.get(
+            service__pk=appointment.service_id,
+            language__name=get_language()
+        )
+        return JsonResponse({
+            'name': str(patient),
+            'phone_number': patient.phone_number,
+            'birthday': str(patient.birthday),
+            'gender': patient.gender_id,
+            'address': patient.address,
+            'service': service.name,
+            'duration': (appointment.end - appointment.begin).seconds // 60,
+            'comment': appointment.comment,
+            'date': request.POST['date'],
+            'time': time
+        }, safe=False)
+    except:
+        return JsonResponse({}, safe=False)
