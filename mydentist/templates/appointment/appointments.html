@@ -154,19 +154,22 @@
                         time: $(this).parent().children(":first-child").text(),
                     },
                 }).always(function(result) {
-                    console.log(result)
                     $(".hidden-button > button")[0].click()
                     temp = result.date.split("<br>")
                     time = result.time
                     text = ` ${temp[1]}, ${temp[0]}, ${time}`
                     $(".form-title p").text(text)
+                    $("form").setAttr("action", "{% url 'dentx:appointments' update=True %}")
                     $("#id_name").val(result["name"])
                     $("#id_phone_number").val(result["phone_number"])
                     $("#id_birthday").val(result["birthday"])
                     $(`#id_gender_${result["gender"] - 1}`).attr("checked", true)
                     $("#id_address").val(result["address"])
+                    $("#id_service").val(result["service"]).change()
                     $("#id_begin_day").val(temp[0])
                     $("#id_begin_time").val(time).change()
+                    $("#id_duration").val(result["duration"]).change()
+                    $("#id_comment").val(result["comment"])
                 })
             })
         })
@@ -203,7 +206,6 @@
                             time: $(this).parent().children(":first-child").text(),
                         },
                     }).always(function(result) {
-                        console.log(result)
                         $(".hidden-button > button")[0].click()
                         temp = result.date.split("<br>")
                         time = result.time
@@ -214,8 +216,11 @@
                         $("#id_birthday").val(result["birthday"])
                         $(`#id_gender_${result["gender"] - 1}`).attr("checked", true)
                         $("#id_address").val(result["address"])
+                        $("#id_service").val(result["service"]).change()
                         $("#id_begin_day").val(temp[0])
                         $("#id_begin_time").val(time).change()
+                        $("#id_duration").val(result["duration"]).change()
+                        $("#id_comment").val(result["comment"])
                     })
                 })
             })
@@ -254,7 +259,6 @@
                             time: $(this).parent().children(":first-child").text(),
                         },
                     }).always(function(result) {
-                        console.log(result)
                         $(".hidden-button > button")[0].click()
                         temp = result.date.split("<br>")
                         time = result.time
@@ -265,15 +269,17 @@
                         $("#id_birthday").val(result["birthday"])
                         $(`#id_gender_${result["gender"] - 1}`).attr("checked", true)
                         $("#id_address").val(result["address"])
+                        $("#id_service").val(result["service"]).change()
                         $("#id_begin_day").val(temp[0])
                         $("#id_begin_time").val(time).change()
+                        $("#id_duration").val(result["duration"]).change()
+                        $("#id_comment").val(result["comment"])
                     })
                 })
             })
             today.setTime(today.getTime() + 7 * 24 * 60 * 60 * 1000)
         })
         $("#full-screen").on("click", function() {
-            console.log($("#full-screen2"))
             if ($("#full-screen2").hasClass("d-none")) {
                 $("#full-screen2").addClass("d-block").removeClass("d-none")
                 $("#full-screen").addClass("d-none")

@@ -18,7 +18,7 @@ from .models import *
 # Create your views here.
 
 
-def appointments(request):
+def appointments(request, update=False):
     if not is_authenticated(request, "dentist"):
         if not is_authenticated(request, "patient"):
             return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
@@ -192,7 +192,6 @@ def patients(request):
 
 def appointment(request):
     try:
-        print(request.POST['date'])
         date = request.POST['date'].split("<br>")[0]
         day = date.split("-")[0]
         month = MONTHS.index(date.split("-")[1].split(" ")[0].capitalize()) + 1

@@ -204,7 +204,6 @@
         let list = $("section > .container > .row > div > .card")
         let windowHeight = $(window).height()
         let height
-        console.log(windowHeight)
         if (windowHeight > 900) {
             height = 700
         } else if (windowHeight > 600) {
@@ -212,7 +211,6 @@
         } else {
             height = 200
         }
-        console.log(height)
         for (let i = 0; i < list.length; i++) {
             if ($(list[i]).innerHeight() <= height) {
                 $($(list[i]).parent()).css("overflow", "hidden")
