@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class User(models.Model):
+
     user = models.OneToOneField("auth.User", verbose_name=_("Bemor"), on_delete=models.CASCADE, related_name="patient_user")
     phone_number = models.CharField(_("Telefon raqami"), max_length=50)
     gender = models.ForeignKey("baseapp.Gender", verbose_name=_("Jins"), on_delete=models.CASCADE, related_name="patient_gender")
@@ -61,6 +62,7 @@ class Other_Illness(models.Model):
 
 
 class Tooth(models.Model):
+
     code = models.IntegerField(_("Tish raqami"))
     status = models.ForeignKey("patient.Tooth_status", verbose_name=_("Tish holati"), on_delete=models.CASCADE, related_name="patient_tooth_status")
     patient = models.ForeignKey("patient.User", verbose_name=_("Bemor"), on_delete=models.CASCADE, related_name="patient_tooth")
@@ -74,6 +76,7 @@ class Tooth(models.Model):
 
 
 class Tooth_status(models.Model):
+
     name = models.CharField(_("Holat nomi"), max_length=100)
     prefix = models.CharField(_("Holat qo'shimchasi"), max_length=50)
 
@@ -86,6 +89,7 @@ class Tooth_status(models.Model):
 
 
 class Plan(models.Model):
+
     name = models.CharField(_("Ish nomi"), max_length=100)
     is_done = models.BooleanField(_("Qilinganligi"))
     patient = models.ForeignKey("patient.User", verbose_name=_("Bemor"), on_delete=models.CASCADE, related_name="patient_plan")
@@ -99,6 +103,7 @@ class Plan(models.Model):
 
 
 class Process_photo(models.Model):
+    
     image = models.ImageField(_("Ish jarayonidagi rasm"), upload_to="patients/process_photos/")
     patient = models.ForeignKey("patient.User", verbose_name=_("Bemor"), on_delete=models.CASCADE, related_name="patient_process_photo")
 

@@ -6,23 +6,23 @@ from mydentist.var import *
 
 class UserForm(forms.Form):
 
+    first_name = forms.CharField(
+        label=_("Ism"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control",
+                'placeholder': _("Ismingiz")
+            }
+        ),
+        max_length=150,
+        localize=True
+    )
     last_name = forms.CharField(
         label=_("Familiya"),
         widget=forms.TextInput(
             attrs={
                 'class': "form-control",
                 'placeholder': _("Familiyangiz")
-            }
-        ),
-        max_length=150,
-        localize=True
-    )
-    name = forms.CharField(
-        label=_("Ism"),
-        widget=forms.TextInput(
-            attrs={
-                'class': "form-control",
-                'placeholder': _("Ismingiz")
             }
         ),
         max_length=150,

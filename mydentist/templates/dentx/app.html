@@ -52,7 +52,9 @@
                                 <button class="btn my_accaunt position-relative" style="background-image: url('/media/{{ dentist.image }}');" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenuButton1">
-                                    <li><a class="dropdown-item" href="#">{% trans "Sozlamalar" %}</a></li>
+                                    <li>
+                                        <a class="dropdown-item" href="{% url 'dentx:settings' active_tab="profile" %}">{% trans "Sozlamalar" %}</a>
+                                    </li>
                                     <li><hr class="dropdown-divider"></li>
                                     <li>
                                         <a class="dropdown-item" href="{% url 'dentx:logout' %}">

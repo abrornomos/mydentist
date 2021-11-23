@@ -44,7 +44,7 @@ def register(request):
                     f"user{id}",
                     email=userform.cleaned_data['email'],
                     password=passwordform.cleaned_data['password'],
-                    first_name=userform.cleaned_data['name'],
+                    first_name=userform.cleaned_data['first_name'],
                     last_name=userform.cleaned_data['last_name']
                 )
                 year = int(userform.cleaned_data['birth_year'])

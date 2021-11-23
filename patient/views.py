@@ -151,8 +151,8 @@ def settings(request, active_tab="profile"):
     user = User.objects.get(username=request.user.username)
     user_extra = PatientUser.objects.get(user=user)
     userform = UserForm({
+        'first_name': user.first_name,
         'last_name': user.last_name,
-        'name': user.first_name,
         'gender': user_extra.gender_id,
         'birth_year': user_extra.birthday.year,
         'birth_month': MONTHS[user_extra.birthday.month - 1],
@@ -236,7 +236,7 @@ def update(request, form):
             if userform.is_valid() and languageform.is_valid():
                 user = User.objects.get(username=request.user.username)
                 user_extra = PatientUser.objects.get(user=user)
-                user.first_name = userform.cleaned_data['name']
+                user.first_name = userform.cleaned_data['first_name']
                 user.last_name = userform.cleaned_data['last_name']
                 user_extra.gender_id = userform.cleaned_data['gender']
                 year = int(userform.cleaned_data['birth_year'])
