@@ -19,6 +19,7 @@ urlpatterns = [
     path('auth/login/', login_views.dentx_login, name='login'),
     path('auth/logout/', login_views.dentx_logout, name='logout'),
     path('appointments/', appointment_views.appointments, name='appointments'),
+    path('appointments/update', appointment_views.appointments_update, name='appointments_update'),
     path('table/', appointment_views.table, name='table'),
     path('patients/list', appointment_views.patients, name='patients_list'),
     path('appointment', appointment_views.appointment, name='appointment'),

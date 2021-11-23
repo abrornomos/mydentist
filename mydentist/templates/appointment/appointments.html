@@ -137,6 +137,10 @@
             $(".overflow").html(result)
             $(".overflow td.time").on("dblclick", function() {
                 $(".hidden-button > button")[0].click()
+                let attr = $("form").attr("action")
+                if (typeof attr !== "undefined" && attr !== false) {
+                    $("form").removeAttr("action")
+                }
                 temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
                 $("#id_begin_day").val(temp[0])
                 time = $(this).parent().children(":first-child").text()
@@ -159,7 +163,7 @@
                     time = result.time
                     text = ` ${temp[1]}, ${temp[0]}, ${time}`
                     $(".form-title p").text(text)
-                    $("form").setAttr("action", "{% url 'dentx:appointments' update=True %}")
+                    $("form").attr("action", "{% url 'dentx:appointments_update' %}")
                     $("#id_name").val(result["name"])
                     $("#id_phone_number").val(result["phone_number"])
                     $("#id_birthday").val(result["birthday"])
@@ -189,6 +193,10 @@
                 $(".overflow").html(result.responseText)
                 $(".overflow td.time").on("dblclick", function() {
                     $(".hidden-button > button")[0].click()
+                    let attr = $("form").attr("action")
+                    if (typeof attr !== "undefined" && attr !== false) {
+                        $("form").removeAttr("action")
+                    }
                     temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
                     $("#id_begin_day").val(temp[0])
                     time = $(this).parent().children(":first-child").text()
@@ -211,6 +219,7 @@
                         time = result.time
                         text = ` ${temp[1]}, ${temp[0]}, ${time}`
                         $(".form-title p").text(text)
+                        $("form").attr("action", "{% url 'dentx:appointments_update' %}")
                         $("#id_name").val(result["name"])
                         $("#id_phone_number").val(result["phone_number"])
                         $("#id_birthday").val(result["birthday"])
@@ -242,6 +251,10 @@
                 $(".overflow").html(result.responseText)
                 $(".overflow td.time").on("dblclick", function() {
                     $(".hidden-button > button")[0].click()
+                    let attr = $("form").attr("action")
+                    if (typeof attr !== "undefined" && attr !== false) {
+                        $("form").removeAttr("action")
+                    }
                     temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
                     $("#id_begin_day").val(temp[0])
                     time = $(this).parent().children(":first-child").text()
@@ -264,6 +277,7 @@
                         time = result.time
                         text = ` ${temp[1]}, ${temp[0]}, ${time}`
                         $(".form-title p").text(text)
+                        $("form").attr("action", "{% url 'dentx:appointments_update' %}")
                         $("#id_name").val(result["name"])
                         $("#id_phone_number").val(result["phone_number"])
                         $("#id_birthday").val(result["birthday"])
