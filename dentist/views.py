@@ -114,3 +114,7 @@ def dentist(request, slug):
             'query': query,
             'authenticated': authenticated
         })
+
+
+def settings(request):
+    pass

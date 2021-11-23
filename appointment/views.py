@@ -152,10 +152,16 @@ def appointments_update(request):
                     duration = timedelta(hours=duration // 60, minutes=duration % 60)
                     end = begin + duration
                     try:
+                        last_begin = request.session['date']
+                        last_begin_day = int(last_begin.split("-")[0])
+                        last_begin_month = MONTHS.index(last_begin.split("-")[1].split(" ")[0].capitalize()) + 1
+                        last_begin_year = int(last_begin.split(" ")[1])
+                        last_begin_hour = int(request.session['time'].split(":")[0])
+                        last_begin_minute = int(request.session['time'].split(":")[1])
+                        last_begin = datetime(last_begin_year, last_begin_month, last_begin_day, last_begin_hour, last_begin_minute, tzinfo=timezone.now().tzinfo)
                         appointment = Appointment.objects.get(
                             dentist=dentist,
-                            begin=begin,
-                            end=end,
+                            begin=last_begin,
                         )
                         print(appointment)
                         appointment.patient_id = patient.id
@@ -196,14 +202,7 @@ def appointments_update(request):
             day_begin += timedelta(minutes=15)
         patientform = PatientForm()
         appointmentform = AppointmentForm()
-        return render(request, "appointment/appointments.html", {
-            'patientform': patientform,
-            'appointmentform': appointmentform,
-            'dentist': dentist,
-            'dentist_translation': dentist_translation,
-            'services': services,
-            'times': times
-        })
+        return redirect("dentx:appointments")
 
 
 def table(request):
@@ -285,14 +284,14 @@ def patients(request):
 
 
 def appointment(request):
-    for key, value in request.session.items():
-        print(key, value)
     try:
         date = request.POST['date'].split("<br>")[0]
+        request.session['date'] = date
         day = date.split("-")[0]
         month = MONTHS.index(date.split("-")[1].split(" ")[0].capitalize()) + 1
         year = date.split(" ")[1]
         time = request.POST['time']
+        request.session['time'] = time
         hour = time.split(":")[0]
         minute = time.split(":")[1]
         appointment = Appointment.objects.get(
