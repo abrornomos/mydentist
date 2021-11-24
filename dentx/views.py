@@ -12,7 +12,7 @@ from mydentist.handler import *
 def board(request):
     if not is_authenticated(request, "dentist"):
         if not is_authenticated(request, "patient"):
-            return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+            return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
             return redirect(request.META.get('HTTP_REFERER', '/'))
     else:

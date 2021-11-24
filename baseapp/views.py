@@ -6,7 +6,7 @@ from json import dumps
 from dentist.models import User as DentistUser, Service_translation
 from patient.models import User as PatientUser
 from mydentist.handler import *
-from mydentist.var import CHOICES
+from mydentist.var import REGIONS
 from .forms import *
 from .models import *
 
@@ -50,8 +50,8 @@ def index(request):
             })
         return render(request, "baseapp/index.html", {
             'searchform': searchform,
-            'regions': CHOICES['regions'],
-            'region': CHOICES['regions'][0],
+            'regions': REGIONS,
+            'region': REGIONS[0],
             'services': services,
             'service': services[0],
             'geoform': geoform,

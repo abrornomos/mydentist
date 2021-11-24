@@ -1,8 +1,10 @@
 from django.conf import settings as global_settings
+from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import render
 from django.utils.translation import get_language
 from appointment.models import Appointment, Query
+from login.forms import PasswordUpdateForm
 from mydentist.handler import *
 from mydentist.var import *
 from patient.forms import LanguageForm
@@ -120,9 +122,11 @@ def dentist(request, slug):
 
 
 def settings(request, active_tab="profile"):
+    for key, value in request.session.items():
+        print(key, value)
     if not is_authenticated(request, "dentist"):
         if not is_authenticated(request, "patient"):
-            return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+            return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
             return redirect(request.META.get('HTTP_REFERER', '/'))
     else:
@@ -141,6 +145,15 @@ def settings(request, active_tab="profile"):
         dentist=dentist,
         language__name=Language.objects.get(pk=dentist.language_id)
     )[0]
+    clinic = Clinic.objects.get(pk=dentist.clinic_id)
+    clinic_uzbek = Clinic_translation.objects.get(
+        clinic=clinic,
+        language__name="uz"
+    )
+    clinic_russian = Clinic_translation.objects.get(
+        clinic=clinic,
+        language__name="ru"
+    )
     userform = UserForm({
         'first_name': user.first_name,
         'last_name': user.last_name,
@@ -154,9 +167,27 @@ def settings(request, active_tab="profile"):
     languageform = LanguageForm({
         'language': dentist.language_id
     })
+    clinicform = ClinicForm({
+        'name_uzbek': clinic_uzbek.name,
+        'name_russian': clinic_russian.name,
+        'region': clinic.region_id,
+        'address_uzbek': clinic_uzbek.address,
+        'address_russian': clinic_russian.address,
+        'orientir_uzbek': clinic_uzbek.orientir,
+        'orientir_russian': clinic_russian.orientir,
+        'worktime_begin': dentist.worktime_begin,
+        'worktime_end': dentist.worktime_end,
+    })
+    if 'incorrect_password' in request.session:
+        passwordupdateform = PasswordUpdateForm(request.session['incorrect_password'])
+        del request.session['incorrect_password']
+    else:
+        passwordupdateform = PasswordUpdateForm()
     return render(request, "dentist/settings.html", {
         'userform': userform,
         'languageform': languageform,
+        'passwordupdateform': passwordupdateform,
+        'clinicform': clinicform,
         'dentist': dentist,
         'dentist_translation': dentist_translation,
         'active_tab': active_tab,
@@ -167,7 +198,7 @@ def settings(request, active_tab="profile"):
 def update(request, form):
     if not is_authenticated(request, "dentist"):
         if not is_authenticated(request, "patient"):
-            return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+            return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
             return redirect(request.META.get('HTTP_REFERER', '/'))
     else:
@@ -194,6 +225,39 @@ def update(request, form):
                 request.session[translation.LANGUAGE_SESSION_KEY] = language
                 user.save()
                 dentist.save()
+                passwordupdateform = PasswordUpdateForm(request.POST)
                 request.session['success_message'] = "Updated successfully"
                 return redirect("patient:settings", active_tab="profile")
-    return redirect("dentx:settings", active_tab="profile")
+        elif form == "password":
+            passwordupdateform = PasswordUpdateForm(request.POST)
+            if passwordupdateform.is_valid():
+                user = User.objects.get(username=request.user.username)
+                if user.check_password(passwordupdateform.cleaned_data['old_password']) and passwordupdateform.cleaned_data['password'] == passwordupdateform.cleaned_data['password_confirm']:
+                    username = user.username
+                    user.set_password(passwordupdateform.cleaned_data['password'])
+                    user.save()
+                    user = authenticate(
+                        request,
+                        username=username,
+                        password=passwordupdateform.cleaned_data['password']
+                    )
+                    login(request, user)
+                    dentist = DentistUser.objects.get(user=user)
+                    language = Language.objects.get(pk=dentist.language_id).name
+                    translation.activate(language)
+                    request.session[translation.LANGUAGE_SESSION_KEY] = language
+                    request.session[user.get_username()] = user.get_username()
+                    userform = UserForm(request.POST)
+                    request.session['success_message'] = "Updated successfully"
+                    return redirect("dentx:settings", active_tab="password")
+                else:
+                    request.session['incorrect_password'] = {
+                        'old_password': passwordupdateform.cleaned_data['old_password'],
+                        'password': passwordupdateform.cleaned_data['password'],
+                        'password_confirm': passwordupdateform.cleaned_data['password_confirm']
+                    }
+                    userform = UserForm(request.POST)
+                    languageform = LanguageForm(request.POST)
+                    request.session['success_message'] = "Passwords do not match"
+                    return redirect("dentx:settings", active_tab="password")
+        return redirect("dentx:settings", active_tab="profile")

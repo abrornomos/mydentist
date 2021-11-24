@@ -133,6 +133,8 @@ def profile(request):
 
 
 def settings(request, active_tab="profile"):
+    for key, value in request.session.items():
+        print(key, value)
     if not is_authenticated(request, "patient"):
         if not is_authenticated(request, "dentist"):
             return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
@@ -271,6 +273,11 @@ def update(request, form):
                         password=passwordupdateform.cleaned_data['password']
                     )
                     login(request, user)
+                    patient = PatientUser.objects.get(user=user)
+                    language = Language.objects.get(pk=patient.language_id).name
+                    translation.activate(language)
+                    request.session[translation.LANGUAGE_SESSION_KEY] = language
+                    request.session[user.get_username()] = user.get_username()
                     userform = UserForm(request.POST)
                     illnessform = IllnessForm(request.POST)
                     otherillnessform = OtherIllnessForm(request.POST)
@@ -283,6 +290,7 @@ def update(request, form):
                         'password_confirm': passwordupdateform.cleaned_data['password_confirm']
                     }
                     userform = UserForm(request.POST)
+                    languageform = LanguageForm(request.POST)
                     illnessform = IllnessForm(request.POST)
                     otherillnessform = OtherIllnessForm(request.POST)
                     request.session['success_message'] = "Passwords do not match"
@@ -318,6 +326,7 @@ def update(request, form):
                 illness.dizziness_id = Dizziness.objects.get(value=illnessform.cleaned_data['dizziness']).id
                 illness.save()
                 userform = UserForm(request.POST)
+                languageform = LanguageForm(request.POST)
                 passwordupdateform = PasswordUpdateForm(request.POST)
                 otherillnessform = OtherIllnessForm(request.POST)
                 request.session['success_message'] = "Updated successfully"
@@ -369,6 +378,7 @@ def update(request, form):
                 otherillness.pregnancy_id = pregnancy.id
                 otherillness.save()
                 userform = UserForm(request.POST)
+                languageform = LanguageForm(request.POST)
                 passwordupdateform = PasswordUpdateForm(request.POST)
                 illnessform = IllnessForm(request.POST)
                 request.session['success_message'] = "Updated successfully"
@@ -379,7 +389,7 @@ def update(request, form):
 def patients(request):
     if not is_authenticated(request, "dentist"):
         if not is_authenticated(request, "patient"):
-            return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+            return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
             return redirect(request.META.get('HTTP_REFERER', '/'))
     else:
@@ -405,7 +415,7 @@ def patients(request):
 def patient(request, id):
     if not is_authenticated(request, "dentist"):
         if not is_authenticated(request, "patient"):
-            return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
+            return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
             return redirect(request.META.get('HTTP_REFERER', '/'))
     else:

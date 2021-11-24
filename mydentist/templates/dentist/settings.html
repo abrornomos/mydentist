@@ -18,13 +18,13 @@
                 <button class="nav-link {% if active_tab == "password" %}active{% endif %}" id="pills-password-tab" data-bs-toggle="pill" data-bs-target="#pills-password" type="button" role="tab" aria-controls="pills-password" aria-selected="false">{% trans "Parolni o'zgartirish" %}</button>
             </li>
             <li class="nav-item my_select_item" role="presentation">
-                <button class="nav-link {% if active_tab == "clinic" %}active{% endif %}" id="pills-clinic-tab" data-bs-toggle="pill" data-bs-target="#pills-clinic" type="button" role="tab" aria-controls="pills-clinic" aria-selected="false">{% trans "Kasalliklar" %}</button>
+                <button class="nav-link {% if active_tab == "clinic" %}active{% endif %}" id="pills-clinic-tab" data-bs-toggle="pill" data-bs-target="#pills-clinic" type="button" role="tab" aria-controls="pills-clinic" aria-selected="false">{% trans "Shifoxona ma'lumotlari" %}</button>
             </li>
             <li class="nav-item my_select_item" role="presentation">
-                <button class="nav-link {% if active_tab == "clinic-photo" %}active{% endif %}" id="pills-clinic-photo-tab" data-bs-toggle="pill" data-bs-target="#pills-clinic-photo" type="button" role="tab" aria-controls="pills-clinic-photo" aria-selected="false">{% trans "Boshqa kasalliklar" %}</button>
+                <button class="nav-link {% if active_tab == "clinic-photo" %}active{% endif %}" id="pills-clinic-photo-tab" data-bs-toggle="pill" data-bs-target="#pills-clinic-photo" type="button" role="tab" aria-controls="pills-clinic-photo" aria-selected="false">{% trans "Shifoxona rasmlari" %}</button>
             </li>
             <li class="nav-item my_select_item" role="presentation">
-                <button class="nav-link {% if active_tab == "services" %}active{% endif %}" id="pills-services-tab" data-bs-toggle="pill" data-bs-target="#pills-services" type="button" role="tab" aria-controls="pills-services" aria-selected="false">{% trans "Boshqa kasalliklar" %}</button>
+                <button class="nav-link {% if active_tab == "services" %}active{% endif %}" id="pills-services-tab" data-bs-toggle="pill" data-bs-target="#pills-services" type="button" role="tab" aria-controls="pills-services" aria-selected="false">{% trans "Xizmatlar" %}</button>
             </li>
         </ul>
         <div class="tab-content" id="pills-tabContent">
@@ -85,7 +85,7 @@
             </div>
             <div class="tab-pane fade {% if active_tab == "password" %}show active{% endif %}" id="pills-password" role="tabpanel" aria-labelledby="pills-password-tab">
                 <div class="panel">
-                    <form action={% url 'patient:update' form="password" %} method="POST">
+                    <form action={% url 'dentx:update' form="password" %} method="POST">
                         {% csrf_token %}
                         {% if active_tab == "password" and success_message %}
                             {% if success_message == "Updated successfully" %}
@@ -115,27 +115,41 @@
             </div>
             <div class="tab-pane fade {% if active_tab == "clinic" %}show active{% endif %}" id="pills-clinic" role="tabpanel" aria-labelledby="pills-clinic-tab">
                 <div class="panel">
-                    <form action={% url 'patient:update' form="illness" %} method="POST">
+                    <form action={% url 'dentx:update' form="clinic" %} method="POST">
                         {% csrf_token %}
-                        {% if active_tab == "illness" and success_message == "Updated successfully" %}
+                        {% if active_tab == "clinic" and success_message == "Updated successfully" %}
                             <div class="alert alert-success">
                                 {% trans "Ma'lumotlar muvaffaqiyatli o'zgartirildi" %}
                             </div>
                         {% endif %}
                         <div class="row">
-                            {% for field in illnessform %}
+                            {% for field in clinicform %}
                                 {% for error in field.errors %}
                                     <div class="alert alert-danger">
                                         {{ error }}
                                     </div>
                                 {% endfor %}
-                                {% if field.name != "allergy_detail" %}
+                                {% if field.name == "worktime_begin" %}
+                                    <div class="col-md-6 mb-3">
+                                        <label for="worktime_holder" class="form-label">{% trans "Ish vaqti" %}</label>
+                                        <div id="worktime_holder">
+                                            <div class="worktime_item">
+                                                <i id="worktime_begin_1" class="fas fa-sort-up"></i>
+                                                {{ field }}
+                                                <i id="worktime_begin_2" class="fas fa-sort-down"></i>
+                                            </div>
+                                {% elif field.name == "worktime_end" %}
+                                            <div class="worktime_item">
+                                                <i id="worktime_end_1" class="fas fa-sort-up"></i>
+                                                {{ field }}
+                                                <i id="worktime_end_2" class="fas fa-sort-down"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% else %}
                                     <div class="col-md-6 mb-3">
                                         <label for="id_{{ field.name }}" class="form-label">{{ field.label }}</label>
                                         {{ field }}
-                                        {% if field.name == "allergy" %}
-                                            {{ illnessform.allergy_detail }}
-                                        {% endif %}
                                     </div>
                                 {% endif %}
                             {% endfor %}
@@ -323,6 +337,70 @@
                 $("#day_holder").val(1)
             } else if (parseInt($("#day_holder").val()) > 1) {
                 $("#day_holder").val(parseInt($("#day_holder").val()) - 1)
+            }
+        })
+        $("#worktime_begin_1").on("click", function() {
+            work_begin = parseInt($("#worktime_begin_holder").val().split(":")[0]) * 60 + parseInt($("#worktime_begin_holder").val().split(":")[1])
+            work_end = parseInt($("#worktime_end_holder").val().split(":")[0]) * 60 + parseInt($("#worktime_end_holder").val().split(":")[1])
+            if (work_end - work_begin > 60) {
+                if ($("#worktime_begin_holder").val() == "") {
+                    $("#worktime_begin_holder").val("00:00")
+                } else if (parseInt($("#worktime_begin_holder").val().split(":")[1]) == 45) {
+                    let hour = parseInt($("#worktime_begin_holder").val().split(":")[0]) + 1
+                    $("#worktime_begin_holder").val(`${hour < 10 ? `0${hour}` : hour}:00`)
+                } else if ([0, 15, 30].includes(parseInt($("#worktime_begin_holder").val().split(":")[1]))) {
+                    let hour = parseInt($("#worktime_begin_holder").val().split(":")[0])
+                    let minute = parseInt($("#worktime_begin_holder").val().split(":")[1]) + 15
+                    $("#worktime_begin_holder").val(`${hour < 10 ? `0${hour}` : hour}:${minute}`)
+                }
+            }
+        })
+        $("#worktime_begin_2").on("click", function() {
+            work_begin = $("#worktime_begin_holder").val().split(":")[0] * 60 + $("#worktime_begin_holder").val().split(":")[1]
+            if (work_begin > 0) {
+                if ($("#worktime_begin_holder").val() == "") {
+                    $("#worktime_begin_holder").val("00:00")
+                } else if (parseInt($("#worktime_begin_holder").val().split(":")[1]) == 0) {
+                    let hour = parseInt($("#worktime_begin_holder").val().split(":")[0]) - 1
+                    $("#worktime_begin_holder").val(`${hour < 10 ? `0${hour}` : hour}:45`)
+                } else if ([15, 30, 45].includes(parseInt($("#worktime_begin_holder").val().split(":")[1]))) {
+                    let hour = parseInt($("#worktime_begin_holder").val().split(":")[0])
+                    let minute = parseInt($("#worktime_begin_holder").val().split(":")[1]) - 15
+                    $("#worktime_begin_holder").val(`${hour < 10 ? `0${hour}` : hour}:${minute == 0 ? "00" : minute}`)
+                }
+            }
+        })
+        $("#worktime_end_1").on("click", function() {
+            work_begin = $("#worktime_end_holder").val().split(":")[0] * 60 + $("#worktime_end_holder").val().split(":")[1]
+            if (work_begin > 0) {
+                if ($("#worktime_end_holder").val() == "") {
+                    $("#worktime_end_holder").val("00:00")
+                } else if (parseInt($("#worktime_end_holder").val().split(":")[1]) == 45) {
+                    let hour = parseInt($("#worktime_end_holder").val().split(":")[0]) + 1
+                    $("#worktime_end_holder").val(`${hour < 10 ? `0${hour}` : hour == 24 ? "00" : hour}:00`)
+                } else if ([0, 15, 30].includes(parseInt($("#worktime_end_holder").val().split(":")[1]))) {
+                    let hour = parseInt($("#worktime_end_holder").val().split(":")[0])
+                    let minute = parseInt($("#worktime_end_holder").val().split(":")[1]) + 15
+                    $("#worktime_end_holder").val(`${hour < 10 ? `0${hour}` : hour}:${minute}`)
+                }
+            }
+        })
+        $("#worktime_end_2").on("click", function() {
+            work_begin = parseInt($("#worktime_begin_holder").val().split(":")[0]) * 60 + parseInt($("#worktime_begin_holder").val().split(":")[1])
+            work_end = parseInt($("#worktime_end_holder").val().split(":")[0]) * 60 + parseInt($("#worktime_end_holder").val().split(":")[1])
+            if (work_end - work_begin > 60) {
+                if ($("#worktime_end_holder").val() == "") {
+                    $("#worktime_end_holder").val("00:00")
+                } else if (parseInt($("#worktime_end_holder").val().split(":")[1]) == 0) {
+                    let hour = parseInt($("#worktime_end_holder").val().split(":")[0]) - 1
+                    $("#worktime_end_holder").val(`${hour < 10 ? `0${hour}` : hour}:45`)
+                } else if ([15, 30, 45].includes(parseInt($("#worktime_end_holder").val().split(":")[1]))) {
+                    let hour = parseInt($("#worktime_end_holder").val().split(":")[0])
+                    let minute = parseInt($("#worktime_end_holder").val().split(":")[1]) - 15
+                    $("#worktime_end_holder").val(`${hour < 10 ? `0${hour}` : hour}:${minute == 0 ? "00" : minute}`)
+                }
+            } else if (work_end == 0) {
+                $("#worktime_end_holder").val("23:45")
             }
         })
         $("#id_allergy").on("change", function() {

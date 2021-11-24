@@ -437,31 +437,31 @@ input, .form-control, .form-select {
   border-radius: 25px;
 }
 
-#birthday_holder i {
+#birthday_holder i, #worktime_holder i {
   display: block;
   cursor: pointer;
 }
 
-#birthday_holder span {
+#birthday_holder span, #worktime_holder span {
   font-size: 14px;
 }
 
-#birthday_holder div {
+#birthday_holder div, #worktime_holder div {
   display: inline-block;
 }
 
-.birth_item {
+.birth_item, .worktime_item {
   max-width: 100px;
   width: 100px;
   text-align: center;
 }
 
-.birth_item input {
+.birth_item input, .worktime_item input {
   width: 100%;
   text-align: center;
 }
 
-.birth_item input:focus {
+.birth_item input:focus, .worktime_item input:focus {
   outline: none;
 }
 

@@ -110,3 +110,113 @@ class UserForm(forms.Form):
         ),
         localize=True
     )
+
+
+class ClinicForm(forms.Form):
+
+    name_uzbek = forms.CharField(
+        label=_("Shifoxona nomi (o'zbekchada)"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control",
+                'placeholder': _("Shifoxona nomi")
+            }
+        ),
+        max_length=150,
+        localize=True
+    )
+    name_russian = forms.CharField(
+        label=_("Shifoxona nomi (ruschada)"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control",
+                'placeholder': _("Shifoxona nomi")
+            }
+        ),
+        max_length=150,
+        localize=True
+    )
+    address_uzbek = forms.CharField(
+        label=_("Manzil (o'zbekchada)"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control",
+                'placeholder': _("Manzil")
+            }
+        ),
+        max_length=150,
+        localize=True
+    )
+    address_russian = forms.CharField(
+        label=_("Manzil (ruschada)"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control",
+                'placeholder': _("Manzil")
+            }
+        ),
+        max_length=150,
+        localize=True
+    )
+    orientir_uzbek = forms.CharField(
+        label=_("Mo'ljal (o'zbekchada)"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control",
+                'placeholder': _("Mo'ljal")
+            }
+        ),
+        max_length=150,
+        localize=True,
+        required=False
+    )
+    orientir_russian = forms.CharField(
+        label=_("Mo'ljal (ruschada)"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control",
+                'placeholder': _("Mo'ljal")
+            }
+        ),
+        max_length=150,
+        localize=True,
+        required=False
+    )
+    region = forms.CharField(
+        label=_("Hudud"),
+        widget=forms.Select(
+            attrs={
+                'class': "form-select"
+            },
+            choices=CHOICES['regions']
+        )
+    )
+    link = forms.CharField(
+        label=_("Xaritadagi havola"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control",
+                'placeholder': _("Xaritadagi havola")
+            }
+        ),
+        max_length=250,
+        localize=True
+    )
+    worktime_begin = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'id': "worktime_begin_holder",
+                'value': "9:00"
+            }
+        ),
+        localize=True
+    )
+    worktime_end = forms.CharField(
+        widget=forms.TextInput(
+            attrs={
+                'id': "worktime_end_holder",
+                'value': "18:00"
+            }
+        ),
+        localize=True
+    )
