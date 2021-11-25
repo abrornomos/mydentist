@@ -153,6 +153,17 @@ def settings(request, active_tab="profile"):
         clinic=clinic,
         language__name="ru"
     )
+    services_obj = Service.objects.filter(dentist=dentist)
+    services = []
+    for service in services_obj:
+        service_uz = Service_translation.objects.get(service=service, language__name="uz")
+        service_ru = Service_translation.objects.get(service=service, language__name="ru")
+        services.append({
+            'name_uz': service_uz.name,
+            'name_ru': service_ru.name,
+            'duration': service.duration,
+            'price': service.price
+        })
     cabinet_images = Cabinet_Image.objects.filter(dentist=dentist)
     if len(cabinet_images) > 1:
         counter = range(len(cabinet_images))
@@ -203,6 +214,7 @@ def settings(request, active_tab="profile"):
         'cabinet_images': cabinet_images,
         'cabinet_image': cabinet_image,
         'counter': counter,
+        'services': services,
         'dentist': dentist,
         'dentist_translation': dentist_translation,
         'active_tab': active_tab,
@@ -274,27 +286,27 @@ def update(request, form):
                     request.session['success_message'] = "Passwords do not match"
                     return redirect("dentx:settings", active_tab="password")
         elif form == "clinic-photo":
-            # new_cabinet_image = Cabinet_Image(
-            #     image=request.FILES['file'],
-            #     dentist=dentist
-            # )
+            new_cabinet_image = Cabinet_Image(
+                image=request.FILES['file'],
+                dentist=dentist
+            )
+            new_cabinet_image.save()
             cabinet_images = Cabinet_Image.objects.filter(dentist=dentist)
             if len(cabinet_images) > 1:
+                counter = len(cabinet_images)
                 cabinet_image = cabinet_images[0].image.url
                 cabinet_images = [ image.image.url for image in cabinet_images[1:]]
-                counter = len(cabinet_images)
             elif len(cabinet_images) == 1:
-                cabinet_image = cabinet_images[0].image.url
-                print(type(cabinet_image))
-                cabinet_images = None
                 counter = 1
+                cabinet_image = cabinet_images[0].image.url
+                cabinet_images = None
             else:
+                counter = 0
                 cabinet_image = None
                 cabinet_images = None
-                counter = 0
             return JsonResponse({
                 'cabinet_images': cabinet_images,
                 'cabinet_image': cabinet_image,
                 'counter': counter,
             }, safe=False)
-        # return redirect("dentx:settings", active_tab="profile")
+        return redirect("dentx:settings", active_tab="profile")
