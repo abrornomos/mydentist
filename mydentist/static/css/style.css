@@ -969,6 +969,18 @@ span.fa-border img {
   display: block;
 }
 
+@media (max-width: 1400px) {
+  .my_select {
+    padding: 10px 0px;
+    width: 100%;
+    overflow-x: scroll;
+    position: static;
+    -ms-flex-wrap: nowrap;
+        flex-wrap: nowrap;
+    white-space: nowrap;
+  }
+}
+
 @media (max-width: 1340px) {
   .my-header {
     width: 100%;

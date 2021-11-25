@@ -155,17 +155,17 @@ def settings(request, active_tab="profile"):
     )
     cabinet_images = Cabinet_Image.objects.filter(dentist=dentist)
     if len(cabinet_images) > 1:
+        counter = range(len(cabinet_images))
         cabinet_image = cabinet_images[0]
         cabinet_images = cabinet_images[1:]
-        counter = range(len(cabinet_images))
     elif len(cabinet_images) == 1:
+        counter = range(1)
         cabinet_image = cabinet_images[0]
         cabinet_images = None
-        counter = range(1)
     else:
+        counter = 0
         cabinet_image = None
         cabinet_images = None
-        counter = range(len(cabinet_images))
     userform = UserForm({
         'first_name': user.first_name,
         'last_name': user.last_name,

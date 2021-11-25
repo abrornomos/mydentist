@@ -456,12 +456,14 @@
                         mimeType: "multipart/form-data",
                         data : data
                     }).always(function(result) {
-                        console.log(result)
-                        console.log(typeof(result))
+                        let images = JSON.parse(result)
+                        console.log(images["counter"])
                         console.log($(".panel .carousel-indicators"))
-                        if (result["counter"] > 1) {
-                        } else if (result["counter"] == 1) {
-                            console.log($(".panel img"))
+                        if (images["counter"] > 1) {
+                        } else if (images["counter"] == 1) {
+                            if ($(".panel > img").length == 0) {
+                                
+                            }
                         }
                         clearInterval(intervalFunc)
                     })
