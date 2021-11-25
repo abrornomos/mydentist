@@ -1,6 +1,7 @@
 from django.conf import settings as global_settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
+from django.http.response import JsonResponse
 from django.shortcuts import render
 from django.utils.translation import get_language
 from appointment.models import Appointment, Query
@@ -122,8 +123,6 @@ def dentist(request, slug):
 
 
 def settings(request, active_tab="profile"):
-    for key, value in request.session.items():
-        print(key, value)
     if not is_authenticated(request, "dentist"):
         if not is_authenticated(request, "patient"):
             return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
@@ -154,6 +153,19 @@ def settings(request, active_tab="profile"):
         clinic=clinic,
         language__name="ru"
     )
+    cabinet_images = Cabinet_Image.objects.filter(dentist=dentist)
+    if len(cabinet_images) > 1:
+        cabinet_image = cabinet_images[0]
+        cabinet_images = cabinet_images[1:]
+        counter = range(len(cabinet_images))
+    elif len(cabinet_images) == 1:
+        cabinet_image = cabinet_images[0]
+        cabinet_images = None
+        counter = range(1)
+    else:
+        cabinet_image = None
+        cabinet_images = None
+        counter = range(len(cabinet_images))
     userform = UserForm({
         'first_name': user.first_name,
         'last_name': user.last_name,
@@ -188,6 +200,9 @@ def settings(request, active_tab="profile"):
         'languageform': languageform,
         'passwordupdateform': passwordupdateform,
         'clinicform': clinicform,
+        'cabinet_images': cabinet_images,
+        'cabinet_image': cabinet_image,
+        'counter': counter,
         'dentist': dentist,
         'dentist_translation': dentist_translation,
         'active_tab': active_tab,
@@ -204,12 +219,12 @@ def update(request, form):
     else:
         check_language(request, "dentist")
     if request.method == "POST":
+        user = User.objects.get(username=request.user.username)
+        dentist = DentistUser.objects.get(user=user)
         if form == "profile":
             userform = UserForm(request.POST)
             languageform = LanguageForm(request.POST)
             if userform.is_valid() and languageform.is_valid():
-                user = User.objects.get(username=request.user.username)
-                dentist = DentistUser.objects.get(user=user)
                 user.first_name = userform.cleaned_data['first_name']
                 user.last_name = userform.cleaned_data['last_name']
                 dentist.gender_id = userform.cleaned_data['gender']
@@ -231,7 +246,6 @@ def update(request, form):
         elif form == "password":
             passwordupdateform = PasswordUpdateForm(request.POST)
             if passwordupdateform.is_valid():
-                user = User.objects.get(username=request.user.username)
                 if user.check_password(passwordupdateform.cleaned_data['old_password']) and passwordupdateform.cleaned_data['password'] == passwordupdateform.cleaned_data['password_confirm']:
                     username = user.username
                     user.set_password(passwordupdateform.cleaned_data['password'])
@@ -242,7 +256,6 @@ def update(request, form):
                         password=passwordupdateform.cleaned_data['password']
                     )
                     login(request, user)
-                    dentist = DentistUser.objects.get(user=user)
                     language = Language.objects.get(pk=dentist.language_id).name
                     translation.activate(language)
                     request.session[translation.LANGUAGE_SESSION_KEY] = language
@@ -260,4 +273,28 @@ def update(request, form):
                     languageform = LanguageForm(request.POST)
                     request.session['success_message'] = "Passwords do not match"
                     return redirect("dentx:settings", active_tab="password")
-        return redirect("dentx:settings", active_tab="profile")
+        elif form == "clinic-photo":
+            # new_cabinet_image = Cabinet_Image(
+            #     image=request.FILES['file'],
+            #     dentist=dentist
+            # )
+            cabinet_images = Cabinet_Image.objects.filter(dentist=dentist)
+            if len(cabinet_images) > 1:
+                cabinet_image = cabinet_images[0].image.url
+                cabinet_images = [ image.image.url for image in cabinet_images[1:]]
+                counter = len(cabinet_images)
+            elif len(cabinet_images) == 1:
+                cabinet_image = cabinet_images[0].image.url
+                print(type(cabinet_image))
+                cabinet_images = None
+                counter = 1
+            else:
+                cabinet_image = None
+                cabinet_images = None
+                counter = 0
+            return JsonResponse({
+                'cabinet_images': cabinet_images,
+                'cabinet_image': cabinet_image,
+                'counter': counter,
+            }, safe=False)
+        # return redirect("dentx:settings", active_tab="profile")

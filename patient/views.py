@@ -133,8 +133,6 @@ def profile(request):
 
 
 def settings(request, active_tab="profile"):
-    for key, value in request.session.items():
-        print(key, value)
     if not is_authenticated(request, "patient"):
         if not is_authenticated(request, "dentist"):
             return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")

@@ -272,6 +272,7 @@
                             time: $(this).parent().children(":first-child").text(),
                         },
                     }).always(function(result) {
+                        console.log(typeof(result))
                         $(".hidden-button > button")[0].click()
                         temp = result.date.split("<br>")
                         time = result.time
