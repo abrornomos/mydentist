@@ -34,6 +34,11 @@ def time_format(datetime):
 
 
 @register.simple_tag
+def get_gender(gender_id):
+    return GENDERS[gender_id - 1]
+
+
+@register.simple_tag
 def get_option(select, index):
     options = CHOICES[select]
     if select == "allergy" and index != 1:
