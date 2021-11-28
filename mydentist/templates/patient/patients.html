@@ -127,7 +127,7 @@
                                 </div>
                             </th>
                             <td>
-                                <a href="{% url 'dentx:patient' id=result.patient_extra.id %}" class="text-decoration-none">
+                                <a href="{% url 'dentx:patient' id=result.patient_extra.id active_tab="profile" %}" class="text-decoration-none">
                                     <h6>{{ result.patient_extra }}</h6>
                                     <h6>{{ result.patient_extra.birthday.year }}</h6>
                                     <h6>{{ result.patient_extra.phone_number }}</h6>

@@ -30,7 +30,7 @@ def appointments(request):
     dentist = DentistUser.objects.get(user=user)
     dentist_translation = DentistUserTranslation.objects.filter(
         dentist=dentist,
-        language__name=Language.objects.get(pk=dentist.language_id)
+        language__pk=dentist.language_id
     )[0]
     if request.method == "POST":
         patientform = PatientForm(request.POST)
@@ -125,7 +125,7 @@ def appointments_update(request):
         dentist = DentistUser.objects.get(user=user)
         dentist_translation = DentistUserTranslation.objects.filter(
             dentist=dentist,
-            language__name=Language.objects.get(pk=dentist.language_id)
+            language__pk=dentist.language_id
         )[0]
         patientform = PatientForm(request.POST)
         appointmentform = AppointmentForm(request.POST)

@@ -77,49 +77,31 @@ def dentist(request, slug):
     except:
         services = None
     if len(cabinet_images) > 1:
-        return render(request, "dentist/dentist.html", {
-            'clinic': clinic,
-            'clinic_extra': clinic_extra,
-            'dentist': dentist,
-            'dentist_extra': dentist_extra,
-            'services': services,
-            'cabinet_image': cabinet_images[0],
-            'cabinet_images': cabinet_images[1:],
-            'counter': range(len(cabinet_images)),
-            'queryform': queryform,
-            'appointment': appointment,
-            'query': query,
-            'authenticated': authenticated
-        })
+        counter = range(len(cabinet_images))
+        cabinet_image = cabinet_images[0]
+        cabinet_images = cabinet_images[1:]
     elif len(cabinet_images) == 1:
-        return render(request, "dentist/dentist.html", {
-            'clinic': clinic,
-            'clinic_extra': clinic_extra,
-            'dentist': dentist,
-            'dentist_extra': dentist_extra,
-            'services': services,
-            'cabinet_image': cabinet_images[0],
-            'cabinet_images': None,
-            'counter': range(len(cabinet_images)),
-            'queryform': queryform,
-            'appointment': appointment,
-            'query': query,
-            'authenticated': authenticated
-        })
+        counter = range(1)
+        cabinet_image = cabinet_images[0]
+        cabinet_images = None
     else:
-        return render(request, "dentist/dentist.html", {
-            'clinic': clinic,
-            'clinic_extra': clinic_extra,
-            'dentist': dentist,
-            'dentist_extra': dentist_extra,
-            'services': services,
-            'cabinet_images': None,
-            'counter': 0,
-            'queryform': queryform,
-            'appointment': appointment,
-            'query': query,
-            'authenticated': authenticated
-        })
+        counter = 0
+        cabinet_image = None
+        cabinet_images = None
+    return render(request, "dentist/dentist.html", {
+        'clinic': clinic,
+        'clinic_extra': clinic_extra,
+        'dentist': dentist,
+        'dentist_extra': dentist_extra,
+        'services': services,
+        'cabinet_image': cabinet_image,
+        'cabinet_images': cabinet_images,
+        'counter': counter,
+        'queryform': queryform,
+        'appointment': appointment,
+        'query': query,
+        'authenticated': authenticated
+    })
 
 
 def settings(request, active_tab="profile"):
@@ -142,7 +124,7 @@ def settings(request, active_tab="profile"):
     dentist = DentistUser.objects.get(user=user)
     dentist_translation = DentistUserTranslation.objects.filter(
         dentist=dentist,
-        language__name=Language.objects.get(pk=dentist.language_id)
+        language__pk=dentist.language_id
     )[0]
     clinic = Clinic.objects.get(pk=dentist.clinic_id)
     clinic_uzbek = Clinic_translation.objects.get(
@@ -190,6 +172,17 @@ def settings(request, active_tab="profile"):
     languageform = LanguageForm({
         'language': dentist.language_id
     })
+    clinics_obj = Clinic.objects.all()
+    clinics = []
+    for clinic_obj in clinics_obj:
+        clinics.append(
+            Clinic_translation.objects.get(
+                clinic=clinic_obj,
+                language__pk=dentist.language_id
+            )
+        )
+        if clinic_obj.id == clinic.id:
+            active_clinic = clinic_obj
     clinicform = ClinicForm({
         'name_uzbek': clinic_uzbek.name,
         'name_russian': clinic_russian.name,
@@ -206,11 +199,15 @@ def settings(request, active_tab="profile"):
         del request.session['incorrect_password']
     else:
         passwordupdateform = PasswordUpdateForm()
+    serviceform = ServiceForm()
     return render(request, "dentist/settings.html", {
         'userform': userform,
         'languageform': languageform,
         'passwordupdateform': passwordupdateform,
         'clinicform': clinicform,
+        'serviceform': serviceform,
+        'clinics': clinics,
+        'active_clinic': active_clinic,
         'cabinet_images': cabinet_images,
         'cabinet_image': cabinet_image,
         'counter': counter,
@@ -286,11 +283,10 @@ def update(request, form):
                     request.session['success_message'] = "Passwords do not match"
                     return redirect("dentx:settings", active_tab="password")
         elif form == "clinic-photo":
-            new_cabinet_image = Cabinet_Image(
+            new_cabinet_image = Cabinet_Image.objects.create(
                 image=request.FILES['file'],
                 dentist=dentist
             )
-            new_cabinet_image.save()
             cabinet_images = Cabinet_Image.objects.filter(dentist=dentist)
             if len(cabinet_images) > 1:
                 counter = len(cabinet_images)
@@ -309,4 +305,29 @@ def update(request, form):
                 'cabinet_image': cabinet_image,
                 'counter': counter,
             }, safe=False)
+        elif form == "services":
+            serviceform = ServiceForm(request.POST)
+            if serviceform.is_valid():
+                service = Service.objects.create(
+                    name=serviceform.cleaned_data['name_uz'],
+                    duration=serviceform.cleaned_data['duration'],
+                    price=serviceform.cleaned_data['price'],
+                    dentist=dentist
+                )
+                service_uz = Service_translation.objects.create(
+                    service=service,
+                    language=Language.objects.get(name="uz"),
+                    name=serviceform.cleaned_data['name_uz'],
+                )
+                service_ru = Service_translation.objects.create(
+                    service=service,
+                    language=Language.objects.get(name="ru"),
+                    name=serviceform.cleaned_data['name_ru'],
+                )
+                service.save()
+                service_uz.save()
+                service_ru.save()
+                serviceform = ServiceForm()
+                request.session['success_message'] = "Passwords do not match"
+                return redirect("dentx:settings", active_tab="services")
         return redirect("dentx:settings", active_tab="profile")

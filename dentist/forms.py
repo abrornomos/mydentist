@@ -220,3 +220,47 @@ class ClinicForm(forms.Form):
         ),
         localize=True
     )
+
+
+class ServiceForm(forms.Form):
+    
+    name_uz = forms.CharField(
+        label=_("Xizmat nomi (o'zbekchada)"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control wid",
+                'placeholder': _("Xizmat nomi")
+            }
+        ),
+        max_length=150,
+        localize=True
+    )
+    name_ru = forms.CharField(
+        label=_("Xizmat nomi (ruschada)"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control wid",
+                'placeholder': _("Xizmat nomi")
+            }
+        ),
+        max_length=150,
+        localize=True
+    )
+    duration = forms.CharField(
+        label=_("Xizmat davomiyligi"),
+        widget=forms.Select(
+            attrs={
+                'class': "form-select wid"
+            },
+            choices=CHOICES['duration']
+        )
+    )
+    price = forms.IntegerField(
+        label=_("Xizmat narxi"),
+        widget=forms.NumberInput(
+            attrs={
+                'class': "form-control wid"
+            }
+        ),
+        localize=True
+    )

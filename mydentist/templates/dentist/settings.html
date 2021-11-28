@@ -30,7 +30,7 @@
         <div class="tab-content" id="pills-tabContent">
             <div class="tab-pane fade {% if active_tab == "profile" %}show active{% endif %}" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
                 <div class="panel">
-                    <form action={% url 'dentx:update' form="profile" %} method="POST">
+                    <form action={% url 'dentx:update_dentist' form="profile" %} method="POST">
                         {% csrf_token %}
                         {% if active_tab == "profile" and success_message == "Updated successfully" %}
                             <div class="alert alert-success">
@@ -85,7 +85,7 @@
             </div>
             <div class="tab-pane fade {% if active_tab == "password" %}show active{% endif %}" id="pills-password" role="tabpanel" aria-labelledby="pills-password-tab">
                 <div class="panel">
-                    <form action={% url 'dentx:update' form="password" %} method="POST">
+                    <form action={% url 'dentx:update_dentist' form="password" %} method="POST">
                         {% csrf_token %}
                         {% if active_tab == "password" and success_message %}
                             {% if success_message == "Updated successfully" %}
@@ -115,7 +115,7 @@
             </div>
             <div class="tab-pane fade {% if active_tab == "clinic" %}show active{% endif %}" id="pills-clinic" role="tabpanel" aria-labelledby="pills-clinic-tab">
                 <div class="panel">
-                    <form action={% url 'dentx:update' form="clinic" %} method="POST">
+                    <form action={% url 'dentx:update_dentist' form="clinic" %} method="POST">
                         {% csrf_token %}
                         {% if active_tab == "clinic" and success_message == "Updated successfully" %}
                             <div class="alert alert-success">
@@ -123,6 +123,18 @@
                             </div>
                         {% endif %}
                         <div class="row">
+                            <div class="col-12 mb-4">
+                                <label for="id_clinic" class="form-label">{% trans "Shifoxona" %}</label>
+                                <select name="clinic" class="form-select" id="id_clinic">
+                                    {% for clinic in clinics %}
+                                        {% if active_clinic == clinic.clinic_id %}
+                                        <option value="{{ clinic.name }}" selected>{{ clinic.name }}</option>
+                                        {% else %}
+                                        <option value="{{ clinic.name }}">{{ clinic.name }}</option>
+                                        {% endif %}
+                                    {% endfor %}
+                                </select>
+                            </div>
                             {% for field in clinicform %}
                                 {% for error in field.errors %}
                                     <div class="alert alert-danger">
@@ -198,7 +210,48 @@
                     <div class="row align-items-center">
                         <div class="col"></div>
                         <div class="col-auto">
-                            <button class="btn my_btn" data-bs-toggle="modal" data-bs-target="#exampleModal">Xizmat qo'shish</button>
+                            <button class="btn my_btn" data-bs-toggle="modal" data-bs-target="#serviceModal">{% trans "Xizmat qo'shish" %}</button>
+                        </div>
+                    </div>
+                    <div class="modal fade" id="serviceModal" tabindex="-1" aria-labelledby="serviceModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="serviceModalLabel">{% trans "Xizmat qo'shish" %}</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <form action={% url 'dentx:update_dentist' form="services" %} class="form-group" method="POST">
+                                        {% csrf_token %}
+                                        <div class="pats">
+                                            <div class="bottom-inputs d-flex justify-content-between flex-wrap mt-2">
+                                                <div class="left col-12 col-lg-6 d-flex flex-column align-items-start">
+                                                    <label class="mb-1 left" for="id_name_uz">{{ serviceform.name_uz.label }}</label>
+                                                    {{ serviceform.name_uz }}
+                                                </div> 
+                                                <div class="center col-12 col-lg-6 d-flex flex-column align-items-start">
+                                                    <label class="mb-1 left" for="id_name_ru">{{ serviceform.name_ru.label }}</label>
+                                                    {{ serviceform.name_ru }}
+                                                </div>
+                                                <div class="end col-12 col-lg-6">
+                                                    <label class="mt-3 mb-1 left" for="id_duration">{{ serviceform.duration.label }}</label>
+                                                    <div>
+                                                    {{ serviceform.duration }}
+                                                    </div>
+                                                </div>
+                                                <div class="end col-12 col-lg-6 d-flex flex-column align-items-start">
+                                                    <label class="mt-3 mb-1 left" for="id_price">{{ serviceform.price.label }}</label>
+                                                    {{ serviceform.price }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button class="btn btn-primary me-md-2 mt-2" type="submit">Tasdiqlamoq</button>
+                                            <button class="btn btn-secondary mt-2" type="button" data-bs-dismiss="modal" aria-label="Close">Bekor qilmoq</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="overflow mt-4">
@@ -226,35 +279,6 @@
                             </tbody>
                         </table>
                     </div>
-                    {% comment %} <form action={% url 'patient:update' form="other-illness" %} method="POST">
-                        {% csrf_token %}
-                        {% if active_tab == "other-illness" and success_message == "Updated successfully" %}
-                            <div class="alert alert-success">
-                                {% trans "Ma'lumotlar muvaffaqiyatli o'zgartirildi" %}
-                            </div>
-                        {% endif %}
-                        <div class="row">
-                            {% for field in otherillnessform %}
-                                {% for error in field.errors %}
-                                    <div class="alert alert-danger">
-                                        {{ error }}
-                                    </div>
-                                {% endfor %}
-                                {% if field.name != "medications_detail" and field.name != "pregnancy_detail" %}
-                                    <div class="col-md-6 mb-3">
-                                        <label for="id_{{ field.name }}" class="form-label">{{ field.label }}</label>
-                                        {{ field }}
-                                        {% if field.name == "medications" %}
-                                            {{ otherillnessform.medications_detail }}
-                                        {% elif field.name == "pregnancy" %}
-                                            {{ otherillnessform.pregnancy_detail }}
-                                        {% endif %}
-                                    </div>
-                                {% endif %}
-                            {% endfor %}
-                        </div>
-                        <button type="submit" class="btn my_btn mx-auto">{% trans "Ma'lumotlarni o'zgartirish" %}</button>
-                    </form> {% endcomment %}
                 </div>
             </div>
         </div>
@@ -478,7 +502,7 @@
                     data.append("file", $("#cabinet-photo-upload")[0].files[0])
                     data.append("csrfmiddlewaretoken", "{{ csrf_token }}")
                     $.ajax({
-                        url: "{% url 'dentx:update' form='clinic-photo' %}",
+                        url: "{% url 'dentx:update_dentist' form='clinic-photo' %}",
                         type: "POST",
                         processData: false,
                         contentType: false,
@@ -538,7 +562,7 @@
                 }
             }, 500)
         })
-        request_path = "{{ request.path }}"
+        let request_path = "{{ request.path }}"
         request_path = request_path.split("/")
         $("#pills-profile-tab").on("click", function() {
             temp = request_path
