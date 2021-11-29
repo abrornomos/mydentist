@@ -20,6 +20,7 @@ urlpatterns = [
     path('auth/login/', login_views.dentx_login, name='login'),
     path('auth/logout/', login_views.dentx_logout, name='logout'),
     path('settings/<str:active_tab>', dentist_views.settings, name='settings'),
+    path('get-clinic/', dentist_views.get_clinic, name='get_clinic'),
     path('update/<str:form>', dentist_views.update, name='update_dentist'),
     path('appointments/update', appointment_views.appointments_update, name='appointments_update'),
     path('appointments/', appointment_views.appointments, name='appointments'),

@@ -133,6 +133,7 @@
                                         <option value="{{ clinic.name }}">{{ clinic.name }}</option>
                                         {% endif %}
                                     {% endfor %}
+                                    <option value="other">{% trans "Boshqa" %}</option>
                                 </select>
                             </div>
                             {% for field in clinicform %}
@@ -491,6 +492,37 @@
         $("#birth_year_1").on("change", function() {
             if (parseInt(this.val()) >= current_year) {
                 this.val(current_year)
+            }
+        })
+        $("#id_clinic").on("change", function() {
+            if ($("#id_clinic").val() == "other") {
+                $("#id_clinic_name_uz").val("")
+                $("#id_clinic_name_ru").val("")
+                $("#id_address_uz").val("")
+                $("#id_address_ru").val("")
+                $("#id_orientir_uz").val("")
+                $("#id_orientir_ru").val("")
+                $("#id_latitude").val("")
+                $("#id_longitude").val("")
+            } else {
+                $.ajax({
+                    url: "{% url 'dentx:get_clinic' %}",
+                    type: "POST",
+                    data : {
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                        clinic: $("#id_clinic").val(),
+                    },
+                }).always(function(result) {
+                    $("#id_clinic_name_uz").val(result["name_uz"])
+                    $("#id_clinic_name_ru").val(result["name_ru"])
+                    $("#id_address_uz").val(result["address_uz"])
+                    $("#id_address_ru").val(result["address_ru"])
+                    $("#id_orientir_uz").val(result["orientir_uz"])
+                    $("#id_orientir_ru").val(result["orientir_ru"])
+                    $("#id_region").val(result["region"]).change()
+                    $("#id_latitude").val(result["latitude"])
+                    $("#id_longitude").val(result["longitude"])
+                })
             }
         })
         let intervalFunc

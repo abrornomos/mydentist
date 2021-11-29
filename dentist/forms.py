@@ -114,7 +114,7 @@ class UserForm(forms.Form):
 
 class ClinicForm(forms.Form):
 
-    name_uzbek = forms.CharField(
+    clinic_name_uz = forms.CharField(
         label=_("Shifoxona nomi (o'zbekchada)"),
         widget=forms.TextInput(
             attrs={
@@ -125,7 +125,7 @@ class ClinicForm(forms.Form):
         max_length=150,
         localize=True
     )
-    name_russian = forms.CharField(
+    clinic_name_ru = forms.CharField(
         label=_("Shifoxona nomi (ruschada)"),
         widget=forms.TextInput(
             attrs={
@@ -136,7 +136,7 @@ class ClinicForm(forms.Form):
         max_length=150,
         localize=True
     )
-    address_uzbek = forms.CharField(
+    address_uz = forms.CharField(
         label=_("Manzil (o'zbekchada)"),
         widget=forms.TextInput(
             attrs={
@@ -147,7 +147,7 @@ class ClinicForm(forms.Form):
         max_length=150,
         localize=True
     )
-    address_russian = forms.CharField(
+    address_ru = forms.CharField(
         label=_("Manzil (ruschada)"),
         widget=forms.TextInput(
             attrs={
@@ -158,7 +158,7 @@ class ClinicForm(forms.Form):
         max_length=150,
         localize=True
     )
-    orientir_uzbek = forms.CharField(
+    orientir_uz = forms.CharField(
         label=_("Mo'ljal (o'zbekchada)"),
         widget=forms.TextInput(
             attrs={
@@ -170,7 +170,7 @@ class ClinicForm(forms.Form):
         localize=True,
         required=False
     )
-    orientir_russian = forms.CharField(
+    orientir_ru = forms.CharField(
         label=_("Mo'ljal (ruschada)"),
         widget=forms.TextInput(
             attrs={
@@ -191,15 +191,22 @@ class ClinicForm(forms.Form):
             choices=CHOICES['regions']
         )
     )
-    link = forms.CharField(
-        label=_("Xaritadagi havola"),
+    latitude = forms.FloatField(
+        label=_("Kenglik"),
+        widget=forms.TextInput(
+            attrs={
+                'class': "form-control"
+            }
+        ),
+        localize=True
+    )
+    longitude = forms.FloatField(
+        label=_("Uzunlik"),
         widget=forms.TextInput(
             attrs={
                 'class': "form-control",
-                'placeholder': _("Xaritadagi havola")
             }
         ),
-        max_length=250,
         localize=True
     )
     worktime_begin = forms.CharField(

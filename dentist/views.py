@@ -127,11 +127,11 @@ def settings(request, active_tab="profile"):
         language__pk=dentist.language_id
     )[0]
     clinic = Clinic.objects.get(pk=dentist.clinic_id)
-    clinic_uzbek = Clinic_translation.objects.get(
+    clinic_uz = Clinic_translation.objects.get(
         clinic=clinic,
         language__name="uz"
     )
-    clinic_russian = Clinic_translation.objects.get(
+    clinic_ru = Clinic_translation.objects.get(
         clinic=clinic,
         language__name="ru"
     )
@@ -184,13 +184,15 @@ def settings(request, active_tab="profile"):
         if clinic_obj.id == clinic.id:
             active_clinic = clinic_obj
     clinicform = ClinicForm({
-        'name_uzbek': clinic_uzbek.name,
-        'name_russian': clinic_russian.name,
+        'clinic_name_uz': clinic_uz.name,
+        'clinic_name_ru': clinic_ru.name,
+        'address_uz': clinic_uz.address,
+        'address_ru': clinic_ru.address,
+        'orientir_uz': clinic_uz.orientir,
+        'orientir_ru': clinic_ru.orientir,
         'region': clinic.region_id,
-        'address_uzbek': clinic_uzbek.address,
-        'address_russian': clinic_russian.address,
-        'orientir_uzbek': clinic_uzbek.orientir,
-        'orientir_russian': clinic_russian.orientir,
+        'latitude': clinic.latitude,
+        'longitude': clinic.longitude,
         'worktime_begin': dentist.worktime_begin,
         'worktime_end': dentist.worktime_end,
     })
@@ -282,6 +284,9 @@ def update(request, form):
                     languageform = LanguageForm(request.POST)
                     request.session['success_message'] = "Passwords do not match"
                     return redirect("dentx:settings", active_tab="password")
+        elif form == "clinic":
+            print(float(request.POST['latitude']))
+            print(float(request.POST['longitude']))
         elif form == "clinic-photo":
             new_cabinet_image = Cabinet_Image.objects.create(
                 image=request.FILES['file'],
@@ -331,3 +336,42 @@ def update(request, form):
                 request.session['success_message'] = "Passwords do not match"
                 return redirect("dentx:settings", active_tab="services")
         return redirect("dentx:settings", active_tab="profile")
+
+
+def get_clinic(request):
+    if not is_authenticated(request, "dentist"):
+        if not is_authenticated(request, "patient"):
+            return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
+        else:
+            return redirect(request.META.get('HTTP_REFERER', '/'))
+    else:
+        check_language(request, "dentist")
+    dentist = DentistUser.objects.get(user__username=request.user.username)
+    clinic_translation = Clinic_translation.objects.get(
+        name=request.POST['clinic'],
+        language__pk=dentist.language_id
+    )
+    if clinic_translation.language_id == 1:
+        clinic_uz = clinic_translation
+        clinic_ru = Clinic_translation.objects.get(
+            clinic__pk=clinic_translation.clinic_id,
+            language__pk=2
+        )
+    elif clinic_translation.language_id == 2:
+        clinic_uz = Clinic_translation.objects.get(
+            clinic__pk=clinic_translation.clinic_id,
+            language__pk=1
+        )
+        clinic_ru = clinic_translation
+    clinic = Clinic.objects.get(pk=clinic_translation.clinic_id)
+    return JsonResponse({
+        'name_uz': clinic_uz.name,
+        'name_ru': clinic_ru.name,
+        'address_uz': clinic_uz.address,
+        'address_ru': clinic_ru.address,
+        'orientir_uz': clinic_uz.orientir,
+        'orientir_ru': clinic_ru.orientir,
+        'region': clinic.region_id,
+        'latitude': clinic.latitude,
+        'longitude': clinic.longitude,
+    }, safe=False)
