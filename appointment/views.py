@@ -11,7 +11,6 @@ from patient.forms import PatientForm
 from patient.models import User as PatientUser
 from mydentist.handler import *
 from mydentist.var import *
-from patient.views import patient
 from .forms import *
 from .models import *
 

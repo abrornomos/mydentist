@@ -285,8 +285,22 @@ def update(request, form):
                     request.session['success_message'] = "Passwords do not match"
                     return redirect("dentx:settings", active_tab="password")
         elif form == "clinic":
-            print(float(request.POST['latitude']))
-            print(float(request.POST['longitude']))
+            clinicform = ClinicForm(request.POST)
+            if clinicform.is_valid():
+                if request.POST['clinic'] == "other":
+                    clinic = Clinic.objects.create(
+                        name=clinicform.cleaned_data['clinic_name_uz']
+                    )
+                else:
+                    clinic_translation = Clinic_translation.objects.get(
+                        name=request.POST['clinic'],
+                        language__pk=dentist.language_id
+                    )
+                    print(clinic_translation)
+                    print(float(request.POST['latitude'].replace(",", ".")))
+                    print(float(request.POST['longitude'].replace(",", ".")))
+                request.session['success_message'] = "Updated successfully"
+                return redirect("dentx:settings", active_tab="clinic")
         elif form == "clinic-photo":
             new_cabinet_image = Cabinet_Image.objects.create(
                 image=request.FILES['file'],
@@ -333,7 +347,7 @@ def update(request, form):
                 service_uz.save()
                 service_ru.save()
                 serviceform = ServiceForm()
-                request.session['success_message'] = "Passwords do not match"
+                request.session['success_message'] = "Updated successfully"
                 return redirect("dentx:settings", active_tab="services")
         return redirect("dentx:settings", active_tab="profile")
 
