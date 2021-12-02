@@ -1,7 +1,7 @@
 from django.conf import settings as global_settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.http.response import JsonResponse
+from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import render
 from django.utils.translation import get_language
 from appointment.models import Appointment, Query
@@ -115,6 +115,8 @@ def settings(request, active_tab="profile"):
     if 'success_message' in request.session:
         if request.session['success_message'] == "Updated successfully":
             success_message = "Updated successfully"
+        elif request.session['success_message'] == "Added successfully":
+            success_message = "Added successfully"
         elif request.session['success_message'] == "Passwords do not match":
             success_message = "Passwords do not match"
         del request.session['success_message']
@@ -181,8 +183,9 @@ def settings(request, active_tab="profile"):
                 language__pk=dentist.language_id
             )
         )
-        if clinic_obj.id == clinic.id:
+        if clinic_obj.id == dentist.clinic_id:
             active_clinic = clinic_obj
+    print(active_clinic)
     clinicform = ClinicForm({
         'clinic_name_uz': clinic_uz.name,
         'clinic_name_ru': clinic_ru.name,
@@ -251,9 +254,8 @@ def update(request, form):
                 request.session[translation.LANGUAGE_SESSION_KEY] = language
                 user.save()
                 dentist.save()
-                passwordupdateform = PasswordUpdateForm(request.POST)
                 request.session['success_message'] = "Updated successfully"
-                return redirect("patient:settings", active_tab="profile")
+                return redirect("dentx:settings", active_tab="profile")
         elif form == "password":
             passwordupdateform = PasswordUpdateForm(request.POST)
             if passwordupdateform.is_valid():
@@ -285,8 +287,33 @@ def update(request, form):
                     request.session['success_message'] = "Passwords do not match"
                     return redirect("dentx:settings", active_tab="password")
         elif form == "clinic":
-            print(float(request.POST['latitude']))
-            print(float(request.POST['longitude']))
+            clinicform = ClinicForm(request.POST)
+            if clinicform.is_valid():
+                if request.POST['clinic'] == 'other':
+                    try:
+                        latitude = float(clinicform.cleaned_data['latitude'])
+                        longitude = float(clinicform.cleaned_data['longitude'])
+                    except ValueError:
+                        latitude = float(clinicform.cleaned_data['latitude'].replace(",", "."))
+                        longitude = float(clinicform.cleaned_data['longitude'].replace(",", "."))
+                    except Exception:
+                        raise HttpResponseForbidden
+                    request.session['success_message'] = "Added successfully"
+                    return redirect("dentx:settings", active_tab="clinic")
+                else:
+                    clinic_translation = Clinic_translation.objects.get(
+                        name=request.POST['clinic'],
+                        language__pk=dentist.language_id
+                    )
+                    clinic = Clinic.objects.get(
+                        pk=clinic_translation.clinic_id
+                    )
+                    dentist.clinic_id = clinic.id
+                    dentist.save()
+                    request.session['success_message'] = "Updated successfully"
+                    return redirect("dentx:settings", active_tab="clinic")
+            else:
+                print(clinicform.errors)
         elif form == "clinic-photo":
             new_cabinet_image = Cabinet_Image.objects.create(
                 image=request.FILES['file'],

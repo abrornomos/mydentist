@@ -191,7 +191,7 @@ class ClinicForm(forms.Form):
             choices=CHOICES['regions']
         )
     )
-    latitude = forms.FloatField(
+    latitude = forms.CharField(
         label=_("Kenglik"),
         widget=forms.TextInput(
             attrs={
@@ -200,7 +200,7 @@ class ClinicForm(forms.Form):
         ),
         localize=True
     )
-    longitude = forms.FloatField(
+    longitude = forms.CharField(
         label=_("Uzunlik"),
         widget=forms.TextInput(
             attrs={

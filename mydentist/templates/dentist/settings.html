@@ -127,7 +127,7 @@
                                 <label for="id_clinic" class="form-label">{% trans "Shifoxona" %}</label>
                                 <select name="clinic" class="form-select" id="id_clinic">
                                     {% for clinic in clinics %}
-                                        {% if active_clinic == clinic.clinic_id %}
+                                        {% if active_clinic.id == clinic.clinic_id %}
                                         <option value="{{ clinic.name }}" selected>{{ clinic.name }}</option>
                                         {% else %}
                                         <option value="{{ clinic.name }}">{{ clinic.name }}</option>
@@ -494,16 +494,28 @@
                 this.val(current_year)
             }
         })
+        if ($("#id_clinic").val() != "other") {
+            $("#id_clinic_name_uz").attr("readonly", true)
+            $("#id_clinic_name_ru").attr("readonly", true)
+            $("#id_address_uz").attr("readonly", true)
+            $("#id_address_ru").attr("readonly", true)
+            $("#id_orientir_uz").attr("readonly", true)
+            $("#id_orientir_ru").attr("readonly", true)
+            $("#id_region").attr("readonly", true)
+            $("#id_latitude").attr("readonly", true)
+            $("#id_longitude").attr("readonly", true)
+        }
         $("#id_clinic").on("change", function() {
             if ($("#id_clinic").val() == "other") {
-                $("#id_clinic_name_uz").val("")
-                $("#id_clinic_name_ru").val("")
-                $("#id_address_uz").val("")
-                $("#id_address_ru").val("")
-                $("#id_orientir_uz").val("")
-                $("#id_orientir_ru").val("")
-                $("#id_latitude").val("")
-                $("#id_longitude").val("")
+                $("#id_clinic_name_uz").val("").removeAttr("readonly")
+                $("#id_clinic_name_ru").val("").removeAttr("readonly")
+                $("#id_address_uz").val("").removeAttr("readonly")
+                $("#id_address_ru").val("").removeAttr("readonly")
+                $("#id_orientir_uz").val("").removeAttr("readonly")
+                $("#id_orientir_ru").val("").removeAttr("readonly")
+                $("#id_region").removeAttr("readonly")
+                $("#id_latitude").val("").removeAttr("readonly")
+                $("#id_longitude").val("").removeAttr("readonly")
             } else {
                 $.ajax({
                     url: "{% url 'dentx:get_clinic' %}",
@@ -513,15 +525,15 @@
                         clinic: $("#id_clinic").val(),
                     },
                 }).always(function(result) {
-                    $("#id_clinic_name_uz").val(result["name_uz"])
-                    $("#id_clinic_name_ru").val(result["name_ru"])
-                    $("#id_address_uz").val(result["address_uz"])
-                    $("#id_address_ru").val(result["address_ru"])
-                    $("#id_orientir_uz").val(result["orientir_uz"])
-                    $("#id_orientir_ru").val(result["orientir_ru"])
-                    $("#id_region").val(result["region"]).change()
-                    $("#id_latitude").val(result["latitude"])
-                    $("#id_longitude").val(result["longitude"])
+                    $("#id_clinic_name_uz").val(result["name_uz"]).attr("readonly", true)
+                    $("#id_clinic_name_ru").val(result["name_ru"]).attr("readonly", true)
+                    $("#id_address_uz").val(result["address_uz"]).attr("readonly", true)
+                    $("#id_address_ru").val(result["address_ru"]).attr("readonly", true)
+                    $("#id_orientir_uz").val(result["orientir_uz"]).attr("readonly", true)
+                    $("#id_orientir_ru").val(result["orientir_ru"]).attr("readonly", true)
+                    $("#id_region").val(result["region"]).change().attr("readonly", true)
+                    $("#id_latitude").val(result["latitude"]).attr("readonly", true)
+                    $("#id_longitude").val(result["longitude"]).attr("readonly", true)
                 })
             }
         })

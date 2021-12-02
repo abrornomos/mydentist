@@ -969,6 +969,12 @@ span.fa-border img {
   display: block;
 }
 
+select[readonly] {
+  background: #eaecef;
+  pointer-events: none;
+  touch-action: none;
+}
+
 @media (max-width: 1400px) {
   .my_select {
     padding: 10px 0px;
