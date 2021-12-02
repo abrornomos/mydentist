@@ -289,6 +289,7 @@ def update(request, form):
         elif form == "clinic":
             clinicform = ClinicForm(request.POST)
             if clinicform.is_valid():
+<<<<<<< HEAD
                 if request.POST['clinic'] == 'other':
                     try:
                         latitude = float(clinicform.cleaned_data['latitude'])
@@ -300,11 +301,18 @@ def update(request, form):
                         raise HttpResponseForbidden
                     request.session['success_message'] = "Added successfully"
                     return redirect("dentx:settings", active_tab="clinic")
+=======
+                if request.POST['clinic'] == "other":
+                    clinic = Clinic.objects.create(
+                        name=clinicform.cleaned_data['clinic_name_uz']
+                    )
+>>>>>>> 297e1361dedbe71e969dab9ec9c4f1aff4dc5fde
                 else:
                     clinic_translation = Clinic_translation.objects.get(
                         name=request.POST['clinic'],
                         language__pk=dentist.language_id
                     )
+<<<<<<< HEAD
                     clinic = Clinic.objects.get(
                         pk=clinic_translation.clinic_id
                     )
@@ -314,6 +322,13 @@ def update(request, form):
                     return redirect("dentx:settings", active_tab="clinic")
             else:
                 print(clinicform.errors)
+=======
+                    print(clinic_translation)
+                    print(float(request.POST['latitude'].replace(",", ".")))
+                    print(float(request.POST['longitude'].replace(",", ".")))
+                request.session['success_message'] = "Updated successfully"
+                return redirect("dentx:settings", active_tab="clinic")
+>>>>>>> 297e1361dedbe71e969dab9ec9c4f1aff4dc5fde
         elif form == "clinic-photo":
             new_cabinet_image = Cabinet_Image.objects.create(
                 image=request.FILES['file'],
@@ -360,7 +375,7 @@ def update(request, form):
                 service_uz.save()
                 service_ru.save()
                 serviceform = ServiceForm()
-                request.session['success_message'] = "Passwords do not match"
+                request.session['success_message'] = "Updated successfully"
                 return redirect("dentx:settings", active_tab="services")
         return redirect("dentx:settings", active_tab="profile")
 
