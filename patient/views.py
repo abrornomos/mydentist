@@ -393,6 +393,8 @@ def patients(request):
             return redirect(request.META.get('HTTP_REFERER', '/'))
     else:
         check_language(request, "dentist")
+    if request.method == "POST":
+        new_user = User.objects.create()
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     patients_obj = PatientUser.objects.all()

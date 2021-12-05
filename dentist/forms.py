@@ -182,15 +182,6 @@ class ClinicForm(forms.Form):
         localize=True,
         required=False
     )
-    region = forms.CharField(
-        label=_("Hudud"),
-        widget=forms.Select(
-            attrs={
-                'class': "form-select"
-            },
-            choices=CHOICES['regions']
-        )
-    )
     latitude = forms.CharField(
         label=_("Kenglik"),
         widget=forms.TextInput(
@@ -208,6 +199,15 @@ class ClinicForm(forms.Form):
             }
         ),
         localize=True
+    )
+    region = forms.CharField(
+        label=_("Hudud"),
+        widget=forms.Select(
+            attrs={
+                'class': "form-select"
+            },
+            choices=CHOICES['regions']
+        )
     )
     worktime_begin = forms.CharField(
         widget=forms.TextInput(

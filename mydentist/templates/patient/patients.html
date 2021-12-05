@@ -12,16 +12,16 @@
                 <br>
                 <div class="row align-items-center">
                     <div class="col">
-                        <h1 class="header-title">Пациенты</h1>
+                        <h1 class="header-title">{% trans "Bemorlar" %}</h1>
                     </div>
                     <div class="col-auto">
-                        <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">Новый клиент</button>
+                        <button class="btn my_btn" data-bs-toggle="modal" data-bs-target="#exampleModal">{% trans "Yangi bemor" %}</button>
                     </div>
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Новый клиент</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">{% trans "Yangi bemor" %}</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body">
@@ -58,8 +58,8 @@
                                             </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button class="btn btn-primary me-md-2 mt-2" type="submit">Tasdiqlamoq</button>
-                                            <button class="btn btn-secondary mt-2" type="button" data-bs-dismiss="modal" aria-label="Close">Bekor qilmoq</button>
+                                            <button class="btn btn-primary me-md-2 mt-2" type="submit">{% trans "Tasdiqlash" %}</button>
+                                            <button class="btn btn-secondary mt-2" type="button" data-bs-dismiss="modal" aria-label="Close">{% trans "Bekor qilish" %}</button>
                                         </div>
                                     </form>
                                 </div>

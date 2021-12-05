@@ -5,6 +5,7 @@ from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import render
 from django.utils.translation import get_language
 from appointment.models import Appointment, Query
+from baseapp.models import *
 from login.forms import PasswordUpdateForm
 from mydentist.handler import *
 from mydentist.var import *
@@ -289,7 +290,6 @@ def update(request, form):
         elif form == "clinic":
             clinicform = ClinicForm(request.POST)
             if clinicform.is_valid():
-<<<<<<< HEAD
                 if request.POST['clinic'] == 'other':
                     try:
                         latitude = float(clinicform.cleaned_data['latitude'])
@@ -299,20 +299,40 @@ def update(request, form):
                         longitude = float(clinicform.cleaned_data['longitude'].replace(",", "."))
                     except Exception:
                         raise HttpResponseForbidden
+                    clinic = Clinic.objects.create(
+                        name=clinicform.cleaned_data['clinic_name_uz'],
+                        region=Region.objects.get(pk=clinicform.cleaned_data['region']),
+                        latitude=latitude,
+                        longitude=longitude
+                    )
+                    clinic_uz = Clinic_translation.objects.create(
+                        clinic=clinic,
+                        name=clinicform.cleaned_data['clinic_name_uz'],
+                        address=clinicform.cleaned_data['address_uz'],
+                        orientir=clinicform.cleaned_data['orientir_uz'],
+                        language=Language.objects.get(name="uz")
+                    )
+                    clinic_ru = Clinic_translation.objects.create(
+                        clinic=clinic,
+                        name=clinicform.cleaned_data['clinic_name_ru'],
+                        address=clinicform.cleaned_data['address_ru'],
+                        orientir=clinicform.cleaned_data['orientir_ru'],
+                        language=Language.objects.get(name="ru")
+                    )
+                    dentist.clinic_id = clinic.id
+                    dentist.save()
                     request.session['success_message'] = "Added successfully"
                     return redirect("dentx:settings", active_tab="clinic")
-=======
                 if request.POST['clinic'] == "other":
                     clinic = Clinic.objects.create(
                         name=clinicform.cleaned_data['clinic_name_uz']
                     )
->>>>>>> 297e1361dedbe71e969dab9ec9c4f1aff4dc5fde
                 else:
                     clinic_translation = Clinic_translation.objects.get(
                         name=request.POST['clinic'],
                         language__pk=dentist.language_id
                     )
-<<<<<<< HEAD
+                    print(clinic_translation)
                     clinic = Clinic.objects.get(
                         pk=clinic_translation.clinic_id
                     )
@@ -322,13 +342,10 @@ def update(request, form):
                     return redirect("dentx:settings", active_tab="clinic")
             else:
                 print(clinicform.errors)
-=======
-                    print(clinic_translation)
-                    print(float(request.POST['latitude'].replace(",", ".")))
-                    print(float(request.POST['longitude'].replace(",", ".")))
+                print(float(request.POST['latitude'].replace(",", ".")))
+                print(float(request.POST['longitude'].replace(",", ".")))
                 request.session['success_message'] = "Updated successfully"
                 return redirect("dentx:settings", active_tab="clinic")
->>>>>>> 297e1361dedbe71e969dab9ec9c4f1aff4dc5fde
         elif form == "clinic-photo":
             new_cabinet_image = Cabinet_Image.objects.create(
                 image=request.FILES['file'],
