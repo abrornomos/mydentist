@@ -35,9 +35,10 @@ def register(request):
         otherillnessform = OtherIllnessForm(request.POST)
         if userform.is_valid() and passwordform.is_valid() and illnessform.is_valid() and otherillnessform.is_valid():
             if passwordform.cleaned_data['password'] == passwordform.cleaned_data['password_confirm']:
-                with open(Path(__file__).resolve().parent / "last_id.txt", "r") as file:
+                file_path = Path(__file__).resolve().parent.parent / "mydentist" / "last_id.txt"
+                with open(file_path, "r") as file:
                     id = int(file.read()) + 1
-                with open(Path(__file__).resolve().parent / "last_id.txt", "w") as file:
+                with open(file_path, "w") as file:
                     file.write(str(id))
                 id = f"{id:07d}"
                 user = User.objects.create_user(
@@ -188,34 +189,34 @@ def sign_in(request):
                         'error_message': _("Xato parol")
                     })
             except:
-                # try:
-                #     user_check = UserExtra.objects.get(phone_number=loginform.cleaned_data['email'])
-                #     user_check = User.objects.get(pk=user_check.user_id)
-                #     user = authenticate(
-                #         request,
-                #         username=user_check.username,
-                #         password=request.POST['password']
-                #     )
-                #     if user is not None:
-                #         login(request, user)
-                #         user_extra = UserExtra.objects.get(user=user)
-                #         translation.activate(user_extra.language)
-                #         request.session[translation.LANGUAGE_SESSION_KEY] = user_extra.language
-                #         request.session[user.get_username()] = user.get_username()
-                #         if 'next' in request.POST:
-                #             return redirect(request.POST['next'])
-                #         else:
-                #             return redirect("patient:profile")
-                #     else:
-                #         return render(request, "login/login.html", {
-                #             'loginform': loginform,
-                #             'error_message': _("Xato parol")
-                #         })
-                # except:
-                return render(request, "login/login.html", {
-                    'loginform': loginform,
-                    'error_message': _("Xato e-mail")
-                })
+                try:
+                    user_check = PatientUser.objects.get(phone_number=loginform.cleaned_data['email'])
+                    user_check = User.objects.get(pk=user_check.user_id)
+                    user = authenticate(
+                        request,
+                        username=user_check.username,
+                        password=request.POST['password']
+                    )
+                    if user is not None:
+                        login(request, user)
+                        user_extra = PatientUser.objects.get(user=user)
+                        translation.activate(user_extra.language)
+                        request.session[translation.LANGUAGE_SESSION_KEY] = user_extra.language
+                        request.session[user.get_username()] = user.get_username()
+                        if 'next' in request.POST:
+                            return redirect(request.POST['next'])
+                        else:
+                            return redirect("patient:profile")
+                    else:
+                        return render(request, "login/login.html", {
+                            'loginform': loginform,
+                            'error_message': _("Xato parol")
+                        })
+                except:
+                    return render(request, "login/login.html", {
+                        'loginform': loginform,
+                        'error_message': _("Xato e-mail")
+                    })
         else:
             return render(request, "login/login.html", {
                 'loginform': loginform,

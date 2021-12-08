@@ -6,7 +6,7 @@ from .models import *
 admin.site.site_header = _("MyDentist sayti boshqaruvi")
 admin.site.site_title = _("MyDentist sayti boshqaruvi")
 
-# Register your models here.
+
 admin.site.register(Language)
 admin.site.register(Region)
 admin.site.register(Gender)

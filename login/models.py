@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-# Create your models here.
+
 class PasswordReset(models.Model):
 
     email = models.CharField(_("E-mail"), max_length=100)
