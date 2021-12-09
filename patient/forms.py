@@ -99,6 +99,7 @@ class UserForm(forms.Form):
 
 
 class LanguageForm(forms.Form):
+    
     language = forms.CharField(
         label=_("Til"),
         widget=forms.Select(

@@ -56,6 +56,14 @@
                                                     {{ patientform.address }}
                                                 </div>
                                             </div>
+                                            <div class="bottom-inputs d-flex justify-content-between flex-wrap mt-2">
+                                                <div class="end col-12 col-lg-3">
+                                                    <label class="mb-1 left" for="id_language">{{ languageform.language.label }}</label>
+                                                    <div>
+                                                    {{ languageform.language }}
+                                                    </div>
+                                                </div>
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
                                             <button class="btn btn-primary me-md-2 mt-2" type="submit">{% trans "Tasdiqlash" %}</button>
@@ -69,6 +77,11 @@
                 </div>
             </div>
             <div class="overflow mt-5 border-top">
+                {% if text is not None %}
+                    <div class="alert alert-success">
+                        {{ text }}
+                    </div>
+                {% endif %}
                 <ul class="d-flex justify-content-end list-group-horizontal me-auto my-2 my-lg-0 offset-lg-6" style="--bs-scroll-height: 100px;">
                     <li class="nav-item dropdown list-group-item">
                         <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Qarz</a>

@@ -1,3 +1,4 @@
+from datetime import datetime, date
 from django.conf import settings as global_settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
@@ -5,9 +6,9 @@ from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
-from datetime import datetime, date
+from pathlib import Path
 from appointment.models import Query, Appointment
-from baseapp.models import Language
+from baseapp.models import Language, Gender
 from dentist.models import User as DentistUser, User_translation, Clinic, Clinic_translation, Service, Service_translation, Cabinet_Image
 from illness.models import *
 from illness.forms import *
@@ -393,8 +394,69 @@ def patients(request):
             return redirect(request.META.get('HTTP_REFERER', '/'))
     else:
         check_language(request, "dentist")
+    text = None
     if request.method == "POST":
-        new_user = User.objects.create()
+        patientform = PatientForm(request.POST)
+        languageform = LanguageForm(request.POST)
+        if patientform.is_valid() and languageform.is_valid():
+            file_path = Path(__file__).resolve().parent.parent / "mydentist" / "last_id.txt"
+            with open(file_path, "r") as file:
+                id = int(file.read()) + 1
+            with open(file_path, "w") as file:
+                file.write(str(id))
+            id = f"{id:07d}"
+            name = patientform.cleaned_data['name']
+            try:
+                new_patient = PatientUser.objects.get(phone_number=patientform.cleaned_data['phone_number'])
+            except:
+                if len(name) > 1:
+                    new_user = User.objects.create_user(
+                        f"user{id}",
+                        password=f"user{id}",
+                        first_name=name.split(" ")[0],
+                        last_name=" ".join(name.split(" ")[1:])
+                    )
+                else:
+                    new_user = User.objects.create_user(
+                        f"user{id}",
+                        password=f"user{id}",
+                        first_name=name
+                    )
+                new_patient = PatientUser.objects.create(
+                    user=new_user,
+                    phone_number=patientform.cleaned_data['phone_number'],
+                    address=patientform.cleaned_data['address'],
+                    birthday=patientform.cleaned_data['birthday'],
+                    image="patients/photos/default.png",
+                    language=Language.objects.get(pk=languageform.cleaned_data['language']),
+                    gender=Gender.objects.get(pk=patientform.cleaned_data['gender'])
+                )
+                new_illness = Illness.objects.create(
+                    patient=new_patient,
+                    diabet=Diabet.objects.get(pk=1),
+                    anesthesia=Anesthesia.objects.get(pk=4),
+                    hepatitis=Hepatitis.objects.get(pk=1),
+                    aids=AIDS.objects.get(pk=1),
+                    pressure=Pressure.objects.get(pk=1),
+                    allergy=Allergy.objects.get(pk=1),
+                    asthma=Asthma.objects.get(pk=1),
+                    dizziness=Dizziness.objects.get(pk=1),
+                )
+                new_otherillness = Other_Illness.objects.create(
+                    patient=new_patient,
+                    epilepsy=Epilepsy.objects.get(pk=1),
+                    blood_disease=Blood_disease.objects.get(pk=1),
+                    medications=Medications.objects.get(pk=1),
+                    stroke=Stroke.objects.get(pk=1),
+                    heart_attack=Heart_attack.objects.get(pk=1),
+                    oncologic=Oncologic.objects.get(pk=1),
+                    tuberculosis=Tuberculosis.objects.get(pk=1),
+                    alcohol=Alcohol.objects.get(pk=1),
+                    pregnancy=Pregnancy.objects.get(pk=1),
+                )
+                success = _("Yangi bemor qo'shildi")
+                new_line = "\n"
+                text = f"{success}{new_line}{_('Telefon raqam')}: {new_patient.phone_number}{new_line}{_('Parol')}: user{id}"
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     patients_obj = PatientUser.objects.all()
@@ -406,10 +468,13 @@ def patients(request):
             'gender': GENDERS[patient_obj.gender_id - 1]
         })
     patientform = PatientForm()
+    languageform = LanguageForm()
     return render(request, "patient/patients.html", {
         'dentist': dentist,
         'results': results,
-        'patientform': patientform
+        'patientform': patientform,
+        'languageform': languageform,
+        'text': text
     })
 
 
