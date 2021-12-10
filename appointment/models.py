@@ -1,4 +1,7 @@
+from datetime import timedelta
 from django.db import models
+from django.conf import settings
+from django.utils import timezone
 from django.utils.translation import ugettext_lazy as _
 
 
@@ -31,3 +34,6 @@ class Appointment(models.Model):
 
     def __str__(self):
         return f"{self.patient.__str__()} - {self.dentist.__str__()}"
+    
+    def upcoming(self):
+        return self.begin >= timezone.now() + timedelta(seconds=settings.TIME_ZONE_HOUR * 3600)

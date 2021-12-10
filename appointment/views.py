@@ -57,6 +57,7 @@ def appointments(request):
                     duration = timedelta(hours=duration // 60, minutes=duration % 60)
                     end = begin + duration
                     if compare_appointment(begin, end, Appointment.objects.filter(
+                        dentist=dentist,
                         begin__year=begin_year,
                         begin__month=begin_month,
                         begin__day=begin_day
@@ -257,6 +258,7 @@ def table(request):
                 tzinfo=timezone.now().tzinfo
             )
             html += compare_time(time, Appointment.objects.filter(
+                dentist=dentist,
                 begin__year=time.year,
                 begin__month=time.month,
                 begin__day=time.day

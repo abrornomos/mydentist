@@ -110,7 +110,8 @@
 {% block javascript %}
     <script type="text/javascript">
         {% get_current_language as LANGUAGE_CODE %}
-        {% if LANGUAGE_CODE == 'uz' %}days = [
+        {% if LANGUAGE_CODE == 'uz' %}
+        days = [
             "Dushanba",
             "Seshanba",
             "Chorshanba",
@@ -119,7 +120,22 @@
             "Shanba",
             "Yakshanba"
         ]
-        {% elif LANGUAGE_CODE == 'ru' %}days = [
+        months = [
+            "yanvar",
+            "fevral",
+            "mart",
+            "aprel",
+            "may",
+            "iyun",
+            "iyul",
+            "avgust",
+            "sentyabr",
+            "oktyabr",
+            "noyabr",
+            "dekabr"
+        ]
+        {% elif LANGUAGE_CODE == 'ru' %}
+        days = [
             "Понедельник",
             "Вторник",
             "Среда",
@@ -128,8 +144,23 @@
             "Суббота",
             "Воскресенье"
         ]
+        months = [
+            "января",
+            "февраля",
+            "марта",
+            "апреля",
+            "мая",
+            "июня",
+            "июля",
+            "августа",
+            "сентября",
+            "октября",
+            "ноября",
+            "декабря"
+        ]
         {% endif %}
         today = new Date()
+        console.log(today.year)
         today.setTime(today.getTime() - ((today.getDay() + 6) % 7) * 24 * 60 * 60 * 1000)
         $.ajax({
             url: "{% url 'dentx:table' %}"

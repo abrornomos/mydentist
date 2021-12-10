@@ -112,6 +112,7 @@ LOCALE_PATHS = [
 ]
 
 TIME_ZONE = 'UTC'
+TIME_ZONE_HOUR = 5
 
 USE_I18N = True
 

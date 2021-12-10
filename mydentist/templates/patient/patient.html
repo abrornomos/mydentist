@@ -34,9 +34,6 @@
                     <button class="nav-link {% if active_tab == "process" %}active{% endif %}" id="pills-process-tab" data-bs-toggle="pill" data-bs-target="#pills-process" type="button" role="tab" aria-controls="pills-process" aria-selected="false">{% trans "Davolanish jarayoni" %}</button>
                 </li>
                 <li class="nav-item my_select_item" role="presentation">
-                    <button class="nav-link {% if active_tab == "calc" %}active{% endif %}" id="pills-calc-tab" data-bs-toggle="pill" data-bs-target="#pills-calc" type="button" role="tab" aria-controls="pills-calc" aria-selected="false">{% trans "Hisob-kitob" %}</button>
-                </li>
-                <li class="nav-item my_select_item" role="presentation">
                     <button class="nav-link {% if active_tab == "dental-map" %}active{% endif %}" id="pills-dental-map-tab" data-bs-toggle="pill" data-bs-target="#pills-dental-map" type="button" role="tab" aria-controls="pills-dental-map" aria-selected="false">{% trans "Tish xaritasi" %}</button>
                 </li>
                 <li class="nav-item my_select_item" role="presentation">
@@ -265,61 +262,97 @@
                     </div>
                 </div>
                 <div class="tab-pane fade {% if active_tab == "appointment" %}show active{% endif %}" id="pills-appointment" role="tabpanel" aria-labelledby="pills-appointment-tab">
+                    {% if upcoming is not None %}
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6 offset-md-3">
+                                    <div class="card-body">
+                                        <div tabindex="0" class="kanban-category">
+                                            <div tabindex="0" class="kanban-item">
+                                                <div class="card" draggable="false" style="border-top: 3px solid rgb(91, 192, 235); transform: translateZ(0px);">
+                                                    <div class="card-body p-3">
+                                                        <div class="row align-items-center">
+                                                            <div class="col">
+                                                                <h4>{% date_format upcoming.appointment.begin %}</h4>
+                                                                <h4>{% time_format upcoming.appointment.begin %} - {% time_format upcoming.appointment.end %}</h4>
+                                                            </div>
+                                                            <div class="col-auto small">
+                                                            {% if upcoming.appointment.status == "waiting" %}
+                                                                <span class="badge bg-info">Ожидается</span>
+                                                            {% elif upcoming.appointment.status == "done" %}
+                                                                <span class="badge bg-success">Посещён</span>
+                                                            {% elif upcoming.appointment.status == "missed" %}
+                                                                <span class="badge bg-danger">Не посещён</span>
+                                                            {% endif %}
+                                                            </div>
+                                                        </div>
+                                                        <div class="row align-items-start">
+                                                            <div class="col">
+                                                                <div class="mb-4"></div>
+                                                                <div class="row align-items-start mt-1">
+                                                                    <div class="col">
+                                                                        <div class="small text-muted">{{ upcoming.service.name }}</div>
+                                                                        <div class="small text-muted">{{ upcoming.appointment.comment }}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="card-footer1 p-2 border-top">
+                                                        <div class="row">
+                                                            <div class="col">
+                                                            </div>
+                                                            <div class="col-auto">
+                                                                <a href="tel:{{ patient_extra.phone_number }}" class="btn btn-outline-info mr-2" draggable="false">
+                                                                    <i class="fas fa-phone"></i>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% else %}
+                        <h2 class="mt-5" style="text-align: center;">{% trans "Ushbu bemor ko'rikga yozilmagan" %}</h2>
+                    {% endif %}
                 </div>
                 <div class="tab-pane fade {% if active_tab == "process" %}show active{% endif %}" id="pills-process" role="tabpanel" aria-labelledby="pills-process-tab">
-                    <div class="form-check">
-                        <label class="form-check-label" for="flexCheckDefault">Kansultatsiya</label>
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label" for="flexCheckDefault1">Plomba</label>
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault1">
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label" for="flexCheckDefault2">Kansultatsiya</label>
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault2">
-                    </div>
-                    <div class="form-check">
-                        <label class="form-check-label" for="flexCheckDefault3">Implant</label>
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault3">
-                    </div>
-                    <button class="btn btn-success mt-2"> Muolajani yakunlash</button>
-                </div>
-                <div class="tab-pane fade {% if active_tab == "calc" %}show active{% endif %}" id="pills-calc" role="tabpanel" aria-labelledby="pills-calc-tab">
-                    <table class="table table-bordered border-primary text-center">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Muolaja nomi</th>
-                                <th scope="col">Vaqti(minut)</th>
-                                <th scope="col">Summa(so'mda)</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">1</th>
-                                <td>Kansultatsiya</td>
-                                <td>15</td>
-                                <td>50000</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Plomba</td>
-                                <td>30</td>
-                                <td>200000</td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td >Implant</td>
-                                <td>30</td>
-                                <td>300000</td>
-                            </tr>
-                            <tr>
-                                <td colspan="3">Jami summa:</td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    {% if appointments %}
+                        <div class="overflow">
+                            <table class="table table-primary table-striped">
+                                <thead>
+                                    <tr>
+                                        <th scope="col"></th>
+                                        <th scope="col">{% trans "Shifokor" %}</th>
+                                        <th scope="col">{% trans "Xizmat nomi" %}</th>
+                                        <th scope="col">{% trans "Narxi" %}</th>
+                                        <th scope="col">{% trans "Davomiyligi" %}</th>
+                                        <th scope="col">{% trans "Boshlangan vaqti" %}</th>
+                                        <th scope="col">{% trans "Tugagan vaqti" %}</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for appointment in appointments %}
+                                        <tr>
+                                            <td>{{ appointment.number }}</td>
+                                            <td>{{ appointment.dentist.fullname }}</td>
+                                            <td>{{ appointment.service_translation.name }}</td>
+                                            <td>{{ appointment.service.price }} {% trans "so'm" %}</td>
+                                            <td>{% convert_time appointment.service.duration %}</td>
+                                            <td>{{ appointment.appointment.begin }}</td>
+                                            <td>{{ appointment.appointment.end }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    {% else %}
+                        <h2 class="mt-5" style="text-align: center;">{% trans "Ushbu bemor davolanmagan" %}</h2>
+                    {% endif %}
                 </div>
                 <div class="tab-pane fade {% if active_tab == "dental-map" %}show active{% endif %}" id="pills-dental-map" role="tabpanel" aria-labelledby="pills-dental-map-tab">
                     <div class="overflow tab-pane fade show active">
@@ -732,11 +765,6 @@
         $("#pills-process-tab").on("click", function() {
             temp = request_path
             temp[request_path.length - 1] = "process"
-            window.history.replaceState({}, "", temp.join("/"))
-        })
-        $("#pills-calc-tab").on("click", function() {
-            temp = request_path
-            temp[request_path.length - 1] = "calc"
             window.history.replaceState({}, "", temp.join("/"))
         })
         $("#pills-dental-map-tab").on("click", function() {

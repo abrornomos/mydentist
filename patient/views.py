@@ -528,6 +528,33 @@ def patient(request, id, active_tab="profile"):
         'pregnancy': Pregnancy.objects.get(pk=patient_other_illness.pregnancy_id).value,
         'pregnancy_detail': Pregnancy.objects.get(pk=patient_other_illness.pregnancy_id).desc,
     })
+    upcoming = None
+    appointments_obj = list(Appointment.objects.filter(patient=patient_extra))[::-1]
+    appointments = []
+    number = 1
+    for appointment_obj in appointments_obj:
+        if appointment_obj.upcoming():
+            upcoming = {
+                'appointment': appointment_obj,
+                'service': Service_translation.objects.get(
+                    pk=appointment_obj.service_id,
+                    language__pk=dentist.language_id
+                )
+            }
+        appointments.append({
+            'appointment': appointment_obj,
+            'dentist': User_translation.objects.get(
+                dentist__pk=appointment_obj.dentist_id,
+                language__pk=dentist.language_id
+            ),
+            'number': number,
+            'service': Service.objects.get(pk=appointment_obj.service_id),
+            'service_translation': Service_translation.objects.get(
+                pk=appointment_obj.service_id,
+                language__pk=dentist.language_id
+            )
+        })
+        number += 1
     process_photos = Process_photo.objects.filter(patient=patient_extra)
     if len(process_photos) > 1:
         counter = range(len(process_photos))
@@ -550,6 +577,8 @@ def patient(request, id, active_tab="profile"):
         'userform': userform,
         'illnessform': illnessform,
         'otherillnessform': otherillnessform,
+        'upcoming': upcoming,
+        'appointments': appointments,
         'process_photos': process_photos,
         'process_photo': process_photo,
         'counter': counter,
