@@ -14,15 +14,18 @@ def board(request):
         if not is_authenticated(request, "patient"):
             return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "dentist")
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     queries = get_queries(Query.objects.filter(dentist=dentist))
+    notifications = get_notifications(request, "dentist")
     appointments = get_appointments(Appointment.objects.filter(dentist=dentist))
     return render(request, "dentx/board.html", {
         'dentist': dentist,
+        'notifications': notifications,
+        'notifications_count': len(notifications),
         'queries': queries,
         'appointments': appointments,
     })

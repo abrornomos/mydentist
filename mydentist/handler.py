@@ -6,6 +6,7 @@ from django.utils import translation
 from geopy.distance import distance
 from baseapp.models import Language
 from dentist.models import User as DentistUser, User_translation, Clinic, Clinic_translation, Service, Service_translation
+from notification.models import *
 from patient.models import User as PatientUser
 from .var import CHOICES
 
@@ -13,7 +14,7 @@ from .var import CHOICES
 def set_language(request, user_language):
     translation.activate(user_language)
     request.session[translation.LANGUAGE_SESSION_KEY] = user_language
-    url = redirect(request.META.get('HTTP_REFERER', '/')).url
+    url = redirect(request.META.get("HTTP_REFERER", "/")).url
     if "/results/" in url:
         if 'post' in request.session:
             post = request.session['post']
@@ -21,7 +22,7 @@ def set_language(request, user_language):
                 service__pk=Service_translation.objects.filter(name=post['service'])[0].service_id,
                 language__name=user_language
             )[0].name
-    return redirect(request.META.get('HTTP_REFERER', '/'))
+    return redirect(request.META.get("HTTP_REFERER", "/"))
 
 
 def is_authenticated(request, status):
@@ -234,6 +235,21 @@ def get_option(select, index):
     return None
 
 
+def get_notifications(request, status):
+    if status == "patient":
+        pass
+    elif status == "dentist":
+        notifications_obj = list(Patient2dentist.objects.filter(recipient__user__username=request.user.username))[::-1]
+        notifications = []
+        for notification_obj in notifications_obj:
+            notifications.append({
+                'sender': PatientUser.objects.get(pk=notification_obj.sender_id),
+                'recipient': DentistUser.objects.get(pk=notification_obj.recipient_id),
+                'notification': notification_obj
+            })
+        return notifications
+
+
 # def sort_by_distance(dentists, location):
 #     if len(dentists) < 2:
 #         return dentists
@@ -254,7 +270,7 @@ def get_option(select, index):
 #     address = request.META.get("HTTP_X_FORWARDED_FOR")
 #     return address.split(",")[-1].strip() if address else request.META.get("REMOTE_ADDR")
 
-# old_full_url = request.META.get('HTTP_REFERER', '/')
+# old_full_url = request.META.get("HTTP_REFERER", "/")
 # old_url = f"/{'/'.join(old_full_url.split('/')[3:])}"
 # prefix_exists = False
 # for language in settings.EXTRA_LANGUAGES:

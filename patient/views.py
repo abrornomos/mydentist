@@ -26,7 +26,7 @@ def profile(request):
         if not is_authenticated(request, "dentist"):
             return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
         else:
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "patient")
     user = User.objects.get(username=request.user.username)
@@ -139,7 +139,7 @@ def settings(request, active_tab="profile"):
         if not is_authenticated(request, "dentist"):
             return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
         else:
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "patient")
     if 'success_message' in request.session:
@@ -228,7 +228,7 @@ def update(request, form):
         if not is_authenticated(request, "dentist"):
             return redirect(f"{global_settings.LOGIN_URL}?next={request.path}")
         else:
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "patient")
     if request.method == "POST":
@@ -391,10 +391,13 @@ def patients(request):
         if not is_authenticated(request, "patient"):
             return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "dentist")
     text = None
+    user = User.objects.get(username=request.user.username)
+    dentist = DentistUser.objects.get(user=user)
+    notifications = get_notifications(request, "dentist")
     if request.method == "POST":
         patientform = PatientForm(request.POST)
         languageform = LanguageForm(request.POST)
@@ -413,8 +416,8 @@ def patients(request):
                     new_user = User.objects.create_user(
                         f"user{id}",
                         password=f"user{id}",
-                        first_name=name.split(" ")[0],
-                        last_name=" ".join(name.split(" ")[1:])
+                        last_name=name.split(" ")[0],
+                        first_name=" ".join(name.split(" ")[1:])
                     )
                 else:
                     new_user = User.objects.create_user(
@@ -455,10 +458,7 @@ def patients(request):
                     pregnancy=Pregnancy.objects.get(pk=1),
                 )
                 success = _("Yangi bemor qo'shildi")
-                new_line = "\n"
-                text = f"{success}{new_line}{_('Telefon raqam')}: {new_patient.phone_number}{new_line}{_('Parol')}: user{id}"
-    user = User.objects.get(username=request.user.username)
-    dentist = DentistUser.objects.get(user=user)
+                text = f"{success}{NEW_LINE}{_('Telefon raqam')}: {new_patient.phone_number}{NEW_LINE}{_('Parol')}: user{id}"
     patients_obj = PatientUser.objects.all()
     results = []
     for patient_obj in patients_obj:
@@ -471,6 +471,8 @@ def patients(request):
     languageform = LanguageForm()
     return render(request, "patient/patients.html", {
         'dentist': dentist,
+        'notifications': notifications,
+        'notifications_count': len(notifications),
         'results': results,
         'patientform': patientform,
         'languageform': languageform,
@@ -483,11 +485,12 @@ def patient(request, id, active_tab="profile"):
         if not is_authenticated(request, "patient"):
             return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "dentist")
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
+    notifications = get_notifications(request, "dentist")
     patient_extra = PatientUser.objects.get(pk=id)
     patient = User.objects.get(pk=patient_extra.user_id)
     year = (date.today() - patient_extra.birthday).days // 365
@@ -570,6 +573,8 @@ def patient(request, id, active_tab="profile"):
         process_photos = None
     return render(request, "patient/patient.html", {
         'dentist': dentist,
+        'notifications': notifications,
+        'notifications_count': len(notifications),
         'patient': patient,
         'patient_extra': patient_extra,
         'patient_illness': patient_illness,
@@ -592,7 +597,7 @@ def update(request, id, form):
         if not is_authenticated(request, "patient"):
             return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "dentist")
     print(request.POST)

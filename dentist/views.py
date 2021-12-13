@@ -1,14 +1,17 @@
+from datetime import timedelta
 from django.conf import settings as global_settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponseForbidden
 from django.shortcuts import render
-from django.utils.translation import get_language
+from django.utils import timezone
+from django.utils.translation import get_language, ugettext_lazy as _
 from appointment.models import Appointment, Query
 from baseapp.models import *
 from login.forms import PasswordUpdateForm
 from mydentist.handler import *
 from mydentist.var import *
+from notification.models import Patient2dentist
 from patient.forms import LanguageForm
 from patient.models import User as UserExtra
 from .forms import *
@@ -31,6 +34,14 @@ def dentist(request, slug):
                 patient=user_extra,
                 reason=queryform.cleaned_data['reason'],
                 comment=queryform.cleaned_data['comment'],
+            )
+            notification = Patient2dentist.objects.create(
+                sender=user_extra,
+                recipient=dentist,
+                type="query",
+                message=f"{queryform.cleaned_data['reason']}{NEW_LINE}{queryform.cleaned_data['comment']}",
+                datetime=timezone.now() + timedelta(seconds=global_settings.TIME_ZONE_HOUR * 3600),
+                is_read=False
             )
     else:
         queryform = QueryForm()
@@ -110,7 +121,7 @@ def settings(request, active_tab="profile"):
         if not is_authenticated(request, "patient"):
             return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "dentist")
     if 'success_message' in request.session:
@@ -129,6 +140,7 @@ def settings(request, active_tab="profile"):
         dentist=dentist,
         language__pk=dentist.language_id
     )[0]
+    notifications = get_notifications(request, "dentist")
     clinic = Clinic.objects.get(pk=dentist.clinic_id)
     clinic_uz = Clinic_translation.objects.get(
         clinic=clinic,
@@ -219,6 +231,8 @@ def settings(request, active_tab="profile"):
         'counter': counter,
         'services': services,
         'dentist': dentist,
+        'notifications': notifications,
+        'notifications_count': len(notifications),
         'dentist_translation': dentist_translation,
         'active_tab': active_tab,
         'success_message': success_message,
@@ -230,7 +244,7 @@ def update(request, form):
         if not is_authenticated(request, "patient"):
             return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "dentist")
     if request.method == "POST":
@@ -402,7 +416,7 @@ def get_clinic(request):
         if not is_authenticated(request, "patient"):
             return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "dentist")
     dentist = DentistUser.objects.get(user__username=request.user.username)

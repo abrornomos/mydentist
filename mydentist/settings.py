@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'illness',
     'login',
     'mydentist',
+    'notification',
     'patient'
 ]
 

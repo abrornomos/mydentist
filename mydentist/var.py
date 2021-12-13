@@ -206,3 +206,5 @@ DAYS = [
     _("Shanba"),
     _("Yakshanba"),
 ]
+
+NEW_LINE = "\n"

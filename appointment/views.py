@@ -14,15 +14,13 @@ from mydentist.var import *
 from .forms import *
 from .models import *
 
-# Create your views here.
-
 
 def appointments(request):
     if not is_authenticated(request, "dentist"):
         if not is_authenticated(request, "patient"):
             return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "dentist")
     user = User.objects.get(username=request.user.username)
@@ -31,6 +29,7 @@ def appointments(request):
         dentist=dentist,
         language__pk=dentist.language_id
     )[0]
+    notifications = get_notifications(request, "dentist")
     if request.method == "POST":
         patientform = PatientForm(request.POST)
         appointmentform = AppointmentForm(request.POST)
@@ -107,6 +106,8 @@ def appointments(request):
         'appointmentform': appointmentform,
         'dentist': dentist,
         'dentist_translation': dentist_translation,
+        'notifications': notifications,
+        'notifications_count': len(notifications),
         'services': services,
         'times': times
     })
@@ -117,7 +118,7 @@ def appointments_update(request):
         if not is_authenticated(request, "patient"):
             return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
         else:
-            return redirect(request.META.get('HTTP_REFERER', '/'))
+            return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "dentist")
     if request.method == "POST":

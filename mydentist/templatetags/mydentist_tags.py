@@ -1,5 +1,5 @@
 from django.template import Library
-from django.utils.translation import get_language, gettext_lazy as _
+from django.utils.translation import get_language, ugettext_lazy as _
 from illness.models import Allergy, Medications, Pregnancy
 from mydentist.var import *
 
@@ -55,3 +55,13 @@ def get_option(select, index):
                 else:
                     return option[1]
         return None
+
+
+@register.simple_tag
+def get_message(notification):
+    if notification.type == "query":
+        messages = notification.message.split(NEW_LINE)
+        message = f"{_('Sabab')}: {messages[0]}{NEW_LINE}{_('Izohlar')}: {messages[1]}"
+    else:
+        message = notification.message
+    return message

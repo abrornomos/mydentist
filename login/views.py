@@ -27,7 +27,7 @@ from .tokens import reset_password_token
 
 def register(request):
     if is_authenticated(request, "patient") or is_authenticated(request, "dentist"):
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect(request.META.get("HTTP_REFERER", "/"))
     if request.method == "POST":
         userform = UserForm(request.POST)
         passwordform = PasswordForm(request.POST)
@@ -161,7 +161,7 @@ def register(request):
 
 def sign_in(request):
     if is_authenticated(request, "patient") or is_authenticated(request, "dentist"):
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect(request.META.get("HTTP_REFERER", "/"))
     if request.method == "POST":
         loginform = LoginForm(request.POST)
         if loginform.is_valid():
@@ -232,7 +232,7 @@ def sign_in(request):
 
 def sign_out(request):
     if is_authenticated(request, "dentist"):
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect(request.META.get("HTTP_REFERER", "/"))
     if request.user.username in request.session:
         del request.session[request.user.username]
     logout(request)
@@ -241,7 +241,7 @@ def sign_out(request):
 
 def password_reset(request):
     if is_authenticated(request, "patient") or is_authenticated(request, "dentist"):
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect(request.META.get("HTTP_REFERER", "/"))
     if request.method == "POST":
         emailform = EmailForm(request.POST)
         if emailform.is_valid():
@@ -268,7 +268,7 @@ def password_reset(request):
 
 def password_reset_done(request):
     if is_authenticated(request, "patient") or is_authenticated(request, "dentist"):
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect(request.META.get("HTTP_REFERER", "/"))
     return render(request, "login/password_reset_sent.html")
 
 
@@ -323,13 +323,13 @@ def reset(request, uidb64, token):
 
 def reset_done(request):
     if is_authenticated(request, "patient") or is_authenticated(request, "dentist"):
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect(request.META.get("HTTP_REFERER", "/"))
     return render(request, "login/password_reset_done.html")
 
 
 def dentx_login(request):
     if is_authenticated(request, "dentist") or is_authenticated(request, "patient"):
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect(request.META.get("HTTP_REFERER", "/"))
     if request.method == "POST":
         loginform = DentXLoginForm(request.POST)
         if loginform.is_valid():
@@ -370,7 +370,7 @@ def dentx_login(request):
 
 def dentx_logout(request):
     if is_authenticated(request, "patient"):
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect(request.META.get("HTTP_REFERER", "/"))
     if request.user.username in request.session:
         del request.session[request.user.username]
     logout(request)

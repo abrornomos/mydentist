@@ -14,7 +14,7 @@
                     <a><i class="fal fa-angle-right"></i></a>
                 </div>
                 <div class="daily-about">
-                    <p>18-sentyabr Shanba 13:13</p>
+                    <p></p>
                 </div>
                 <span class="full-screen">
                     <i class="fal fa-expand" id="full-screen"></i>
@@ -159,6 +159,29 @@
             "декабря"
         ]
         {% endif %}
+        let current_datetime = new Date()
+        let text = [
+            `${days[(current_datetime.getDay() + 6) % 7]}, ${current_datetime.getDate()}-${months[current_datetime.getMonth()]} ${current_datetime.getFullYear()}, ${current_datetime.getHours()}`,
+            current_datetime.getMinutes() < 10 ? `0${current_datetime.getMinutes()}` : current_datetime.getMinutes(),
+            current_datetime.getSeconds() < 10 ? `0${current_datetime.getSeconds()}` : current_datetime.getSeconds()
+        ]
+        $(".daily-about p").html(text.join(":"))
+        let colon = false
+        setInterval(function () {
+            current_datetime = new Date()
+            text = [
+                `${days[(current_datetime.getDay() + 6) % 7]}, ${current_datetime.getDate()}-${months[current_datetime.getMonth()]} ${current_datetime.getFullYear()}, ${current_datetime.getHours()}`,
+                current_datetime.getMinutes() < 10 ? `0${current_datetime.getMinutes()}` : current_datetime.getMinutes(),
+                current_datetime.getSeconds() < 10 ? `0${current_datetime.getSeconds()}` : current_datetime.getSeconds()
+            ]
+            if (colon) {
+                $(".daily-about p").html(text.join(":"))
+                colon = false
+            } else {
+                $(".daily-about p").html(text.join(" "))
+                colon = true
+            }
+        }, 1000)
         today = new Date()
         console.log(today.year)
         today.setTime(today.getTime() - ((today.getDay() + 6) % 7) * 24 * 60 * 60 * 1000)

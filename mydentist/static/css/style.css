@@ -500,14 +500,14 @@ input, .form-control, .form-select {
   letter-spacing: 8px;
 }
 
-.info_holder .info_name {
+.info_name {
   display: inline-block;
   font-size: 18px;
   color: #535151;
   letter-spacing: 0px;
 }
 
-.info_holder .info_desc {
+.info_desc {
   display: inline-block;
   font-size: 16px;
   color: #5c636a;
@@ -523,8 +523,14 @@ table {
 }
 
 .my_drop {
-  max-width: 300px;
   width: 300px;
+  max-height: 200px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.my_drop hr {
+  margin: 5px 0;
 }
 
 .my_select {
@@ -973,6 +979,15 @@ select[readonly] {
   background: #eaecef;
   pointer-events: none;
   touch-action: none;
+}
+
+.notification-box:hover {
+  background-color: #cfcfcf;
+  cursor: pointer;
+}
+
+div.my_accaunt {
+  margin: 10px;
 }
 
 @media (max-width: 1400px) {
