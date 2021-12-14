@@ -237,7 +237,15 @@ def get_option(select, index):
 
 def get_notifications(request, status):
     if status == "patient":
-        pass
+        notifications_obj = list(Dentist2patient.objects.filter(recipient__user__username=request.user.username))[::-1]
+        notifications = []
+        for notification_obj in notifications_obj:
+            notifications.append({
+                'sender': DentistUser.objects.get(pk=notification_obj.sender_id),
+                'recipient': PatientUser.objects.get(pk=notification_obj.recipient_id),
+                'notification': notification_obj
+            })
+        return notifications
     elif status == "dentist":
         notifications_obj = list(Patient2dentist.objects.filter(recipient__user__username=request.user.username))[::-1]
         notifications = []

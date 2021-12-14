@@ -22,8 +22,6 @@ from .models import *
 from .forms import *
 from .tokens import reset_password_token
 
-# Create your views here.
-
 
 def register(request):
     if is_authenticated(request, "patient") or is_authenticated(request, "dentist"):

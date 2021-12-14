@@ -1,4 +1,4 @@
-{% load static i18n %}
+{% load static i18n mydentist_tags %}
 
 <!DOCTYPE html>
 {% get_current_language as LANGUAGE_CODE %}
@@ -35,24 +35,30 @@
                             </li>
                             <div class="dropdown">
                                 <button class="nav-link notification_btn" id="notificationDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                    <i class="fas fa-bell"></i> +3
+                                    <i class="fas fa-bell"></i>{% if notifications_count != 0 %} +{{ notifications_count }}{% endif %}
                                 </button>
                                 <ul class="dropdown-menu dropdown-menu-md-end my_drop" aria-labelledby="notificationDropdown">
-                                    <li class="notification-box">
-                                        <div class="row">
-                                            <div class="col-lg-3 col-sm-3 col-3 text-center">
-                                                <div class="my_accaunt" style="background-image: url('/media/{{ dentist.image }}');"></div>
-                                            </div>
-                                            <div class="col-lg-8 col-sm-8 col-8">
-                                                <div class="info_name">David John</div>
-                                                <div class="info_desc">
-                                                    Lorem ipsum dolor sit amet, consectetur
+                                    {% if notifications %}
+                                        {% for notification in notifications %}
+                                            <li class="notification-box">
+                                                <div class="row">
+                                                    <div class="col-lg-3 col-sm-3 col-3 text-center">
+                                                        <div class="my_accaunt" style="background-image: url('{{ notification.sender.image.url }}');"></div>
+                                                    </div>
+                                                    <div class="col-lg-8 col-sm-8 col-8">
+                                                        <div class="info_name">{{ notification.sender }}</div>
+                                                        <div class="info_desc">
+                                                            {% get_message notification.notification %}
+                                                        </div>
+                                                        <small class="info_desc">{{ notification.notification.datetime }}</small>
+                                                    </div>
                                                 </div>
-                                                <small class="info_desc">27.11.2015, 15:00</small>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <hr>
+                                            </li>
+                                            <hr>
+                                        {% endfor %}
+                                    {% else %}
+                                        <p style="text-align: center; margin: 20px 0;">{% trans "Xabarlar mavjud emas" %}</p>
+                                    {% endif %}
                                 </ul>
                             </div>
                             <div class="dropdown">

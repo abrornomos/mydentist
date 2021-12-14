@@ -1,7 +1,7 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
-# Create your models here.
+
 class Diabet(models.Model):
 
     value = models.SmallIntegerField(_("Qiymat"))

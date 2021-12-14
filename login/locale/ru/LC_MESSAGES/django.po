@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-10 11:27+0500\n"
+"POT-Creation-Date: 2021-12-15 00:54+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,27 +24,27 @@ msgstr ""
 msgid "Kirish ma'lumotlari"
 msgstr "Данные входа"
 
-#: .\login\forms.py:7 .\login\forms.py:79 .\login\models.py:7
+#: .\login\forms.py:8 .\login\forms.py:83 .\login\models.py:7
 msgid "E-mail"
 msgstr ""
 
-#: .\login\forms.py:16 .\login\forms.py:37 .\login\forms.py:91
+#: .\login\forms.py:17 .\login\forms.py:39 .\login\forms.py:96
 msgid "Parol"
 msgstr "Пароль"
 
-#: .\login\forms.py:28
+#: .\login\forms.py:30
 msgid "Login"
 msgstr "Логин"
 
-#: .\login\forms.py:49
+#: .\login\forms.py:52
 msgid "Eski parol"
 msgstr "Старый пароль"
 
-#: .\login\forms.py:58
+#: .\login\forms.py:61
 msgid "Yangi parol"
 msgstr "Новый пароль"
 
-#: .\login\forms.py:67 .\login\forms.py:100
+#: .\login\forms.py:70 .\login\forms.py:105
 msgid "Parolni tasdiqlang"
 msgstr "Подтвердите свой пароль"
 
@@ -68,35 +68,35 @@ msgstr "Сброс пароля"
 msgid "Parol tiklanishlari"
 msgstr "Сбросы пароля"
 
-#: .\login\views.py:137
+#: .\login\views.py:136
 msgid "Parollar to'g'ri kemayapti"
 msgstr "Пароли не совпадают"
 
-#: .\login\views.py:188
+#: .\login\views.py:187 .\login\views.py:211
 msgid "Xato parol"
 msgstr "Неверный пароль"
 
-#: .\login\views.py:217
+#: .\login\views.py:216
 msgid "Xato e-mail"
 msgstr "Неверный e-mail"
 
-#: .\login\views.py:258
+#: .\login\views.py:257
 #, fuzzy
 #| msgid "Parolni tasdiqlang"
 msgid "Parolni tiklash"
 msgstr "Подтвердите свой пароль"
 
-#: .\login\views.py:299
+#: .\login\views.py:298
 #, fuzzy
 #| msgid "Parollar to'g'ri kemayapti"
 msgid "Parollar mos kelmayapti"
 msgstr "Пароли не совпадают"
 
-#: .\login\views.py:314 .\login\views.py:316 .\login\views.py:318
-#: .\login\views.py:320
+#: .\login\views.py:313 .\login\views.py:315 .\login\views.py:317
+#: .\login\views.py:319
 msgid "Havolani muddati yakunlandi"
 msgstr "Истек срок действия ссылки"
 
-#: .\login\views.py:354
+#: .\login\views.py:353
 msgid "Noto'g'ri login yoki parol"
 msgstr "Неверный логин или пароль"

@@ -8,6 +8,11 @@
 {% block content %}
     <section>
         <div class="container-fluid">
+            {% if text is not None %}
+                <div class="alert alert-{% if is_success %}success{% else %}danger{% endif %}">
+                    {{ text }}
+                </div>
+            {% endif %}
             <div class="controls d-flex align-items-center justify-content-between">
                 <div class="angles">
                     <a><i class="fal fa-angle-left"></i></a>
@@ -196,11 +201,19 @@
                     $("form").removeAttr("action")
                 }
                 temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
+                $("#id_name").val("")
+                $("#id_phone_number").val("")
+                $("#id_birthday").val("")
+                $(`#id_gender_0`).attr("checked", true)
+                $("#id_address").val("")
+                $("#id_service").val($("#id_service option")[0].value).change()
                 $("#id_begin_day").val(temp[0])
                 time = $(this).parent().children(":first-child").text()
                 text = ` ${temp[1]}, ${temp[0]}, ${time}`
                 $("#id_begin_time").val(time).change()
                 $(".form-title p").text(text)
+                $("#id_duration").val(15).change()
+                $("#id_comment").val("")
             })
             $(".overflow td.appointment").on("dblclick", function() {
                 $.ajax({
@@ -252,11 +265,19 @@
                         $("form").removeAttr("action")
                     }
                     temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
+                    $("#id_name").val("")
+                    $("#id_phone_number").val("")
+                    $("#id_birthday").val("")
+                    $(`#id_gender_0`).attr("checked", true)
+                    $("#id_address").val("")
+                    $("#id_service").val($("#id_service option")[0].value).change()
                     $("#id_begin_day").val(temp[0])
                     time = $(this).parent().children(":first-child").text()
                     text = ` ${temp[1]}, ${temp[0]}, ${time}`
                     $("#id_begin_time").val(time).change()
                     $(".form-title p").text(text)
+                    $("#id_duration").val(15).change()
+                    $("#id_comment").val("")
                 })
                 $(".overflow td.appointment").on("dblclick", function() {
                     $.ajax({
@@ -310,11 +331,19 @@
                         $("form").removeAttr("action")
                     }
                     temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
+                    $("#id_name").val("")
+                    $("#id_phone_number").val("")
+                    $("#id_birthday").val("")
+                    $(`#id_gender_0`).attr("checked", true)
+                    $("#id_address").val("")
+                    $("#id_service").val($("#id_service option")[0].value).change()
                     $("#id_begin_day").val(temp[0])
                     time = $(this).parent().children(":first-child").text()
                     text = ` ${temp[1]}, ${temp[0]}, ${time}`
                     $("#id_begin_time").val(time).change()
                     $(".form-title p").text(text)
+                    $("#id_duration").val(15).change()
+                    $("#id_comment").val("")
                 })
                 $(".overflow td.appointment").on("dblclick", function() {
                     $.ajax({

@@ -3,6 +3,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class LoginForm(forms.Form):
+
     email = forms.CharField(
         label=_("E-mail"),
         widget=forms.TextInput(
@@ -24,6 +25,7 @@ class LoginForm(forms.Form):
 
 
 class DentXLoginForm(forms.Form):
+
     username = forms.CharField(
         label=_("Login"),
         widget=forms.TextInput(
@@ -45,6 +47,7 @@ class DentXLoginForm(forms.Form):
 
 
 class PasswordUpdateForm(forms.Form):
+
     old_password = forms.CharField(
         label=_("Eski parol"),
         widget=forms.PasswordInput(
@@ -75,6 +78,7 @@ class PasswordUpdateForm(forms.Form):
 
 
 class EmailForm(forms.Form):
+
     email = forms.CharField(
         label=_("E-mail"),
         widget=forms.TextInput(
@@ -87,6 +91,7 @@ class EmailForm(forms.Form):
 
 
 class PasswordForm(forms.Form):
+    
     password = forms.CharField(
         label=_("Parol"),
         widget=forms.PasswordInput(

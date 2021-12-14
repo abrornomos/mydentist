@@ -6,6 +6,7 @@ from django.utils.translation import ugettext_lazy as _
 
 
 class Query(models.Model):
+
     dentist = models.ForeignKey("dentist.User", verbose_name=_("Tish shifokori"), on_delete=models.CASCADE)
     patient = models.ForeignKey("patient.User", verbose_name=_("Bemor"), on_delete=models.CASCADE)
     reason = models.CharField(_("Sabab"), max_length=255)
@@ -20,6 +21,7 @@ class Query(models.Model):
 
 
 class Appointment(models.Model):
+    
     dentist = models.ForeignKey("dentist.User", verbose_name=_("Tish shifokori"), on_delete=models.CASCADE)
     patient = models.ForeignKey("patient.User", verbose_name=_("Bemor"), on_delete=models.CASCADE)
     service = models.ForeignKey("dentist.Service", verbose_name=_("Xizmat"), on_delete=models.CASCADE)

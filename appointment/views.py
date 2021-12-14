@@ -3,12 +3,14 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
 from django.utils import timezone
-from django.utils.translation import get_language
+from django.utils.translation import get_language, ugettext_lazy as _
 from datetime import datetime, date, timedelta
-from baseapp.models import Language
+from pathlib import Path
+from baseapp.models import *
 from dentist.models import User as DentistUser, User_translation as DentistUserTranslation, Service, Service_translation
+from illness.models import *
 from patient.forms import PatientForm
-from patient.models import User as PatientUser
+from patient.models import User as PatientUser, Illness, Other_Illness
 from mydentist.handler import *
 from mydentist.var import *
 from .forms import *
@@ -23,6 +25,8 @@ def appointments(request):
             return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "dentist")
+    is_success = True
+    text = None
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     dentist_translation = DentistUserTranslation.objects.filter(
@@ -34,48 +38,115 @@ def appointments(request):
         patientform = PatientForm(request.POST)
         appointmentform = AppointmentForm(request.POST)
         if patientform.is_valid() and appointmentform.is_valid():
-            name = patientform.cleaned_data['name'].split(" ")
-            if len(name) == 2:
+            name = patientform.cleaned_data['name']
+            try:
                 phone_number = patientform.cleaned_data['phone_number']
                 patient = PatientUser.objects.get(phone_number=phone_number)
                 patient_user = User.objects.get(pk=patient.user_id)
-                if name[0] == patient_user.last_name and name[1] == patient_user.first_name and phone_number == patient.phone_number and str(patient.birthday) == patientform.cleaned_data['birthday'] and patient.gender_id == int(patientform.cleaned_data['gender']) and patient.address == patientform.cleaned_data['address']:
-                    service_translation = Service_translation.objects.filter(
-                        name=appointmentform.cleaned_data['service'],
-                        language__pk=dentist.language_id
-                    )[0]
-                    service = Service.objects.get(pk=service_translation.service_id)
-                    begin = appointmentform.cleaned_data['begin_day']
-                    begin_day = int(begin.split("-")[0])
-                    begin_month = MONTHS.index(begin.split("-")[1].split(" ")[0].capitalize()) + 1
-                    begin_year = int(begin.split(" ")[1])
-                    begin_hour = int(appointmentform.cleaned_data['begin_time'].split(":")[0])
-                    begin_minute = int(appointmentform.cleaned_data['begin_time'].split(":")[1])
-                    begin = datetime(begin_year, begin_month, begin_day, begin_hour, begin_minute, tzinfo=timezone.now().tzinfo)
-                    duration = int(appointmentform.cleaned_data['duration'])
-                    duration = timedelta(hours=duration // 60, minutes=duration % 60)
-                    end = begin + duration
-                    if compare_appointment(begin, end, Appointment.objects.filter(
+                if not (name.split(" ")[0] == patient_user.last_name and name.split(" ")[1] == patient_user.first_name and phone_number == patient.phone_number and str(patient.birthday) == patientform.cleaned_data['birthday'] and patient.gender_id == int(patientform.cleaned_data['gender']) and patient.address == patientform.cleaned_data['address']):
+                    is_success = False
+                    text = _("Bemor ma'lumotlari to'g'ri kelmayapti")
+            except:
+                file_path = Path(__file__).resolve().parent.parent / "mydentist" / "last_id.txt"
+                with open(file_path, "r") as file:
+                    id = int(file.read()) + 1
+                with open(file_path, "w") as file:
+                    file.write(str(id))
+                id = f"{id:07d}"
+                if len(name.split(" ")) > 1:
+                    patient_user = User.objects.create_user(
+                        f"user{id}",
+                        password=f"user{id}",
+                        last_name=name.split(" ")[0],
+                        first_name=" ".join(name.split(" ")[1:])
+                    )
+                elif len(name.split(" ")) == 1:
+                    patient_user = User.objects.create_user(
+                        f"user{id}",
+                        password=f"user{id}",
+                        first_name=name
+                    )
+                patient = PatientUser.objects.create(
+                    user=patient_user,
+                    phone_number=patientform.cleaned_data['phone_number'],
+                    address=patientform.cleaned_data['address'],
+                    birthday=patientform.cleaned_data['birthday'],
+                    image="patients/photos/default.png",
+                    language=Language.objects.get(name="ru"),
+                    gender=Gender.objects.get(pk=patientform.cleaned_data['gender'])
+                )
+                new_illness = Illness.objects.create(
+                    patient=patient,
+                    diabet=Diabet.objects.get(pk=1),
+                    anesthesia=Anesthesia.objects.get(pk=4),
+                    hepatitis=Hepatitis.objects.get(pk=1),
+                    aids=AIDS.objects.get(pk=1),
+                    pressure=Pressure.objects.get(pk=1),
+                    allergy=Allergy.objects.get(pk=1),
+                    asthma=Asthma.objects.get(pk=1),
+                    dizziness=Dizziness.objects.get(pk=1),
+                )
+                new_otherillness = Other_Illness.objects.create(
+                    patient=patient,
+                    epilepsy=Epilepsy.objects.get(pk=1),
+                    blood_disease=Blood_disease.objects.get(pk=1),
+                    medications=Medications.objects.get(pk=1),
+                    stroke=Stroke.objects.get(pk=1),
+                    heart_attack=Heart_attack.objects.get(pk=1),
+                    oncologic=Oncologic.objects.get(pk=1),
+                    tuberculosis=Tuberculosis.objects.get(pk=1),
+                    alcohol=Alcohol.objects.get(pk=1),
+                    pregnancy=Pregnancy.objects.get(pk=1),
+                )
+                success = _("Yangi bemor qo'shildi")
+                text = f"{success}{NEW_LINE}{_('Telefon raqam')}: {patient.phone_number}{NEW_LINE}{_('Parol')}: user{id}"
+            if is_success:
+                service_translation = Service_translation.objects.filter(
+                    name=appointmentform.cleaned_data['service'],
+                    language__pk=dentist.language_id
+                )[0]
+                service = Service.objects.get(pk=service_translation.service_id)
+                begin = appointmentform.cleaned_data['begin_day']
+                begin_day = int(begin.split("-")[0])
+                begin_month = MONTHS.index(begin.split("-")[1].split(" ")[0].capitalize()) + 1
+                begin_year = int(begin.split(" ")[1])
+                begin_hour = int(appointmentform.cleaned_data['begin_time'].split(":")[0])
+                begin_minute = int(appointmentform.cleaned_data['begin_time'].split(":")[1])
+                begin = datetime(begin_year, begin_month, begin_day, begin_hour, begin_minute, tzinfo=timezone.now().tzinfo)
+                duration = int(appointmentform.cleaned_data['duration'])
+                duration = timedelta(hours=duration // 60, minutes=duration % 60)
+                end = begin + duration
+                if compare_appointment(begin, end, Appointment.objects.filter(
+                    dentist=dentist,
+                    begin__year=begin_year,
+                    begin__month=begin_month,
+                    begin__day=begin_day
+                )):
+                    appointment = Appointment.objects.create(
                         dentist=dentist,
-                        begin__year=begin_year,
-                        begin__month=begin_month,
-                        begin__day=begin_day
-                    )):
-                        appointment = Appointment.objects.create(
-                            dentist=dentist,
-                            patient=patient,
-                            service=service,
-                            begin=begin,
-                            end=end,
-                            comment=appointmentform.cleaned_data['comment'],
-                            status="waiting"
-                        )
-                    else:
-                        print("Cannot register appointment")
+                        patient=patient,
+                        service=service,
+                        begin=begin,
+                        end=end,
+                        comment=appointmentform.cleaned_data['comment'],
+                        status="waiting"
+                    )
+                    try:
+                        query = Query.objects.get(patient=patient)
+                        query.delete()
+                    except:
+                        pass
+                    notification = Dentist2patient.objects.create(
+                        sender=dentist,
+                        recipient=patient,
+                        type="appointment",
+                        message=f"{service.name}{NEW_LINE}{dentist}{NEW_LINE}{begin}{NEW_LINE}{end}",
+                        datetime=timezone.now() + timedelta(seconds=global_settings.TIME_ZONE_HOUR * 3600),
+                        is_read=False
+                    )
                 else:
-                    print(False)
-            elif len(name) == 1:
-                pass
+                    is_success = False
+                    text = _("Ushbu qabulni belgilab bo'lmaydi. Boshqa vaqtni tanlang")
     services = get_services(
         Service.objects.filter(dentist=dentist),
         dentist.language_id
@@ -109,7 +180,9 @@ def appointments(request):
         'notifications': notifications,
         'notifications_count': len(notifications),
         'services': services,
-        'times': times
+        'times': times,
+        'is_success': is_success,
+        'text': text
     })
 
 
@@ -164,7 +237,6 @@ def appointments_update(request):
                             dentist=dentist,
                             begin=last_begin,
                         )
-                        print(appointment)
                         appointment.patient_id = patient.id
                         appointment.service_id = service.id
                         appointment.begin = begin
@@ -173,9 +245,9 @@ def appointments_update(request):
                         appointment.status = "waiting"
                         appointment.save()
                     except Exception as E:
-                        print(str(E))
+                        pass
                 else:
-                    print(False)
+                    pass
             elif len(name) == 1:
                 pass
         services = get_services(

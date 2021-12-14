@@ -10,8 +10,6 @@ from mydentist.var import REGIONS
 from .forms import *
 from .models import *
 
-# Create your views here.
-
 
 def index(request):
     if request.method == "POST":

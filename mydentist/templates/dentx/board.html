@@ -17,7 +17,7 @@
                     <div class="card-header card-header-flush" style="background-color: white">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h4 class="card-header-title">Лист ожидания</h4>
+                                <h4 class="card-header-title">{% trans "Kutish zali" %}</h4>
                             </div>
                         </div>
                     </div>
@@ -51,26 +51,18 @@
                                                 </div>
                                             </div>
                                             <div class="col-auto small">
-                                                <span class="badge bg-warning">Не подтвержден</span>
+                                                <span class="badge bg-warning">{% trans "Tasdiqlanmagan" %}</span>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="card-footer1 p-2 border-top">
                                         <div class="row">
-                                            <div class="col-auto">
-                                                <button class="btn btn-white mr-2">
-                                                    <i class="fas fa-arrow-right"></i>
-                                                </button>
-                                            </div>
                                             <div class="col">
                                             </div>
                                             <div class="col-auto">
                                                 <a href="tel:{{ query.patient.phone_number }}" class="btn btn-outline-info mr-2" draggable="false">
                                                     <i class="fas fa-phone"></i>
                                                 </a>
-                                                <button class="btn btn-white">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -84,7 +76,7 @@
                         <div tabindex="0" class="kanban-category">
                             <div tabindex="0" class="kanban-item">
                                 <div></div>
-                                <div class="card-body text-center small text-muted">Нет ожидающих записей</div>
+                                <div class="card-body text-center small text-muted">{% trans "So'rovlar mavjud emas" %}</div>
                             </div>
                         </div>
                     </div>
@@ -96,7 +88,7 @@
                     <div class="card-header card-header-flush" style="background-color: white">
                         <div class="row align-items-center">
                             <div class="col">
-                                <h4 class="card-header-title">Записаны</h4>
+                                <h4 class="card-header-title">{% trans "Yozilgan" %}</h4>
                             </div>
                         </div>
                     </div>
@@ -114,11 +106,11 @@
                                             </div>
                                             <div class="col-auto small">
                                             {% if appointment.appointment.status == "waiting" %}
-                                                <span class="badge bg-info">Ожидается</span>
+                                                <span class="badge bg-info">{% trans "Kutilmoqda" %}</span>
                                             {% elif appointment.appointment.status == "done" %}
-                                                <span class="badge bg-success">Посещён</span>
+                                                <span class="badge bg-success">{% trans "Kelgan" %}</span>
                                             {% elif appointment.appointment.status == "missed" %}
-                                                <span class="badge bg-danger">Не посещён</span>
+                                                <span class="badge bg-danger">{% trans "Kelmagan" %}</span>
                                             {% endif %}
                                             </div>
                                         </div>
@@ -155,20 +147,12 @@
                                     </div>
                                     <div class="card-footer1 p-2 border-top">
                                         <div class="row">
-                                            <div class="col-auto">
-                                                <button class="btn btn-white mr-2">
-                                                    <i class="fas fa-arrow-right"></i>
-                                                </button>
-                                            </div>
                                             <div class="col">
                                             </div>
                                             <div class="col-auto">
                                                 <a href="tel:{{ appointment.patient.phone_number }}" class="btn btn-outline-info mr-2" draggable="false">
                                                     <i class="fas fa-phone"></i>
                                                 </a>
-                                                <button class="btn btn-white">
-                                                    <i class="fas fa-eye"></i>
-                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -182,19 +166,11 @@
                         <div tabindex="0" class="kanban-category">
                             <div tabindex="0" class="kanban-item">
                                 <div></div>
-                                <div class="card-body text-center small text-muted">Нет ожидающих записей</div>
+                                <div class="card-body text-center small text-muted">{% trans "Qabullar mavjud emas" %}</div>
                             </div>
                         </div>
                     </div>
                     {% endif %}
-                    {% comment %} <div class="card-body">
-                        <div tabindex="0" class="kanban-category">
-                            <div tabindex="0" class="kanban-item">
-                                <div></div>
-                                <div class="card-body text-center small text-muted">Нет ожидающих записей</div>
-                            </div>
-                        </div>
-                    </div> {% endcomment %}
                 </div>
             </div>
         </div>
@@ -218,100 +194,5 @@
                 $($(list[i]).parent()).css("overflow", "hidden")
             }
         }
-    {% comment %}     {% get_current_language as LANGUAGE_CODE %}
-        {% if LANGUAGE_CODE == 'uz' %}days = [
-            "Dushanba",
-            "Seshanba",
-            "Chorshanba",
-            "Payshanba",
-            "Juma",
-            "Shanba",
-            "Yakshanba"
-        ]
-        {% elif LANGUAGE_CODE == 'ru' %}days = [
-            "Понедельник",
-            "Вторник",
-            "Среда",
-            "Четверг",
-            "Пятница",
-            "Суббота",
-            "Воскресенье"
-        ]
-        {% endif %}
-        today = new Date()
-        today.setTime(today.getTime() - ((today.getDay() + 6) % 7) * 24 * 60 * 60 * 1000)
-        $.ajax({
-            url: "{% url 'appointment:table' %}",
-            success: function(result) {
-                $(".overflow").html(result)
-                $("head").append(
-                    $("<link rel='stylesheet'>").attr("href", "{% static 'css/table.css' %}")
-                )
-                $(".overflow td").on("dblclick", function() {
-                    if ($(".modal-form").hasClass("display_none")) {
-                        $(".modal-form").addClass("display_absolute").removeClass("display_none")
-                        temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
-                        text = ` ${temp[1]}, ${temp[0]}, ${$(this).parent().children(":first-child").text()}`
-                        $(".form-title p").text(text)
-                    } else {
-                        $(".modal-form").removeClass("display_absolute").addClass("display_none")
-                    }
-                })
-            }
-        })
-        $(".fa-angle-left").on("click", function() {
-            $.ajax({
-                url : "{% url 'appointment:table' %}",
-                type: "POST",
-                data : {
-                    csrfmiddlewaretoken: $('{% csrf_token %}').val(),
-                    day: today.getDate(),
-                    month: today.getMonth() + 1,
-                    year: today.getFullYear(),
-                    direction: "left"
-                },
-                dataType : "json",
-            }).always(function(result) {
-                $(".overflow").html(result.responseText)
-                $(".overflow td").on("dblclick", function() {
-                    if ($(".modal-form").hasClass("display_none")) {
-                        $(".modal-form").addClass("display_absolute").removeClass("display_none")
-                        temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
-                        text = ` ${temp[1]}, ${temp[0]}, ${$(this).parent().children(":first-child").text()}`
-                        $(".form-title p").text(text)
-                    } else {
-                        $(".modal-form").removeClass("display_absolute").addClass("display_none")
-                    }
-                })
-            })
-            today.setTime(today.getTime() - 7 * 24 * 60 * 60 * 1000)
-        })
-        $(".fa-angle-right").on("click", function() {
-            $.ajax({
-                url : "{% url 'appointment:table' %}",
-                type: "POST",
-                data : {
-                    csrfmiddlewaretoken: $('{% csrf_token %}').val(),
-                    day: today.getDate(),
-                    month: today.getMonth() + 1,
-                    year: today.getFullYear(),
-                    direction: "right"
-                },
-                dataType : "json",
-            }).always(function(result) {
-                $(".overflow").html(result.responseText)
-                $(".overflow td").on("dblclick", function() {
-                    if ($(".modal-form").hasClass("display_none")) {
-                        $(".modal-form").addClass("display_absolute").removeClass("display_none")
-                        temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
-                        text = ` ${temp[1]}, ${temp[0]}, ${$(this).parent().children(":first-child").text()}`
-                        $(".form-title p").text(text)
-                    } else {
-                        $(".modal-form").removeClass("display_absolute").addClass("display_none")
-                    }
-                })
-            })
-            today.setTime(today.getTime() + 7 * 24 * 60 * 60 * 1000)
-        }) {% endcomment %}
     </script>
 {% endblock %}

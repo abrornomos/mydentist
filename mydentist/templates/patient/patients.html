@@ -84,48 +84,48 @@
                 {% endif %}
                 <ul class="d-flex justify-content-end list-group-horizontal me-auto my-2 my-lg-0 offset-lg-6" style="--bs-scroll-height: 100px;">
                     <li class="nav-item dropdown list-group-item">
-                        <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Qarz</a>
+                        <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Qarz" %}</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                            <li><a class="dropdown-item" href="#">Eng kami</a></li>
-                            <li><a class="dropdown-item" href="#">Eng ko'pi</a></li>
+                            <li><a class="dropdown-item" href="#">{% trans "Eng kami" %}</a></li>
+                            <li><a class="dropdown-item" href="#">{% trans "Eng ko'pi" %}</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown list-group-item">
-                        <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">Ishi</a>
+                        <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown1" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Ishi" %}</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown1">
-                            <li><a class="dropdown-item" href="#">Yakunlangan</a></li>
-                            <li><a class="dropdown-item" href="#">Yakunlanmagan</a></li>
+                            <li><a class="dropdown-item" href="#">{% trans "Yakunlangan" %}</a></li>
+                            <li><a class="dropdown-item" href="#">{% trans "Yakunlanmagan" %}</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown list-group-item">
-                        <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">Jinsi</a>
+                        <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown2" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Jinsi" %}</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown2">
-                            <li><a class="dropdown-item" href="#">Erkak</a></li>
+                            <li><a class="dropdown-item" href="#">{% trans "Erkak" %}</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Ayol</a></li>
+                            <li><a class="dropdown-item" href="#">{% trans "Ayol" %}</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown list-group-item">
-                        <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">Oxirgi tashrifi</a>
+                        <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown3" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Oxirgi tashrifi" %}</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown3">
-                            <li><a class="dropdown-item" href="#">Kecha</a></li>
-                            <li><a class="dropdown-item" href="#">Shu hafta</a></li>
+                            <li><a class="dropdown-item" href="#">{% trans "Kecha" %}</a></li>
+                            <li><a class="dropdown-item" href="#">{% trans "Shu hafta" %}</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="#">Shu oyda</a></li>
+                            <li><a class="dropdown-item" href="#">{% trans "Shu oyda" %}</a></li>
                         </ul>
                     </li>
                 </ul>
                 <table class="table table-hover">
                     <thead class="table-light">
                         <tr>
-                            <th scope="col">Rasm</th>
-                            <th scope="col">Ism</th>
-                            <th scope="col">Jins</th>
-                            <th scope="col">Manzil</th>
-                            <th scope="col">Qilingan ishlar</th>
-                            <th scope="col">Qarz</th>
-                            <th scope="col">Reajada</th>
-                            <th scope="col">Oxirgi tashrif</th>
+                            <th scope="col">{% trans "Rasm" %}</th>
+                            <th scope="col">{% trans "Ism" %}</th>
+                            <th scope="col">{% trans "Jins" %}</th>
+                            <th scope="col">{% trans "Manzil" %}</th>
+                            <th scope="col">{% trans "Qilingan ishlar" %}</th>
+                            <th scope="col">{% trans "Qarz" %}</th>
+                            <th scope="col">{% trans "Rejada" %}</th>
+                            <th scope="col">{% trans "Oxirgi tashrif" %}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -162,101 +162,4 @@
 {% endblock %}
 
 {% block javascript %}
-    {% comment %} <script type="text/javascript">
-        {% get_current_language as LANGUAGE_CODE %}
-        {% if LANGUAGE_CODE == 'uz' %}days = [
-            "Dushanba",
-            "Seshanba",
-            "Chorshanba",
-            "Payshanba",
-            "Juma",
-            "Shanba",
-            "Yakshanba"
-        ]
-        {% elif LANGUAGE_CODE == 'ru' %}days = [
-            "Понедельник",
-            "Вторник",
-            "Среда",
-            "Четверг",
-            "Пятница",
-            "Суббота",
-            "Воскресенье"
-        ]
-        {% endif %}
-        today = new Date()
-        today.setTime(today.getTime() - ((today.getDay() + 6) % 7) * 24 * 60 * 60 * 1000)
-        $.ajax({
-            url: "{% url 'appointment:table' %}",
-            success: function(result) {
-                $(".overflow").html(result)
-                $("head").append(
-                    $("<link rel='stylesheet'>").attr("href", "{% static 'css/table.css' %}")
-                )
-                $(".overflow td").on("dblclick", function() {
-                    if ($(".modal-form").hasClass("display_none")) {
-                        $(".modal-form").addClass("display_absolute").removeClass("display_none")
-                        temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
-                        text = ` ${temp[1]}, ${temp[0]}, ${$(this).parent().children(":first-child").text()}`
-                        $(".form-title p").text(text)
-                    } else {
-                        $(".modal-form").removeClass("display_absolute").addClass("display_none")
-                    }
-                })
-            }
-        })
-        $(".fa-angle-left").on("click", function() {
-            $.ajax({
-                url : "{% url 'appointment:table' %}",
-                type: "POST",
-                data : {
-                    csrfmiddlewaretoken: $('{% csrf_token %}').val(),
-                    day: today.getDate(),
-                    month: today.getMonth() + 1,
-                    year: today.getFullYear(),
-                    direction: "left"
-                },
-                dataType : "json",
-            }).always(function(result) {
-                $(".overflow").html(result.responseText)
-                $(".overflow td").on("dblclick", function() {
-                    if ($(".modal-form").hasClass("display_none")) {
-                        $(".modal-form").addClass("display_absolute").removeClass("display_none")
-                        temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
-                        text = ` ${temp[1]}, ${temp[0]}, ${$(this).parent().children(":first-child").text()}`
-                        $(".form-title p").text(text)
-                    } else {
-                        $(".modal-form").removeClass("display_absolute").addClass("display_none")
-                    }
-                })
-            })
-            today.setTime(today.getTime() - 7 * 24 * 60 * 60 * 1000)
-        })
-        $(".fa-angle-right").on("click", function() {
-            $.ajax({
-                url : "{% url 'appointment:table' %}",
-                type: "POST",
-                data : {
-                    csrfmiddlewaretoken: $('{% csrf_token %}').val(),
-                    day: today.getDate(),
-                    month: today.getMonth() + 1,
-                    year: today.getFullYear(),
-                    direction: "right"
-                },
-                dataType : "json",
-            }).always(function(result) {
-                $(".overflow").html(result.responseText)
-                $(".overflow td").on("dblclick", function() {
-                    if ($(".modal-form").hasClass("display_none")) {
-                        $(".modal-form").addClass("display_absolute").removeClass("display_none")
-                        temp = $(`thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
-                        text = ` ${temp[1]}, ${temp[0]}, ${$(this).parent().children(":first-child").text()}`
-                        $(".form-title p").text(text)
-                    } else {
-                        $(".modal-form").removeClass("display_absolute").addClass("display_none")
-                    }
-                })
-            })
-            today.setTime(today.getTime() + 7 * 24 * 60 * 60 * 1000)
-        })
-    </script> {% endcomment %}
 {% endblock %}

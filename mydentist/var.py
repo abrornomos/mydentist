@@ -207,4 +207,4 @@ DAYS = [
     _("Yakshanba"),
 ]
 
-NEW_LINE = "\n"
+NEW_LINE = "<br>"

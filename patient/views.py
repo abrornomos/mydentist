@@ -18,8 +18,6 @@ from mydentist.var import *
 from .forms import *
 from .models import User as PatientUser, Illness, Other_Illness, Process_photo
 
-# Create your views here.
-
 
 def profile(request):
     if not is_authenticated(request, "patient"):
@@ -31,6 +29,7 @@ def profile(request):
         check_language(request, "patient")
     user = User.objects.get(username=request.user.username)
     user_extra = PatientUser.objects.get(user=user)
+    notifications = get_notifications(request, "patient")
     try:
         try:
             appointment = Appointment.objects.get(patient=user_extra)
@@ -92,46 +91,32 @@ def profile(request):
             except:
                 pass
     if len(cabinet_images) > 1:
-        return render(request, "patient/profile.html", {
-            'user_extra': user_extra,
-            'appointment': appointment,
-            'dentist': dentist,
-            'dentist_extra': dentist_extra,
-            'clinic': clinic,
-            'clinic_extra': clinic_extra,
-            'services': services,
-            'cabinet_image': cabinet_images[0],
-            'cabinet_images': cabinet_images[1:],
-            'counter': range(len(cabinet_images)),
-            'authenticated': authenticated,
-        })
+        counter = range(len(cabinet_images))
+        cabinet_image = cabinet_images[0]
+        cabinet_images = cabinet_images[1:]
     elif len(cabinet_images) == 1:
-        return render(request, "patient/profile.html", {
-            'user_extra': user_extra,
-            'appointment': appointment,
-            'dentist': dentist,
-            'dentist_extra': dentist_extra,
-            'clinic': clinic,
-            'clinic_extra': clinic_extra,
-            'services': services,
-            'cabinet_image': cabinet_images[0],
-            'cabinet_images': None,
-            'counter': range(len(cabinet_images)),
-            'authenticated': authenticated,
-        })
+        counter = range(1)
+        cabinet_image = cabinet_images[0]
+        cabinet_images = None
     else:
-        return render(request, "patient/profile.html", {
-            'user_extra': user_extra,
-            'appointment': appointment,
-            'dentist': dentist,
-            'dentist_extra': dentist_extra,
-            'clinic': clinic,
-            'clinic_extra': clinic_extra,
-            'services': services,
-            'cabinet_images': None,
-            'counter': 0,
-            'authenticated': authenticated,
-        })
+        counter = 0
+        cabinet_image = None
+        cabinet_images = None
+    return render(request, "patient/profile.html", {
+        'user_extra': user_extra,
+        'appointment': appointment,
+        'dentist': dentist,
+        'dentist_extra': dentist_extra,
+        'clinic': clinic,
+        'clinic_extra': clinic_extra,
+        'services': services,
+        'cabinet_image': cabinet_image,
+        'cabinet_images': cabinet_images,
+        'counter': counter,
+        'notifications': notifications,
+        'notifications_count': len(notifications),
+        'authenticated': authenticated,
+    })
 
 
 def settings(request, active_tab="profile"):
@@ -402,17 +387,17 @@ def patients(request):
         patientform = PatientForm(request.POST)
         languageform = LanguageForm(request.POST)
         if patientform.is_valid() and languageform.is_valid():
-            file_path = Path(__file__).resolve().parent.parent / "mydentist" / "last_id.txt"
-            with open(file_path, "r") as file:
-                id = int(file.read()) + 1
-            with open(file_path, "w") as file:
-                file.write(str(id))
-            id = f"{id:07d}"
-            name = patientform.cleaned_data['name']
             try:
                 new_patient = PatientUser.objects.get(phone_number=patientform.cleaned_data['phone_number'])
             except:
-                if len(name) > 1:
+                file_path = Path(__file__).resolve().parent.parent / "mydentist" / "last_id.txt"
+                with open(file_path, "r") as file:
+                    id = int(file.read()) + 1
+                with open(file_path, "w") as file:
+                    file.write(str(id))
+                id = f"{id:07d}"
+                name = patientform.cleaned_data['name']
+                if len(name.split(" ")) > 1:
                     new_user = User.objects.create_user(
                         f"user{id}",
                         password=f"user{id}",
@@ -494,6 +479,7 @@ def patient(request, id, active_tab="profile"):
     patient_extra = PatientUser.objects.get(pk=id)
     patient = User.objects.get(pk=patient_extra.user_id)
     year = (date.today() - patient_extra.birthday).days // 365
+    gender = GENDERS[patient_extra.gender_id - 1]
     userform = UserForm({
         'first_name': patient.first_name,
         'last_name': patient.last_name,
@@ -540,7 +526,7 @@ def patient(request, id, active_tab="profile"):
             upcoming = {
                 'appointment': appointment_obj,
                 'service': Service_translation.objects.get(
-                    pk=appointment_obj.service_id,
+                    service__pk=appointment_obj.service_id,
                     language__pk=dentist.language_id
                 )
             }
@@ -553,7 +539,7 @@ def patient(request, id, active_tab="profile"):
             'number': number,
             'service': Service.objects.get(pk=appointment_obj.service_id),
             'service_translation': Service_translation.objects.get(
-                pk=appointment_obj.service_id,
+                service__pk=appointment_obj.service_id,
                 language__pk=dentist.language_id
             )
         })
@@ -588,7 +574,8 @@ def patient(request, id, active_tab="profile"):
         'process_photo': process_photo,
         'counter': counter,
         'active_tab': active_tab,
-        'year': year
+        'year': year,
+        'gender': gender
     })
 
 
@@ -600,7 +587,6 @@ def update(request, id, form):
             return redirect(request.META.get("HTTP_REFERER", "/"))
     else:
         check_language(request, "dentist")
-    print(request.POST)
     if request.method == "POST":
         patient = PatientUser.objects.get(pk=id)
         user = User.objects.get(pk=patient.user_id)

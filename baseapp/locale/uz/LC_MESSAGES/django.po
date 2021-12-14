@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-11-10 11:27+0500\n"
+"POT-Creation-Date: 2021-12-15 00:54+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -26,30 +26,30 @@ msgstr ""
 msgid "Asosiy ma'lumotlar"
 msgstr ""
 
-#: .\baseapp\models.py:9
+#: .\baseapp\models.py:7
 msgid "Til nomi"
 msgstr ""
 
-#: .\baseapp\models.py:12
+#: .\baseapp\models.py:10
 msgid "Til"
 msgstr ""
 
-#: .\baseapp\models.py:13
+#: .\baseapp\models.py:11
 msgid "Tillar"
 msgstr ""
 
-#: .\baseapp\models.py:21 .\baseapp\models.py:24
+#: .\baseapp\models.py:19 .\baseapp\models.py:22
 msgid "Hudud nomi"
 msgstr ""
 
-#: .\baseapp\models.py:25
+#: .\baseapp\models.py:23
 msgid "Hudud nomlari"
 msgstr ""
 
-#: .\baseapp\models.py:33 .\baseapp\models.py:36
+#: .\baseapp\models.py:31 .\baseapp\models.py:34
 msgid "Jins"
 msgstr ""
 
-#: .\baseapp\models.py:37
+#: .\baseapp\models.py:35
 msgid "Jinslar"
 msgstr ""

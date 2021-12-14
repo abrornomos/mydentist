@@ -7,7 +7,7 @@ class Dentist2patient(models.Model):
     sender = models.ForeignKey("dentist.User", verbose_name=_("Tish shifokori"), on_delete=models.CASCADE, related_name="dentist_sender")
     recipient = models.ForeignKey("patient.User", verbose_name=_("Bemor"), on_delete=models.CASCADE, related_name="patient_recipient")
     type = models.CharField(_("Xabar turi"), max_length=50)
-    message = models.TextField(_("Tish holatlari"))
+    message = models.TextField(_("Xabar matni"))
     datetime = models.DateTimeField(_("Xabar jo'natilgan vaqt"), auto_now=False, auto_now_add=False)
     is_read = models.BooleanField(_("O'qilganmi?"))
 
@@ -24,7 +24,7 @@ class Patient2dentist(models.Model):
     sender = models.ForeignKey("patient.User", verbose_name=_("Bemor"), on_delete=models.CASCADE, related_name="patient_sender")
     recipient = models.ForeignKey("dentist.User", verbose_name=_("Tish shifokori"), on_delete=models.CASCADE, related_name="dentist_recipient")
     type = models.CharField(_("Xabar turi"), max_length=50)
-    message = models.TextField(_("Tish holatlari"))
+    message = models.TextField(_("Xabar matni"))
     datetime = models.DateTimeField(_("Xabar jo'natilgan vaqt"), auto_now=False, auto_now_add=False)
     is_read = models.BooleanField(_("O'qilganmi?"))
 

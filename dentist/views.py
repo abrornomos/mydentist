@@ -17,8 +17,6 @@ from patient.models import User as UserExtra
 from .forms import *
 from .models import User as DentistUser, User_translation as DentistUserTranslation, Clinic, Clinic_translation, Service, Service_translation, Cabinet_Image
 
-# Create your views here.
-
 
 def dentist(request, slug):
     current_language = get_language()
@@ -198,7 +196,6 @@ def settings(request, active_tab="profile"):
         )
         if clinic_obj.id == dentist.clinic_id:
             active_clinic = clinic_obj
-    print(active_clinic)
     clinicform = ClinicForm({
         'clinic_name_uz': clinic_uz.name,
         'clinic_name_ru': clinic_ru.name,
@@ -346,7 +343,6 @@ def update(request, form):
                         name=request.POST['clinic'],
                         language__pk=dentist.language_id
                     )
-                    print(clinic_translation)
                     clinic = Clinic.objects.get(
                         pk=clinic_translation.clinic_id
                     )
@@ -355,9 +351,6 @@ def update(request, form):
                     request.session['success_message'] = "Updated successfully"
                     return redirect("dentx:settings", active_tab="clinic")
             else:
-                print(clinicform.errors)
-                print(float(request.POST['latitude'].replace(",", ".")))
-                print(float(request.POST['longitude'].replace(",", ".")))
                 request.session['success_message'] = "Updated successfully"
                 return redirect("dentx:settings", active_tab="clinic")
         elif form == "clinic-photo":

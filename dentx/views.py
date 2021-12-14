@@ -6,8 +6,6 @@ from appointment.models import *
 from dentist.models import User as DentistUser
 from mydentist.handler import *
 
-# Create your views here.
-
 
 def board(request):
     if not is_authenticated(request, "dentist"):
