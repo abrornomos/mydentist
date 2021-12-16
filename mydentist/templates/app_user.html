@@ -48,9 +48,13 @@
                                                     <div class="col-lg-8 col-sm-8 col-8">
                                                         <div class="info_name">{{ notification.sender }}</div>
                                                         <div class="info_desc">
+                                                            <br>
                                                             {% get_message notification.notification %}
                                                         </div>
-                                                        <small class="info_desc">{{ notification.notification.datetime }}</small>
+                                                        <small class="info_desc">
+                                                            <br>
+                                                            {{ notification.notification.datetime }}
+                                                        </small>
                                                     </div>
                                                 </div>
                                             </li>

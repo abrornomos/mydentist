@@ -2,6 +2,7 @@ from django.conf import settings as global_settings
 from django.contrib.auth.models import User
 from django.http import JsonResponse, HttpResponse
 from django.shortcuts import render, redirect
+from django.utils.safestring import mark_safe
 from django.utils import timezone
 from django.utils.translation import get_language, ugettext_lazy as _
 from datetime import datetime, date, timedelta
@@ -99,7 +100,7 @@ def appointments(request):
                     pregnancy=Pregnancy.objects.get(pk=1),
                 )
                 success = _("Yangi bemor qo'shildi")
-                text = f"{success}{NEW_LINE}{_('Telefon raqam')}: {patient.phone_number}{NEW_LINE}{_('Parol')}: user{id}"
+                text = mark_safe(f"{success}{NEW_LINE}{_('Telefon raqam')}: {patient.phone_number}{NEW_LINE}{_('Parol')}: user{id}")
             if is_success:
                 service_translation = Service_translation.objects.filter(
                     name=appointmentform.cleaned_data['service'],
@@ -140,7 +141,7 @@ def appointments(request):
                         sender=dentist,
                         recipient=patient,
                         type="appointment",
-                        message=f"{service.name}{NEW_LINE}{dentist}{NEW_LINE}{begin}{NEW_LINE}{end}",
+                        message=f"{service.name}{NEW_LINE}{dentist.id}",
                         datetime=timezone.now() + timedelta(seconds=global_settings.TIME_ZONE_HOUR * 3600),
                         is_read=False
                     )
