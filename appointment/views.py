@@ -7,7 +7,7 @@ from django.utils.translation import get_language, ugettext_lazy as _
 from datetime import datetime, date, timedelta
 from pathlib import Path
 from baseapp.models import *
-from dentist.models import User as DentistUser, User_translation as DentistUserTranslation, Service, Service_translation
+from dentist.models import Reminder, User as DentistUser, User_translation as DentistUserTranslation, Service, Service_translation
 from illness.models import *
 from patient.forms import PatientForm
 from patient.models import User as PatientUser, Illness, Other_Illness
@@ -34,6 +34,15 @@ def appointments(request):
         language__pk=dentist.language_id
     )[0]
     notifications = get_notifications(request, "dentist")
+    queries = get_queries(Query.objects.filter(dentist=dentist))
+    reminders_do = Reminder.objects.filter(
+        dentist=dentist,
+        category="do"
+    )
+    reminders_buy = Reminder.objects.filter(
+        dentist=dentist,
+        category="buy"
+    )
     if request.method == "POST":
         patientform = PatientForm(request.POST)
         appointmentform = AppointmentForm(request.POST)
@@ -179,6 +188,9 @@ def appointments(request):
         'dentist_translation': dentist_translation,
         'notifications': notifications,
         'notifications_count': len(notifications),
+        'queries': queries,
+        'reminders_do': reminders_do,
+        'reminders_buy': reminders_buy,
         'services': services,
         'times': times,
         'is_success': is_success,

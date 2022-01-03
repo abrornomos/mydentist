@@ -12,7 +12,7 @@
         <title>{% block title %}{% endblock %} - DentX</title>
     </head>
     <body>
-        <div class="container-fluid">
+        <div class="container-fluid fixed-top bg-white">
             <div class="my-header">
                 <a href="{% url 'dentx:appointments' %}" class="my-header-logo">DentX</a>
                 <a href="{% url 'dentx:appointments' %}" class="my-header-item{% if "/appointments/" in request.path %} active-item{% endif %}">
@@ -20,12 +20,24 @@
                     <span>{% trans "Qabullar" %}</span>
                 </a>
                 <a href="{% url 'dentx:board' %}" class="my-header-item{% if "/board/" in request.path %} active-item{% endif %}">
-                    <i class="fas fa-th-list"></i>
+                    <i class="fas fa-clipboard-list-check"></i>
                     <span>{% trans "Doska" %}</span>
                 </a>
                 <a href="{% url 'dentx:patients' %}" class="my-header-item{% if "/patients/" in request.path %} active-item{% endif %}">
                     <i class="fas fa-user"></i>
                     <span>{% trans "Bemorlar" %}</span>
+                </a>
+                <div id="waiting-list" class="my-header-item" data-bs-toggle="modal" data-bs-target="#waitingListModal">
+                    <i class="fas fa-th-list"></i>
+                    <span>{% trans "Kutish zali" %}</span>
+                </div>
+                <div id="reminder" class="my-header-item" data-bs-toggle="modal" data-bs-target="#reminderModal">
+                    <i class="fas fa-sticky-note"></i>
+                    <span>{% trans "Eslatmalar" %}</span>
+                </div>
+                <a href="#" class="my-header-item{% if "/blog/" in request.path %} active-item{% endif %}">
+                    <i class="fab fa-youtube"></i>
+                    <span>{% trans "Animatsiyalar" %}</span>
                 </a>
                 <div class="my_panel">
                     <div class="inner_panel d-flex justify-content-between"> 
@@ -90,9 +102,178 @@
                 </div>
             </div>
         </div>
+        <div class="nav-space"></div>
+        <div class="modal fade" id="waitingListModal" tabindex="-1" aria-labelledby="waitingListModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="waitingListModalLabel">{% trans "Kutish zali" %}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-bordered w-100">
+                            <thead>
+                                <tr>
+                                    <th scope="col">{% trans "Bemor FIOsi" %}</th>
+                                    <th scope="col">{% trans "Sabab" %}</th>
+                                    <th scope="col">{% trans "Izohlar" %}</th>
+                                    <th scope="col">{% trans "Telefon raqam" %}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for query in queries %}
+                                    <tr>
+                                        <td>
+                                            <a href="{% url 'dentx:patient' id=query.patient.id active_tab="profile" %}" class="text-decoration-none">{{ query.patient }}</a>
+                                        </td>
+                                        <td>{{ query.query.reason }}</td>
+                                        <td>{{ query.query.comment }}</td>
+                                        <td>{{ query.patient.phone_number }}</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="reminderModal" tabindex="-1" aria-labelledby="reminderModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="reminderModalLabel">{% trans "Eslatmalar" %}</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {% comment %} <div class="mb-4">
+                            <h6>{% trans "Qilish kerak" %}</h6>
+                            <hr>
+                            <div class="mb-2">
+                                {% for reminder in reminders_do %}
+                                    <div class="form-check">
+                                        <label class="form-check-label" for="{{ reminder.id }}">
+                                            {{ reminder.name }}
+                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="{{ reminder.id }}">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button id="add-do">{% trans "Eslatma qo'shish" %}</button>
+                        </div>
+                        <div>
+                            <h6>{% trans "Sotib olish kerak" %}</h6>
+                            <hr>
+                            <div class="mb-2">
+                                {% for reminder in reminders_buy %}
+                                    <div class="form-check">
+                                        <label class="form-check-label" for="{{ reminder.id }}">
+                                            {{ reminder.name }}
+                                        </label>
+                                        <input class="form-check-input" type="checkbox" id="{{ reminder.id }}">
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            <button id="add-buy">{% trans "Eslatma qo'shish" %}</button>
+                        </div> {% endcomment %}
+                    </div>
+                </div>
+            </div>
+        </div>
         {% block content %}{% endblock %}
         <script src="{% static 'vendor/js/bootstrap.bundle.min.js' %}"></script>
         <script src="{% static 'vendor/js/jquery-3.6.0.min.js' %}"></script>
+        <script type="text/javascript">
+            function addReminder(element, category) {
+                $(element).after(
+                    $(`<div class="add-${category} input-group w-25"></div>`).append(
+                        $(`<input id="${category}-name" class="form-control" type="text" placeholder="{% trans "Eslatmani kiriting" %}" style="border-radius: 0">`),
+                        $(`<button class="btn btn-primary" id="add-${category}-reminder"></button>`).append(
+                            $("<i class=\"fas fa-check\"></i>")
+                        ),
+                        $(`<button class="btn btn-secondary" id="cancel-${category}-reminder"></button>`).append(
+                            $("<i class=\"fas fa-times\"></i>")
+                        )
+                    )
+                )
+                $(element).remove()
+                $(`#add-${category}-reminder`).click(function() {
+                    confirmReminder(this, category)
+                })
+                $(`#cancel-${category}-reminder`).click(function() {
+                    cancelReminder(this, category)
+                })
+            }
+            function confirmReminder(element, category) {
+                if ($(`#${category}-name`).val() !== "") {
+                    $.ajax({
+                        url: "{% url 'dentx:reminders' %}",
+                        method: "POST",
+                        data: {
+                            csrfmiddlewaretoken: "{{ csrf_token }}",
+                            category: category,
+                            name: $(`#${category}-name`).val()
+                        }
+                    }).always(function(result) {
+                        $("#do-reminders .mb-2").empty()
+                        $("#buy-reminders .mb-2").empty()
+                        reminders(result)
+                        cancelReminder(element, category)
+                    })
+                }
+            }
+            function cancelReminder(element, category) {
+                $(element).parent().before(
+                    $(`<button id="add-${category}">{% trans "Eslatma qo'shish" %}</button>`)
+                )
+                $(element).parent().remove()
+                $(`#add-${category}`).click(function() {
+                    addReminder(this, category)
+                })
+            }
+            function reminders(result) {
+                for (let i = 0; i < result["do"].length; i++) {
+                    $("#do-reminders .mb-2").append(
+                        $("<div class=\"form-check\"></div>").append(
+                            $(`<label class="form-check-label" for="${result["do"][i]["id"]}">${result["do"][i]["name"]}</label>`),
+                            $(`<input class="form-check-input" type="checkbox" id="${result["do"][i]["id"]}">`)
+                        )
+                    )
+                }
+                for (let i = 0; i < result["buy"].length; i++) {
+                    $("#buy-reminders .mb-2").append(
+                        $("<div class=\"form-check\"></div>").append(
+                            $(`<label class="form-check-label" for="${result["buy"][i]["id"]}">${result["buy"][i]["name"]}</label>`),
+                            $(`<input class="form-check-input" type="checkbox" id="${result["buy"][i]["id"]}">`)
+                        )
+                    )
+                }
+            }
+            $.ajax({
+                url: "{% url 'dentx:reminders' %}",
+            }).always(function(result) {
+                $("#reminderModal .modal-body").append(
+                    $("<div id=\"do-reminders\" class=\"mb-4\"></div>").append(
+                        $("<h6>{% trans "Qilish kerak" %}</h6>"),
+                        $("<hr>"),
+                        $("<div class=\"mb-2\"></div>"),
+                        $("<button id=\"add-do\">{% trans "Eslatma qo'shish" %}</button>")
+                    ),
+                    $("<div id=\"buy-reminders\" class=\"mb-4\"></div>").append(
+                        $("<h6>{% trans "Sotib olish kerak" %}</h6>"),
+                        $("<hr>"),
+                        $("<div class=\"mb-2\"></div>"),
+                        $("<button id=\"add-buy\">{% trans "Eslatma qo'shish" %}</button>")
+                    )
+                )
+                reminders(result)
+                $("#add-do").click(function() {
+                    addReminder(this, "do")
+                })
+                $("#add-buy").click(function() {
+                    addReminder(this, "buy")
+                })
+            })
+        </script>
         {% block javascript %}{% endblock %}
     </body>
 </html>

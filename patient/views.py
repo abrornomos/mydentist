@@ -383,6 +383,7 @@ def patients(request):
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     notifications = get_notifications(request, "dentist")
+    queries = get_queries(Query.objects.filter(dentist=dentist))
     if request.method == "POST":
         patientform = PatientForm(request.POST)
         languageform = LanguageForm(request.POST)
@@ -458,6 +459,7 @@ def patients(request):
         'dentist': dentist,
         'notifications': notifications,
         'notifications_count': len(notifications),
+        'queries': queries,
         'results': results,
         'patientform': patientform,
         'languageform': languageform,
@@ -476,6 +478,7 @@ def patient(request, id, active_tab="profile"):
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     notifications = get_notifications(request, "dentist")
+    queries = get_queries(Query.objects.filter(dentist=dentist))
     patient_extra = PatientUser.objects.get(pk=id)
     patient = User.objects.get(pk=patient_extra.user_id)
     year = (date.today() - patient_extra.birthday).days // 365
@@ -561,6 +564,7 @@ def patient(request, id, active_tab="profile"):
         'dentist': dentist,
         'notifications': notifications,
         'notifications_count': len(notifications),
+        'queries': queries,
         'patient': patient,
         'patient_extra': patient_extra,
         'patient_illness': patient_illness,

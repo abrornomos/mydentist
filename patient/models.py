@@ -88,20 +88,6 @@ class Tooth_status(models.Model):
         return self.name
 
 
-class Plan(models.Model):
-
-    name = models.CharField(_("Ish nomi"), max_length=100)
-    is_done = models.BooleanField(_("Qilinganligi"))
-    patient = models.ForeignKey("patient.User", verbose_name=_("Bemor"), on_delete=models.CASCADE, related_name="patient_plan")
-
-    class Meta:
-        verbose_name = _("Qilingan ish")
-        verbose_name_plural = _("Qilingan ishlar")
-
-    def __str__(self):
-        return f"{self.name} - {self.patient.__str__()}"
-
-
 class Process_photo(models.Model):
     
     image = models.ImageField(_("Ish jarayonidagi rasm"), upload_to="patients/process_photos/")

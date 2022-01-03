@@ -111,3 +111,18 @@ class Cabinet_Image(models.Model):
 
     def __str__(self):
         return f"{self.image.name} - {self.dentist.__str__()}"
+
+
+class Reminder(models.Model):
+
+    dentist = models.ForeignKey("dentist.User", verbose_name=_("Tish shifokori"), on_delete=models.CASCADE)
+    name = models.CharField(_("Eslatma"), max_length=200)
+    category = models.CharField(_("Eslatma turi"), max_length=50)
+    is_done = models.BooleanField(_("Bajarilganmi?"))
+
+    class Meta:
+        verbose_name = _("Eslatma")
+        verbose_name_plural = _("Eslatmalar")
+
+    def __str__(self):
+        return f"{self.name} - {self.dentist.__str__()}"

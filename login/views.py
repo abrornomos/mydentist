@@ -2,11 +2,12 @@ from datetime import datetime
 from django.conf import settings as global_settings
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.models import User
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.http import Http404
 from django.shortcuts import render, redirect
 from django.utils import translation
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.translation import get_language, ugettext_lazy as _
 from pathlib import Path
@@ -272,7 +273,7 @@ def password_reset_done(request):
 
 def reset(request, uidb64, token):
     try:
-        user = User.objects.get(username=force_text(urlsafe_base64_decode(uidb64)))
+        user = User.objects.get(username=force_str(urlsafe_base64_decode(uidb64)))
         is_token_correct = reset_password_token.check_token(user, token)
         if is_token_correct:
             try:
@@ -338,7 +339,11 @@ def dentx_login(request):
             )
             if user is not None:
                 login(request, user)
-                dentist_extra = DentistUser.objects.get(user=user)
+                try:
+                    dentist_extra = DentistUser.objects.get(user=user)
+                except:
+                    raise PermissionDenied()
+                    # return HttpResponseForbidden(_("Ushbu bo'limga faqat tish shifokorlari kirishi mumkin"))
                 language = Language.objects.get(pk=dentist_extra.language_id).name
                 translation.activate(language)
                 request.session[translation.LANGUAGE_SESSION_KEY] = language
@@ -348,6 +353,17 @@ def dentx_login(request):
                 else:
                     return redirect("dentx:appointments")
             else:
+                try:
+                    user_check = User.objects.get(email=loginform.cleaned_data['username'])
+                    user = authenticate(
+                        request,
+                        username=user_check.username,
+                        password=loginform.cleaned_data['password']
+                    )
+                    if user is not None:
+                        raise PermissionDenied()
+                except:
+                    pass
                 return render(request, "login/dentx_login.html", {
                     'loginform': loginform,
                     'error_message': _("Noto'g'ri login yoki parol")

@@ -18,4 +18,6 @@ urlpatterns = [
     path('set_language/<user_language>', handler.set_language, name='set_language'),
     path('favicon.ico', RedirectView.as_view(url=staticfiles_storage.url("favicon.ico"))),
 ] + staticfiles_urlpatterns() + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
-# handler404 = 'baseapp.views.error_404'
+
+handler404 = 'baseapp.views.error_404'
+handler403 = 'baseapp.views.error_403'

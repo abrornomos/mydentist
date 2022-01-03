@@ -139,6 +139,7 @@ def settings(request, active_tab="profile"):
         language__pk=dentist.language_id
     )[0]
     notifications = get_notifications(request, "dentist")
+    queries = get_queries(Query.objects.filter(dentist=dentist))
     clinic = Clinic.objects.get(pk=dentist.clinic_id)
     clinic_uz = Clinic_translation.objects.get(
         clinic=clinic,
@@ -230,6 +231,7 @@ def settings(request, active_tab="profile"):
         'dentist': dentist,
         'notifications': notifications,
         'notifications_count': len(notifications),
+        'queries': queries,
         'dentist_translation': dentist_translation,
         'active_tab': active_tab,
         'success_message': success_message,

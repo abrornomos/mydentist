@@ -687,9 +687,21 @@ table {
   margin-right: -4px;
   vertical-align: middle;
   display: inline-block;
-  padding: 15px 55px;
+  padding: 15px 25px;
   color: #535151;
   text-align: center;
+}
+
+.my-header-item:hover {
+  cursor: pointer;
+  color: #535151;
+  border-bottom: 2px solid #289CD7;
+}
+
+.my-header-item:active {
+  cursor: pointer;
+  color: #535151;
+  border: 2px solid #289CD7;
 }
 
 .my-header-item a {
@@ -704,10 +716,6 @@ table {
 
 .my-header-item span {
   display: block;
-}
-
-.my-header-item:hover {
-  color: #535151;
 }
 
 .my_panel {

@@ -85,6 +85,17 @@ def get_appointments(appointments):
     return results
 
 
+def get_reminders(reminders):
+    results = []
+    for reminder in reminders:
+        results.append({
+            'id': reminder.id,
+            'name': reminder.name,
+            'category': reminder.category
+        })
+    return results
+
+
 def sort_by_distance(services, location):
     if len(services) < 2:
         return services

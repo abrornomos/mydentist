@@ -19,6 +19,7 @@ urlpatterns = [
     path('', dentx_redirect, name='index'),
     path('auth/login/', login_views.dentx_login, name='login'),
     path('auth/logout/', login_views.dentx_logout, name='logout'),
+    path('reminders', dentx_views.reminders, name='reminders'),
     path('settings/<str:active_tab>', dentist_views.settings, name='settings'),
     path('get-clinic/', dentist_views.get_clinic, name='get_clinic'),
     path('update/<str:form>', dentist_views.update, name='update_dentist'),

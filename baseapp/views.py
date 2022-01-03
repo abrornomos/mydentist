@@ -1,5 +1,5 @@
 from django.db.models import Count
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from django.utils.translation import ugettext_lazy as _, get_language
 from json import dumps
@@ -9,6 +9,16 @@ from mydentist.handler import *
 from mydentist.var import REGIONS
 from .forms import *
 from .models import *
+
+
+def error_404(request, exception):
+    return render(request, "http/404.html", {
+        'exception': exception
+    })
+
+
+def error_403(request, exception):
+    return render(request, "http/403.html")
 
 
 def index(request):
