@@ -1,5 +1,8 @@
 from django.template import Library
+from django.utils.safestring import mark_safe
 from django.utils.translation import get_language, ugettext_lazy as _
+from appointment.models import Appointment
+from dentist.models import Service, User_translation, Service_translation
 from illness.models import Allergy, Medications, Pregnancy
 from mydentist.var import *
 
@@ -62,6 +65,25 @@ def get_message(notification):
     if notification.type == "query":
         messages = notification.message.split(NEW_LINE)
         message = f"{_('Sabab')}: {messages[0]}{NEW_LINE}{_('Izohlar')}: {messages[1]}"
+    elif notification.type == "appointment":
+        messages = notification.message.split(NEW_LINE)
+        dentist = User_translation.objects.get(
+            dentist__pk=int(messages[1]),
+            language__name=get_language()
+        )
+        print(messages[0], get_language())
+        service = Service_translation.objects.get(
+            service__name=messages[0],
+            service__dentist__pk=int(messages[1]),
+            language__name=get_language()
+        )
+        appointment = Appointment.objects.get(
+            dentist__pk=dentist.dentist_id,
+            service__pk=service.service_id
+        )
+        begin_time = f"{date_format(appointment.begin)} {time_format(appointment.begin)}"
+        end_time = f"{date_format(appointment.end)} {time_format(appointment.end)}"
+        message = f"{_('Shifokor')}: {dentist.fullname}{NEW_LINE}{_('Xizmat turi')}: {service.name}{NEW_LINE}{_('Boshlanish vaqti')}: {begin_time}{NEW_LINE}{_('Tugash vaqti')}: {end_time}"
     else:
         message = notification.message
-    return message
+    return mark_safe(message)

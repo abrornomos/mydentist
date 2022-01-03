@@ -4,6 +4,7 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.http.response import JsonResponse
 from django.shortcuts import render, redirect
+from django.utils.safestring import mark_safe
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from pathlib import Path
@@ -444,7 +445,7 @@ def patients(request):
                     pregnancy=Pregnancy.objects.get(pk=1),
                 )
                 success = _("Yangi bemor qo'shildi")
-                text = f"{success}{NEW_LINE}{_('Telefon raqam')}: {new_patient.phone_number}{NEW_LINE}{_('Parol')}: user{id}"
+                text = mark_safe(f"{success}{NEW_LINE}{_('Telefon raqam')}: {new_patient.phone_number}{NEW_LINE}{_('Parol')}: user{id}")
     patients_obj = PatientUser.objects.all()
     results = []
     for patient_obj in patients_obj:
