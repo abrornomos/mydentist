@@ -192,7 +192,7 @@
         today.setTime(today.getTime() - ((today.getDay() + 6) % 7) * 24 * 60 * 60 * 1000)
         $.ajax({
             url: "{% url 'dentx:table' %}"
-        }).always(function(result) {
+        }).done(function(result) {
             $(".overflow").html(result)
             $(".overflow td.time").on("dblclick", function() {
                 $(".hidden-button > button")[0].click()
@@ -224,7 +224,7 @@
                         date: $(`thead th:nth-child(${$(this).index() + 1})`).html(),
                         time: $(this).parent().children(":first-child").text(),
                     },
-                }).always(function(result) {
+                }).done(function(result) {
                     $(".hidden-button > button")[0].click()
                     temp = result.date.split("<br>")
                     time = result.time
@@ -256,7 +256,7 @@
                     direction: "left"
                 },
                 dataType : "json",
-            }).always(function(result) {
+            }).done(function(result) {
                 $(".overflow").html(result.responseText)
                 $(".overflow td.time").on("dblclick", function() {
                     $(".hidden-button > button")[0].click()
@@ -288,7 +288,7 @@
                             date: $(`thead th:nth-child(${$(this).index() + 1})`).html(),
                             time: $(this).parent().children(":first-child").text(),
                         },
-                    }).always(function(result) {
+                    }).done(function(result) {
                         $(".hidden-button > button")[0].click()
                         temp = result.date.split("<br>")
                         time = result.time
@@ -322,7 +322,7 @@
                     direction: "right"
                 },
                 dataType : "json",
-            }).always(function(result) {
+            }).done(function(result) {
                 $(".overflow").html(result.responseText)
                 $(".overflow td.time").on("dblclick", function() {
                     $(".hidden-button > button")[0].click()
@@ -354,7 +354,7 @@
                             date: $(`thead th:nth-child(${$(this).index() + 1})`).html(),
                             time: $(this).parent().children(":first-child").text(),
                         },
-                    }).always(function(result) {
+                    }).done(function(result) {
                         console.log(typeof(result))
                         $(".hidden-button > button")[0].click()
                         temp = result.date.split("<br>")
@@ -401,7 +401,7 @@
             if ($(".input-group").has("div.w-100").length == 0) {
                 $.ajax({
                     url : "{% url 'dentx:patients_list' %}",
-                }).always(function(result) {
+                }).done(function(result) {
                     $("#id_name").removeClass("mb-3").parent().append(
                         $("<div class=\"w-100\"></div>")
                     )

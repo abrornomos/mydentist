@@ -144,38 +144,7 @@
                         <h5 class="modal-title" id="reminderModalLabel">{% trans "Eslatmalar" %}</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        {% comment %} <div class="mb-4">
-                            <h6>{% trans "Qilish kerak" %}</h6>
-                            <hr>
-                            <div class="mb-2">
-                                {% for reminder in reminders_do %}
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="{{ reminder.id }}">
-                                            {{ reminder.name }}
-                                        </label>
-                                        <input class="form-check-input" type="checkbox" id="{{ reminder.id }}">
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <button id="add-do">{% trans "Eslatma qo'shish" %}</button>
-                        </div>
-                        <div>
-                            <h6>{% trans "Sotib olish kerak" %}</h6>
-                            <hr>
-                            <div class="mb-2">
-                                {% for reminder in reminders_buy %}
-                                    <div class="form-check">
-                                        <label class="form-check-label" for="{{ reminder.id }}">
-                                            {{ reminder.name }}
-                                        </label>
-                                        <input class="form-check-input" type="checkbox" id="{{ reminder.id }}">
-                                    </div>
-                                {% endfor %}
-                            </div>
-                            <button id="add-buy">{% trans "Eslatma qo'shish" %}</button>
-                        </div> {% endcomment %}
-                    </div>
+                    <div class="modal-body"></div>
                 </div>
             </div>
         </div>
@@ -183,93 +152,193 @@
         <script src="{% static 'vendor/js/bootstrap.bundle.min.js' %}"></script>
         <script src="{% static 'vendor/js/jquery-3.6.0.min.js' %}"></script>
         <script type="text/javascript">
-            function addReminder(element, category) {
-                $(element).after(
-                    $(`<div class="add-${category} input-group w-25"></div>`).append(
-                        $(`<input id="${category}-name" class="form-control" type="text" placeholder="{% trans "Eslatmani kiriting" %}" style="border-radius: 0">`),
-                        $(`<button class="btn btn-primary" id="add-${category}-reminder"></button>`).append(
-                            $("<i class=\"fas fa-check\"></i>")
-                        ),
-                        $(`<button class="btn btn-secondary" id="cancel-${category}-reminder"></button>`).append(
-                            $("<i class=\"fas fa-times\"></i>")
+            function addReminder(element, category, id=null) {
+                console.log()
+                console.log($(element).prev().prev().html())
+                if ($(element).attr("id") == `add-${category}`) {   
+                    $(element).after(
+                        $(`<div id="add-${category}" class="input-group w-25" key=></div>`).append(
+                            $(`<input id="${category}-name" class="form-control" type="text" placeholder="{% trans "Eslatmani kiriting" %}" style="border-radius: 0">`),
+                            $(`<button id="add-${category}-reminder" class="btn btn-primary"></button>`).append(
+                                $("<i class=\"fas fa-check\"></i>")
+                            ),
+                            $(`<button id="cancel-${category}-reminder" class="btn btn-secondary"></button>`).append(
+                                $("<i class=\"fas fa-times\"></i>")
+                            )
                         )
                     )
-                )
-                $(element).remove()
-                $(`#add-${category}-reminder`).click(function() {
-                    confirmReminder(this, category)
-                })
-                $(`#cancel-${category}-reminder`).click(function() {
-                    cancelReminder(this, category)
-                })
-            }
-            function confirmReminder(element, category) {
-                if ($(`#${category}-name`).val() !== "") {
-                    $.ajax({
-                        url: "{% url 'dentx:reminders' %}",
-                        method: "POST",
-                        data: {
-                            csrfmiddlewaretoken: "{{ csrf_token }}",
-                            category: category,
-                            name: $(`#${category}-name`).val()
-                        }
-                    }).always(function(result) {
-                        $("#do-reminders .mb-2").empty()
-                        $("#buy-reminders .mb-2").empty()
-                        reminders(result)
-                        cancelReminder(element, category)
+                    $(element).remove()
+                    $(`#add-${category}-reminder`).on("click", function() {
+                        confirmReminder(this, "add", category)
+                    })
+                    $(`#cancel-${category}-reminder`).on("click", function() {
+                        cancelReminder(this, "add", category)
+                    })
+                } else if ($(element).attr("id") == `edit-${category}-${id}`) {
+                    $(element).parent().after(
+                        $(`<div id="edit-${category}-${id}" class="input-group w-25"></div>`).append(
+                            $(`<input id="${category}-name" class="form-control" type="text" value="${$(element).prev().prev().html()}" placeholder="{% trans "Eslatmani kiriting" %}" style="border-radius: 0">`),
+                            $(`<button id="add-${category}-${id}-reminder" class="btn btn-primary"></button>`).append(
+                                $("<i class=\"fas fa-check\"></i>")
+                            ),
+                            $(`<button id="cancel-${category}-${id}-reminder" class="btn btn-secondary"></button>`).append(
+                                $("<i class=\"fas fa-times\"></i>")
+                            )
+                        )
+                    )
+                    $(element).parent().remove()
+                    $(`#add-${category}-${id}-reminder`).on("click", function() {
+                        confirmReminder(this, "edit", category, id)
+                    })
+                    $(`#cancel-${category}-${id}-reminder`).on("click", function() {
+                        cancelReminder(this, "edit", category, id, $(element).prev().is(":checked"))
                     })
                 }
             }
-            function cancelReminder(element, category) {
-                $(element).parent().before(
-                    $(`<button id="add-${category}">{% trans "Eslatma qo'shish" %}</button>`)
-                )
-                $(element).parent().remove()
-                $(`#add-${category}`).click(function() {
-                    addReminder(this, category)
-                })
+            function confirmReminder(element, type, category, id=null) {
+                if ($(`#${category}-name`).val() !== "") {
+                    if (type == "add") {
+                        $.ajax({
+                            url: "{% url 'dentx:reminders' %}",
+                            method: "POST",
+                            data: {
+                                csrfmiddlewaretoken: "{{ csrf_token }}",
+                                category: category,
+                                type: type,
+                                name: $(`#${category}-name`).val()
+                            }
+                        }).done(function(result) {
+                            cancelReminder(element, type, category)
+                            $("#do-reminders .mb-2").empty()
+                            $("#buy-reminders .mb-2").empty()
+                            reminders(result)
+                        })
+                    } else if (type == "edit") {
+                        $.ajax({
+                            url: "{% url 'dentx:reminders' %}",
+                            method: "POST",
+                            data: {
+                                csrfmiddlewaretoken: "{{ csrf_token }}",
+                                category: category,
+                                type: type,
+                                name: $(`#${category}-name`).val(),
+                                id: id
+                            }
+                        }).done(function(result) {
+                            $("#do-reminders .mb-2").empty()
+                            $("#buy-reminders .mb-2").empty()
+                            reminders(result)
+                        })
+                    }
+                }
+            }
+            function cancelReminder(element, type, category, id=null, is_done=null) {
+                if (type == "add") {
+                    $(element).parent().before(
+                        $(`<button id="add-${category}">{% trans "Eslatma qo'shish" %}</button>`)
+                    )
+                    $(element).parent().remove()
+                    $(`#add-${category}`).on("click", function() {
+                        addReminder(this, category)
+                    })
+                } else if (type == "edit") {
+                    $(element).parent().before(
+                        $("<div class=\"form-check\"></div>").append(
+                            $(`<label class="form-check-label" for="${id}">${$(element).prev().prev().val()}</label>`),
+                            $(`<input class="form-check-input" type="checkbox" ${is_done ? "checked" : ""} id="${id}">`),
+                            $(`<button id="edit-do-${id}" class="border-0 bg-white ms-1"><i class="fas fa-edit"></i></button>`)
+                        )
+                    )
+                    $(element).parent().remove()
+                    $(`#edit-${category}-${id}`).on("click", function() {
+                        addReminder(this, category, id)
+                    })
+                }
             }
             function reminders(result) {
                 for (let i = 0; i < result["do"].length; i++) {
                     $("#do-reminders .mb-2").append(
                         $("<div class=\"form-check\"></div>").append(
                             $(`<label class="form-check-label" for="${result["do"][i]["id"]}">${result["do"][i]["name"]}</label>`),
-                            $(`<input class="form-check-input" type="checkbox" id="${result["do"][i]["id"]}">`)
+                            $(`<input class="form-check-input" type="checkbox" ${result["do"][i]["is_done"] ? "checked" : ""} id="${result["do"][i]["id"]}">`),
+                            $(`<button id="edit-do-${result["do"][i]["id"]}" class="border-0 bg-white ms-1"><i class="fas fa-edit"></i></button>`)
                         )
                     )
+                    $(`#edit-do-${result["do"][i]["id"]}`).on("click", function() {
+                        addReminder(this, "do", result["do"][i]["id"])
+                    })
                 }
                 for (let i = 0; i < result["buy"].length; i++) {
                     $("#buy-reminders .mb-2").append(
                         $("<div class=\"form-check\"></div>").append(
                             $(`<label class="form-check-label" for="${result["buy"][i]["id"]}">${result["buy"][i]["name"]}</label>`),
-                            $(`<input class="form-check-input" type="checkbox" id="${result["buy"][i]["id"]}">`)
+                            $(`<input class="form-check-input" type="checkbox" ${result["buy"][i]["is_done"] ? "checked" : ""} id="${result["buy"][i]["id"]}">`),
+                            $(`<button id="edit-buy-${result["buy"][i]["id"]}" class="border-0 bg-white ms-1"><i class="fas fa-edit"></i></button>`)
                         )
                     )
+                    $(`#edit-buy-${result["buy"][i]["id"]}`).on("click", function() {
+                        addReminder(this, "buy", result["buy"][i]["id"])
+                    })
                 }
+                $("#do-reminders input[type=checkbox]").on("change", function() {
+                    $.ajax({
+                        url: "{% url 'dentx:reminders' %}",
+                        method: "POST",
+                        data: {
+                            csrfmiddlewaretoken: "{{ csrf_token }}",
+                            category: "do",
+                            type: "edit",
+                            name: $("label[for='do-name']").val(),
+                            is_done: $(this).is(":checked"),
+                            id: $(this).attr("id")
+                        }
+                    }).done(function(result) {
+                        $("#do-reminders .mb-2").empty()
+                        $("#buy-reminders .mb-2").empty()
+                        reminders(result)
+                    })
+                })
+                $("#buy-reminders input[type=checkbox]").on("change", function() {
+                    $.ajax({
+                        url: "{% url 'dentx:reminders' %}",
+                        method: "POST",
+                        data: {
+                            csrfmiddlewaretoken: "{{ csrf_token }}",
+                            category: "buy",
+                            type: "edit",
+                            name: $("label[for='buy-name']").val(),
+                            is_done: $(this).is(":checked"),
+                            id: $(this).attr("id")
+                        }
+                    }).done(function(result) {
+                        $("#do-reminders .mb-2").empty()
+                        $("#buy-reminders .mb-2").empty()
+                        reminders(result)
+                    })
+                })
             }
             $.ajax({
                 url: "{% url 'dentx:reminders' %}",
-            }).always(function(result) {
+            }).done(function(result) {
                 $("#reminderModal .modal-body").append(
                     $("<div id=\"do-reminders\" class=\"mb-4\"></div>").append(
                         $("<h6>{% trans "Qilish kerak" %}</h6>"),
                         $("<hr>"),
                         $("<div class=\"mb-2\"></div>"),
-                        $("<button id=\"add-do\">{% trans "Eslatma qo'shish" %}</button>")
+                        $("<button id=\"add-do\" class=\"bg-white\">{% trans "Eslatma qo'shish" %}</button>")
                     ),
                     $("<div id=\"buy-reminders\" class=\"mb-4\"></div>").append(
                         $("<h6>{% trans "Sotib olish kerak" %}</h6>"),
                         $("<hr>"),
                         $("<div class=\"mb-2\"></div>"),
-                        $("<button id=\"add-buy\">{% trans "Eslatma qo'shish" %}</button>")
+                        $("<button id=\"add-buy\" class=\"bg-white\">{% trans "Eslatma qo'shish" %}</button>")
                     )
                 )
                 reminders(result)
-                $("#add-do").click(function() {
+                $("#add-do").on("click", function() {
                     addReminder(this, "do")
                 })
-                $("#add-buy").click(function() {
+                $("#add-buy").on("click", function() {
                     addReminder(this, "buy")
                 })
             })

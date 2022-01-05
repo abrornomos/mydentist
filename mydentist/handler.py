@@ -91,7 +91,8 @@ def get_reminders(reminders):
         results.append({
             'id': reminder.id,
             'name': reminder.name,
-            'category': reminder.category
+            'category': reminder.category,
+            'is_done': reminder.is_done
         })
     return results
 

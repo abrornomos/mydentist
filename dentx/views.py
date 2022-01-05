@@ -33,12 +33,25 @@ def board(request):
 def reminders(request):
     dentist = DentistUser.objects.get(user__username=request.user.username)
     if request.method == "POST":
-        reminder = Reminder.objects.create(
-            dentist=dentist,
-            name=request.POST['name'],
-            category=request.POST['category'],
-            is_done=False
-        )
+        if request.POST['type'] == "add":
+            reminder = Reminder.objects.create(
+                dentist=dentist,
+                name=request.POST['name'],
+                category=request.POST['category'],
+                is_done=False
+            )
+        elif request.POST['type'] == "edit":
+            if 'is_done' in request.POST:
+                reminder = Reminder.objects.get(pk=int(request.POST['id']))
+                if request.POST['is_done'] == "true":
+                    reminder.is_done = True
+                elif request.POST['is_done'] == "false":
+                    reminder.is_done = False
+                reminder.save()
+            else:
+                reminder = Reminder.objects.get(pk=int(request.POST['id']))
+                reminder.name = request.POST['name']
+                reminder.save()
     reminders_do = get_reminders(Reminder.objects.filter(
         dentist=dentist,
         category="do"
