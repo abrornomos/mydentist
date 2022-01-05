@@ -35,7 +35,7 @@
                     <i class="fas fa-sticky-note"></i>
                     <span>{% trans "Eslatmalar" %}</span>
                 </div>
-                <a href="#" class="my-header-item{% if "/blog/" in request.path %} active-item{% endif %}">
+                <a href="{% url 'dentx:animations' %}" class="my-header-item{% if "/animations/" in request.path %} active-item{% endif %}">
                     <i class="fab fa-youtube"></i>
                     <span>{% trans "Animatsiyalar" %}</span>
                 </a>

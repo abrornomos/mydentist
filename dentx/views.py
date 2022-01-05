@@ -19,14 +19,25 @@ def board(request):
     user = User.objects.get(username=request.user.username)
     dentist = DentistUser.objects.get(user=user)
     notifications = get_notifications(request, "dentist")
-    queries = get_queries(Query.objects.filter(dentist=dentist))
-    appointments = get_appointments(Appointment.objects.filter(dentist=dentist))
+    appointments_waiting = get_appointments(Appointment.objects.filter(
+        dentist=dentist,
+        status="waiting"
+    ))
+    appointments_done = get_appointments(Appointment.objects.filter(
+        dentist=dentist,
+        status="done"
+    ))
+    appointments_missed = get_appointments(Appointment.objects.filter(
+        dentist=dentist,
+        status="missed"
+    ))
     return render(request, "dentx/board.html", {
         'dentist': dentist,
         'notifications': notifications,
         'notifications_count': len(notifications),
-        'queries': queries,
-        'appointments': appointments,
+        'appointments_waiting': appointments_waiting,
+        'appointments_done': appointments_done,
+        'appointments_missed': appointments_missed,
     })
 
 
@@ -64,3 +75,7 @@ def reminders(request):
         "do": reminders_do,
         "buy": reminders_buy
     }, safe=False)
+
+
+def animations(request):
+    return render(request, "dentx/animations.html")

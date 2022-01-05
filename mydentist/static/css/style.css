@@ -951,6 +951,10 @@ span.input-group-text {
   width: 60px;
 }
 
+.status-badge:hover {
+  cursor: pointer;
+}
+
 .input-group > span:hover {
   cursor: pointer;
 }

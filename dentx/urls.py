@@ -33,4 +33,5 @@ urlpatterns = [
     path('patients/', patient_views.patients, name='patients'),
     path('patients/<int:id>/<str:active_tab>', patient_views.patient, name='patient'),
     path('patients/<int:id>/update/<str:form>', patient_views.update, name='update_patient'),
+    path('animations/', dentx_views.animations, name='animations'),
 ]
