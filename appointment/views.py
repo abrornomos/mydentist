@@ -6,9 +6,8 @@ from django.utils.safestring import mark_safe
 from django.utils import timezone
 from django.utils.translation import get_language, ugettext_lazy as _
 from datetime import datetime, date, timedelta
-from pathlib import Path
 from baseapp.models import *
-from dentist.models import Reminder, User as DentistUser, User_translation as DentistUserTranslation, Service, Service_translation
+from dentist.models import User as DentistUser, User_translation as DentistUserTranslation, Service, Service_translation
 from illness.models import *
 from patient.forms import PatientForm
 from patient.models import User as PatientUser, Illness, Other_Illness
@@ -36,14 +35,6 @@ def appointments(request):
     )[0]
     notifications = get_notifications(request, "dentist")
     queries = get_queries(Query.objects.filter(dentist=dentist))
-    reminders_do = Reminder.objects.filter(
-        dentist=dentist,
-        category="do"
-    )
-    reminders_buy = Reminder.objects.filter(
-        dentist=dentist,
-        category="buy"
-    )
     if request.method == "POST":
         patientform = PatientForm(request.POST)
         appointmentform = AppointmentForm(request.POST)
@@ -57,7 +48,7 @@ def appointments(request):
                     is_success = False
                     text = _("Bemor ma'lumotlari to'g'ri kelmayapti")
             except:
-                file_path = Path(__file__).resolve().parent.parent / "mydentist" / "last_id.txt"
+                file_path = global_settings.PROJECT_DIR / "last_id.txt"
                 with open(file_path, "r") as file:
                     id = int(file.read()) + 1
                 with open(file_path, "w") as file:
@@ -190,8 +181,6 @@ def appointments(request):
         'notifications': notifications,
         'notifications_count': len(notifications),
         'queries': queries,
-        'reminders_do': reminders_do,
-        'reminders_buy': reminders_buy,
         'services': services,
         'times': times,
         'is_success': is_success,
@@ -218,80 +207,96 @@ def appointments_update(request):
         appointmentform = AppointmentForm(request.POST)
         if patientform.is_valid() and appointmentform.is_valid():
             name = patientform.cleaned_data['name'].split(" ")
-            if len(name) == 2:
-                phone_number = patientform.cleaned_data['phone_number']
-                patient = PatientUser.objects.get(phone_number=phone_number)
-                patient_user = User.objects.get(pk=patient.user_id)
-                if name[0] == patient_user.last_name and name[1] == patient_user.first_name and phone_number == patient.phone_number and str(patient.birthday) == patientform.cleaned_data['birthday'] and patient.gender_id == int(patientform.cleaned_data['gender']) and patient.address == patientform.cleaned_data['address']:
-                    service_translation = Service_translation.objects.filter(
-                        name=appointmentform.cleaned_data['service'],
-                        language__pk=dentist.language_id
-                    )[0]
-                    service = Service.objects.get(pk=service_translation.service_id)
-                    begin = appointmentform.cleaned_data['begin_day']
-                    begin_day = int(begin.split("-")[0])
-                    begin_month = MONTHS.index(begin.split("-")[1].split(" ")[0].capitalize()) + 1
-                    begin_year = int(begin.split(" ")[1])
-                    begin_hour = int(appointmentform.cleaned_data['begin_time'].split(":")[0])
-                    begin_minute = int(appointmentform.cleaned_data['begin_time'].split(":")[1])
-                    begin = datetime(begin_year, begin_month, begin_day, begin_hour, begin_minute, tzinfo=timezone.now().tzinfo)
-                    duration = int(appointmentform.cleaned_data['duration'])
-                    duration = timedelta(hours=duration // 60, minutes=duration % 60)
-                    end = begin + duration
-                    try:
-                        last_begin = request.session['date']
-                        last_begin_day = int(last_begin.split("-")[0])
-                        last_begin_month = MONTHS.index(last_begin.split("-")[1].split(" ")[0].capitalize()) + 1
-                        last_begin_year = int(last_begin.split(" ")[1])
-                        last_begin_hour = int(request.session['time'].split(":")[0])
-                        last_begin_minute = int(request.session['time'].split(":")[1])
-                        last_begin = datetime(last_begin_year, last_begin_month, last_begin_day, last_begin_hour, last_begin_minute, tzinfo=timezone.now().tzinfo)
-                        appointment = Appointment.objects.get(
-                            dentist=dentist,
-                            begin=last_begin,
-                        )
-                        appointment.patient_id = patient.id
-                        appointment.service_id = service.id
-                        appointment.begin = begin
-                        appointment.end = end
-                        appointment.comment = appointmentform.cleaned_data["comment"]
-                        appointment.status = "waiting"
-                        appointment.save()
-                    except Exception as E:
-                        pass
-                else:
-                    pass
+            phone_number = patientform.cleaned_data['phone_number']
+            patient = PatientUser.objects.get(phone_number=phone_number)
+            patient_user = User.objects.get(pk=patient.user_id)
+            if len(name) > 1:
+                user_check = name[0] == patient_user.last_name and " ".join(name[1:]) == patient_user.first_name
             elif len(name) == 1:
+                user_check = name[0] == patient_user.first_name
+            if user_check and phone_number == patient.phone_number and str(patient.birthday) == patientform.cleaned_data['birthday'] and patient.gender_id == int(patientform.cleaned_data['gender']) and patient.address == patientform.cleaned_data['address']:
+                print(request.POST)
+                service_translation = Service_translation.objects.filter(
+                    name=appointmentform.cleaned_data['service'],
+                    language__pk=dentist.language_id
+                )[0]
+                service = Service.objects.get(pk=service_translation.service_id)
+                begin = appointmentform.cleaned_data['begin_day']
+                begin_day = int(begin.split("-")[0])
+                begin_month = MONTHS.index(begin.split("-")[1].split(" ")[0].capitalize()) + 1
+                begin_year = int(begin.split(" ")[1])
+                begin_hour = int(appointmentform.cleaned_data['begin_time'].split(":")[0])
+                begin_minute = int(appointmentform.cleaned_data['begin_time'].split(":")[1])
+                begin = datetime(begin_year, begin_month, begin_day, begin_hour, begin_minute, tzinfo=timezone.now().tzinfo)
+                duration = int(appointmentform.cleaned_data['duration'])
+                duration = timedelta(hours=duration // 60, minutes=duration % 60)
+                end = begin + duration
+                try:
+                    last_begin = request.session['date']
+                    last_begin_day = int(last_begin.split("-")[0])
+                    last_begin_month = MONTHS.index(last_begin.split("-")[1].split(" ")[0].capitalize()) + 1
+                    last_begin_year = int(last_begin.split(" ")[1])
+                    last_begin_hour = int(request.session['time'].split(":")[0])
+                    last_begin_minute = int(request.session['time'].split(":")[1])
+                    last_begin = datetime(last_begin_year, last_begin_month, last_begin_day, last_begin_hour, last_begin_minute, tzinfo=timezone.now().tzinfo)
+                    appointment = Appointment.objects.get(
+                        dentist=dentist,
+                        begin=last_begin,
+                    )
+                    appointment.patient_id = patient.id
+                    appointment.service_id = service.id
+                    appointment.begin = begin
+                    appointment.end = end
+                    appointment.comment = appointmentform.cleaned_data["comment"]
+                    appointment.status = "waiting"
+                    appointment.save()
+                except Exception as E:
+                    print(E)
+            else:
                 pass
-        services = get_services(
-            Service.objects.filter(dentist=dentist),
-            dentist.language_id
-        )
-        today = date.today()
-        times = []
-        day_begin = datetime(
-            today.year,
-            today.month,
-            today.day,
-            dentist.worktime_begin.hour,
-            dentist.worktime_begin.minute
-        )
-        day_end = datetime(
-            today.year,
-            today.month,
-            today.day,
-            dentist.worktime_end.hour,
-            dentist.worktime_end.minute
-        )
-        while day_begin < day_end:
-            times.append(day_begin.strftime('%H:%M'))
-            day_begin += timedelta(minutes=15)
-        patientform = PatientForm()
-        appointmentform = AppointmentForm()
         return redirect("dentx:appointments")
 
 
+def appointments_delete(request):
+    if not is_authenticated(request, "dentist"):
+        if not is_authenticated(request, "patient"):
+            return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
+        else:
+            return redirect(request.META.get("HTTP_REFERER", "/"))
+    else:
+        check_language(request, "dentist")
+    try:
+        date = request.POST['delete_date'].split("<br>")[0]
+        request.session['date'] = date
+        day = date.split("-")[0]
+        month = MONTHS.index(date.split("-")[1].split(" ")[0].capitalize()) + 1
+        year = date.split(" ")[1]
+        time = request.POST['delete_time']
+        request.session['time'] = time
+        hour = time.split(":")[0]
+        minute = time.split(":")[1]
+        appointment = Appointment.objects.get(
+            dentist__user__username=request.user.username,
+            begin__year=year,
+            begin__month=month,
+            begin__day=day,
+            begin__hour=hour,
+            begin__minute=minute
+        )
+        appointment.delete()
+    except:
+        pass
+    return redirect("dentx:appointments")
+
+
 def table(request):
+    if not is_authenticated(request, "dentist"):
+        if not is_authenticated(request, "patient"):
+            return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
+        else:
+            return redirect(request.META.get("HTTP_REFERER", "/"))
+    else:
+        check_language(request, "dentist")
     if request.method == "POST":
         if request.POST['direction'] == "left":
             day = date(
@@ -356,6 +361,13 @@ def table(request):
 
 
 def patients(request):
+    if not is_authenticated(request, "dentist"):
+        if not is_authenticated(request, "patient"):
+            return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
+        else:
+            return redirect(request.META.get("HTTP_REFERER", "/"))
+    else:
+        check_language(request, "dentist")
     patients = []
     temp = PatientUser.objects.all()
     for patient in temp:
@@ -371,6 +383,13 @@ def patients(request):
 
 
 def appointment(request):
+    if not is_authenticated(request, "dentist"):
+        if not is_authenticated(request, "patient"):
+            return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
+        else:
+            return redirect(request.META.get("HTTP_REFERER", "/"))
+    else:
+        check_language(request, "dentist")
     try:
         date = request.POST['date'].split("<br>")[0]
         request.session['date'] = date

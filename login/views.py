@@ -10,7 +10,6 @@ from django.utils import translation
 from django.utils.encoding import force_bytes, force_str
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.translation import get_language, ugettext_lazy as _
-from pathlib import Path
 from baseapp.models import Language, Gender
 from dentist.models import User as DentistUser
 from illness.models import *
@@ -34,7 +33,7 @@ def register(request):
         otherillnessform = OtherIllnessForm(request.POST)
         if userform.is_valid() and passwordform.is_valid() and illnessform.is_valid() and otherillnessform.is_valid():
             if passwordform.cleaned_data['password'] == passwordform.cleaned_data['password_confirm']:
-                file_path = Path(__file__).resolve().parent.parent / "mydentist" / "last_id.txt"
+                file_path = global_settings.PROJECT_DIR / "last_id.txt"
                 with open(file_path, "r") as file:
                     id = int(file.read()) + 1
                 with open(file_path, "w") as file:

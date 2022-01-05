@@ -696,7 +696,7 @@
                         contentType: false,
                         mimeType: "multipart/form-data",
                         data : data
-                    }).done(function(result) {
+                    }).always(function(result) {
                         let images = JSON.parse(result)
                         if (images.counter > 1) {
                             if ($("#pills-photos > .panel .carousel-indicators").length == 0) {

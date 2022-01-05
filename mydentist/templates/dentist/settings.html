@@ -524,7 +524,7 @@
                         csrfmiddlewaretoken: "{{ csrf_token }}",
                         clinic: $("#id_clinic").val(),
                     },
-                }).done(function(result) {
+                }).always(function(result) {
                     $("#id_clinic_name_uz").val(result["name_uz"]).attr("readonly", true)
                     $("#id_clinic_name_ru").val(result["name_ru"]).attr("readonly", true)
                     $("#id_address_uz").val(result["address_uz"]).attr("readonly", true)
@@ -552,7 +552,7 @@
                         contentType: false,
                         mimeType: "multipart/form-data",
                         data : data
-                    }).done(function(result) {
+                    }).always(function(result) {
                         let images = JSON.parse(result)
                         if (images.counter > 1) {
                             if ($("#pills-clinic-photo > .panel .carousel-indicators").length == 0) {

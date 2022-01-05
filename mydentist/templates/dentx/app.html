@@ -207,7 +207,7 @@
                                 type: type,
                                 name: $(`#${category}-name`).val()
                             }
-                        }).done(function(result) {
+                        }).always(function(result) {
                             cancelReminder(element, type, category)
                             $("#do-reminders .mb-2").empty()
                             $("#buy-reminders .mb-2").empty()
@@ -224,7 +224,7 @@
                                 name: $(`#${category}-name`).val(),
                                 id: id
                             }
-                        }).done(function(result) {
+                        }).always(function(result) {
                             $("#do-reminders .mb-2").empty()
                             $("#buy-reminders .mb-2").empty()
                             reminders(result)
@@ -292,7 +292,7 @@
                             is_done: $(this).is(":checked"),
                             id: $(this).attr("id")
                         }
-                    }).done(function(result) {
+                    }).always(function(result) {
                         $("#do-reminders .mb-2").empty()
                         $("#buy-reminders .mb-2").empty()
                         reminders(result)
@@ -310,7 +310,7 @@
                             is_done: $(this).is(":checked"),
                             id: $(this).attr("id")
                         }
-                    }).done(function(result) {
+                    }).always(function(result) {
                         $("#do-reminders .mb-2").empty()
                         $("#buy-reminders .mb-2").empty()
                         reminders(result)
@@ -319,7 +319,7 @@
             }
             $.ajax({
                 url: "{% url 'dentx:reminders' %}",
-            }).done(function(result) {
+            }).always(function(result) {
                 $("#reminderModal .modal-body").append(
                     $("<div id=\"do-reminders\" class=\"mb-4\"></div>").append(
                         $("<h6>{% trans "Qilish kerak" %}</h6>"),

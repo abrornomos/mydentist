@@ -24,6 +24,7 @@ urlpatterns = [
     path('get-clinic/', dentist_views.get_clinic, name='get_clinic'),
     path('update/<str:form>', dentist_views.update, name='update_dentist'),
     path('appointments/update', appointment_views.appointments_update, name='appointments_update'),
+    path('appointments/delete', appointment_views.appointments_delete, name='appointments_delete'),
     path('appointments/', appointment_views.appointments, name='appointments'),
     path('table/', appointment_views.table, name='table'),
     path('patients/list', appointment_views.patients, name='patients_list'),

@@ -7,7 +7,6 @@ from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
-from pathlib import Path
 from appointment.models import Query, Appointment
 from baseapp.models import Language, Gender
 from dentist.models import User as DentistUser, User_translation, Clinic, Clinic_translation, Service, Service_translation, Cabinet_Image
@@ -392,7 +391,7 @@ def patients(request):
             try:
                 new_patient = PatientUser.objects.get(phone_number=patientform.cleaned_data['phone_number'])
             except:
-                file_path = Path(__file__).resolve().parent.parent / "mydentist" / "last_id.txt"
+                file_path = global_settings.PROJECT_DIR / "last_id.txt"
                 with open(file_path, "r") as file:
                     id = int(file.read()) + 1
                 with open(file_path, "w") as file:
