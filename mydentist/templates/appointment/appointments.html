@@ -23,7 +23,7 @@
                 </div>
                 <span class="full-screen">
                     <i class="fal fa-expand" id="full-screen"></i>
-                    <i class="fal fa-compress d-none" id="full-screen2"></i>
+                    <i class="fal fa-compress d-none" id="full-screen-close"></i>
                 </span>
             </div>
             <div class="d-none hidden-button">
@@ -229,13 +229,6 @@
                         time: $(this).parent().children(":first-child").text(),
                     },
                 }).always(function(result) {
-                    $(".hidden-button > button")[0].click()
-                    temp = result.date.split("<br>")
-                    time = result.time
-                    text = ` ${temp[1]}, ${temp[0]}, ${time}`
-                    $(".form-title p").text(text)
-                    $("form").attr("action", "{% url 'dentx:appointments_update' %}")
-                    $("#id_name").val(result["name"])
                     function changeDetector() {
                         $("#id_phone_number").val("")
                         $("#id_phone_number").removeAttr("readonly")
@@ -244,6 +237,13 @@
                         $("#id_address").val("")
                         $("#id_address").removeAttr("readonly")
                     }
+                    $(".hidden-button > button")[0].click()
+                    temp = result.date.split("<br>")
+                    time = result.time
+                    text = ` ${temp[1]}, ${temp[0]}, ${time}`
+                    $(".form-title p").text(text)
+                    $("form").attr("action", "{% url 'dentx:appointments_update' %}")
+                    $("#id_name").val(result["name"])
                     $("#id_name").on("input", changeDetector)
                     $("#id_phone_number").val(result["phone_number"])
                     $("#id_phone_number").attr("readonly", "readonly")
@@ -283,10 +283,9 @@
                     month: today.getMonth() + 1,
                     year: today.getFullYear(),
                     direction: "left"
-                },
-                dataType : "json",
+                }
             }).always(function(result) {
-                $(".overflow").html(result.responseText)
+                $(".overflow").html(result)
                 $(".overflow td.time").on("dblclick", function() {
                     $(".hidden-button > button")[0].click()
                     let attr = $("form").attr("action")
@@ -296,9 +295,12 @@
                     temp = $(`.time-table thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
                     $("#id_name").val("")
                     $("#id_phone_number").val("")
+                    $("#id_phone_number").removeAttr("readonly")
                     $("#id_birthday").val("")
+                    $("#id_birthday").removeAttr("readonly")
                     $(`#id_gender_0`).attr("checked", true)
                     $("#id_address").val("")
+                    $("#id_address").removeAttr("readonly")
                     $("#id_service").val($("#id_service option")[0].value).change()
                     $("#id_begin_day").val(temp[0])
                     time = $(this).parent().children(":first-child").text()
@@ -307,6 +309,7 @@
                     $(".form-title p").text(text)
                     $("#id_duration").val(15).change()
                     $("#id_comment").val("")
+                    $("#appointment-delete-button").addClass("d-none")
                 })
                 $(".overflow td.appointment").on("dblclick", function() {
                     $.ajax({
@@ -318,6 +321,14 @@
                             time: $(this).parent().children(":first-child").text(),
                         },
                     }).always(function(result) {
+                        function changeDetector() {
+                            $("#id_phone_number").val("")
+                            $("#id_phone_number").removeAttr("readonly")
+                            $("#id_birthday").val("")
+                            $("#id_birthday").removeAttr("readonly")
+                            $("#id_address").val("")
+                            $("#id_address").removeAttr("readonly")
+                        }
                         $(".hidden-button > button")[0].click()
                         temp = result.date.split("<br>")
                         time = result.time
@@ -325,15 +336,32 @@
                         $(".form-title p").text(text)
                         $("form").attr("action", "{% url 'dentx:appointments_update' %}")
                         $("#id_name").val(result["name"])
+                        $("#id_name").on("input", changeDetector)
                         $("#id_phone_number").val(result["phone_number"])
+                        $("#id_phone_number").attr("readonly", "readonly")
                         $("#id_birthday").val(result["birthday"])
+                        $("#id_birthday").attr("readonly", "readonly")
                         $(`#id_gender_${result["gender"] - 1}`).attr("checked", true)
+                        $("input[name='gender']").on("change", changeDetector)
                         $("#id_address").val(result["address"])
+                        $("#id_address").attr("readonly", "readonly")
                         $("#id_service").val(result["service"]).change()
                         $("#id_begin_day").val(temp[0])
                         $("#id_begin_time").val(time).change()
                         $("#id_duration").val(result["duration"]).change()
                         $("#id_comment").val(result["comment"])
+                        $("#appointment-delete-button").removeClass("d-none")
+                        $("#appointment-delete-button").on("click", function() {
+                            $("section .container-fluid").append(
+                                $("<form method=\"POST\" class=\"d-none\" action=\"{% url 'dentx:appointments_delete' %}\"></form>").append(
+                                    $('{% csrf_token %}'),
+                                    $("<button id=\"appointment-delete-form-button\" type=\"submit\"></button>"),
+                                    $(`<input type="text" name="delete_date" value="${result.date}"></button>`),
+                                    $(`<input type="text" name="delete_time" value="${result.time}"></button>`)
+                                )
+                            )
+                            $("#appointment-delete-form-button").click()
+                        })
                     })
                 })
             })
@@ -349,10 +377,9 @@
                     month: today.getMonth() + 1,
                     year: today.getFullYear(),
                     direction: "right"
-                },
-                dataType : "json",
+                }
             }).always(function(result) {
-                $(".overflow").html(result.responseText)
+                $(".overflow").html(result)
                 $(".overflow td.time").on("dblclick", function() {
                     $(".hidden-button > button")[0].click()
                     let attr = $("form").attr("action")
@@ -362,9 +389,12 @@
                     temp = $(`.time-table thead th:nth-child(${$(this).index() + 1})`).html().split("<br>")
                     $("#id_name").val("")
                     $("#id_phone_number").val("")
+                    $("#id_phone_number").removeAttr("readonly")
                     $("#id_birthday").val("")
+                    $("#id_birthday").removeAttr("readonly")
                     $(`#id_gender_0`).attr("checked", true)
                     $("#id_address").val("")
+                    $("#id_address").removeAttr("readonly")
                     $("#id_service").val($("#id_service option")[0].value).change()
                     $("#id_begin_day").val(temp[0])
                     time = $(this).parent().children(":first-child").text()
@@ -373,6 +403,7 @@
                     $(".form-title p").text(text)
                     $("#id_duration").val(15).change()
                     $("#id_comment").val("")
+                    $("#appointment-delete-button").addClass("d-none")
                 })
                 $(".overflow td.appointment").on("dblclick", function() {
                     $.ajax({
@@ -384,7 +415,14 @@
                             time: $(this).parent().children(":first-child").text(),
                         },
                     }).always(function(result) {
-                        console.log(typeof(result))
+                        function changeDetector() {
+                            $("#id_phone_number").val("")
+                            $("#id_phone_number").removeAttr("readonly")
+                            $("#id_birthday").val("")
+                            $("#id_birthday").removeAttr("readonly")
+                            $("#id_address").val("")
+                            $("#id_address").removeAttr("readonly")
+                        }
                         $(".hidden-button > button")[0].click()
                         temp = result.date.split("<br>")
                         time = result.time
@@ -392,34 +430,53 @@
                         $(".form-title p").text(text)
                         $("form").attr("action", "{% url 'dentx:appointments_update' %}")
                         $("#id_name").val(result["name"])
+                        $("#id_name").on("input", changeDetector)
                         $("#id_phone_number").val(result["phone_number"])
+                        $("#id_phone_number").attr("readonly", "readonly")
                         $("#id_birthday").val(result["birthday"])
+                        $("#id_birthday").attr("readonly", "readonly")
                         $(`#id_gender_${result["gender"] - 1}`).attr("checked", true)
+                        $("input[name='gender']").on("change", changeDetector)
                         $("#id_address").val(result["address"])
+                        $("#id_address").attr("readonly", "readonly")
                         $("#id_service").val(result["service"]).change()
                         $("#id_begin_day").val(temp[0])
                         $("#id_begin_time").val(time).change()
                         $("#id_duration").val(result["duration"]).change()
                         $("#id_comment").val(result["comment"])
+                        $("#appointment-delete-button").removeClass("d-none")
+                        $("#appointment-delete-button").on("click", function() {
+                            $("section .container-fluid").append(
+                                $("<form method=\"POST\" class=\"d-none\" action=\"{% url 'dentx:appointments_delete' %}\"></form>").append(
+                                    $('{% csrf_token %}'),
+                                    $("<button id=\"appointment-delete-form-button\" type=\"submit\"></button>"),
+                                    $(`<input type="text" name="delete_date" value="${result.date}"></button>`),
+                                    $(`<input type="text" name="delete_time" value="${result.time}"></button>`)
+                                )
+                            )
+                            $("#appointment-delete-form-button").click()
+                        })
                     })
                 })
             })
             today.setTime(today.getTime() + 7 * 24 * 60 * 60 * 1000)
         })
         $("#full-screen").on("click", function() {
-            if ($("#full-screen2").hasClass("d-none")) {
-                $("#full-screen2").addClass("d-block").removeClass("d-none")
+            $("body > .container-fluid").removeClass("fixed-top")
+            if ($("#full-screen-close").hasClass("d-none")) {
+                $("#full-screen-close").addClass("d-block").removeClass("d-none")
                 $("#full-screen").addClass("d-none")
                 $(".overflow").addClass("full")
                 $(".controls").addClass("full-con")
             } else {
-                $("#full-screen2").removeClass("d-block").addClass("d-none")
+                $("#full-screen-close").removeClass("d-block").addClass("d-none")
             }
         })
-        $("#full-screen2").on("click", function() {
+        $("#full-screen-close").on("click", function() {
+            $("body > .container-fluid").addClass("fixed-top")
             if ($("#full-screen").hasClass("d-none")) {
                 $("#full-screen").addClass("d-block").removeClass("d-none")
-                $("#full-screen2").addClass("d-none")
+                $("#full-screen-close").addClass("d-none")
                 $(".overflow").removeClass("full")
                 $(".controls").removeClass("full-con")
             } else {
