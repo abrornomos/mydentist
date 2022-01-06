@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-15 00:54+0500\n"
+"POT-Creation-Date: 2022-01-07 02:04+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -74,7 +74,7 @@ msgstr "Язык"
 
 #: .\patient\forms.py:120 .\patient\models.py:7 .\patient\models.py:16
 #: .\patient\models.py:25 .\patient\models.py:45 .\patient\models.py:68
-#: .\patient\models.py:95 .\patient\models.py:108
+#: .\patient\models.py:94
 msgid "Bemor"
 msgstr "Пациент"
 
@@ -194,7 +194,7 @@ msgstr "Беременность"
 msgid "Tish raqami"
 msgstr "Номер зуба"
 
-#: .\patient\models.py:67 .\patient\models.py:84 .\patient\models.py:111
+#: .\patient\models.py:67 .\patient\models.py:84 .\patient\models.py:97
 msgid "Tish holati"
 msgstr "Состояние зуба"
 
@@ -214,33 +214,29 @@ msgstr "Название состояния"
 msgid "Holat qo'shimchasi"
 msgstr "Префикс состояния"
 
-#: .\patient\models.py:85 .\patient\models.py:112
+#: .\patient\models.py:85 .\patient\models.py:98
 msgid "Tish holatlari"
 msgstr "Состояния зубов"
 
 #: .\patient\models.py:93
-msgid "Ish nomi"
-msgstr "Название работы"
-
-#: .\patient\models.py:94
-msgid "Qilinganligi"
-msgstr "Сделано?"
-
-#: .\patient\models.py:98
-msgid "Qilingan ish"
-msgstr "Сделанная работа"
-
-#: .\patient\models.py:99
-msgid "Qilingan ishlar"
-msgstr "Сделанные работы"
-
-#: .\patient\models.py:107
 msgid "Ish jarayonidagi rasm"
 msgstr "Картинка из процесса работы"
 
-#: .\patient\views.py:445
+#: .\patient\views.py:450
 msgid "Yangi bemor qo'shildi"
 msgstr "Добавлен новый пациент"
+
+#~ msgid "Ish nomi"
+#~ msgstr "Название работы"
+
+#~ msgid "Qilinganligi"
+#~ msgstr "Сделано?"
+
+#~ msgid "Qilingan ish"
+#~ msgstr "Сделанная работа"
+
+#~ msgid "Qilingan ishlar"
+#~ msgstr "Сделанные работы"
 
 #~ msgid "Yanvar"
 #~ msgstr "Январь"

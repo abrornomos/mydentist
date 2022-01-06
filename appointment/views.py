@@ -248,7 +248,6 @@ def appointments_update(request):
                     appointment.begin = begin
                     appointment.end = end
                     appointment.comment = appointmentform.cleaned_data["comment"]
-                    appointment.status = "waiting"
                     appointment.save()
                 except Exception as E:
                     print(E)
@@ -259,6 +258,14 @@ def appointments_update(request):
 
 def status_update(request):
     if request.method == "POST":
+        appointment = Appointment.objects.get(pk=int(request.POST['id']))
+        if request.POST['status'] == _("Kutilmoqda"):
+            appointment.status = "done"
+        elif request.POST['status'] == _("Kelgan"):
+            appointment.status = "missed"
+        elif request.POST['status'] == _("Kelmagan"):
+            appointment.status = "waiting"
+        appointment.save()
         return HttpResponse(request.POST['id'])
 
 

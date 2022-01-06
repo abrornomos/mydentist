@@ -1,4 +1,7 @@
+from datetime import timedelta
+from django.conf import settings
 from django.template import Library
+from django.utils import timezone
 from django.utils.safestring import mark_safe
 from django.utils.translation import get_language, ugettext_lazy as _
 from appointment.models import Appointment
@@ -34,6 +37,18 @@ def date_format(datetime):
 @register.simple_tag
 def time_format(datetime):
     return f"{datetime.hour}:{datetime.minute:02d}"
+
+
+@register.simple_tag
+def last_visit_format(datetime):
+    if datetime != "-":
+        now = timezone.now() + timedelta(seconds=settings.TIME_ZONE_HOUR * 3600)
+        if now.day == 1 and datetime.day in [28, 29, 30, 31] or now.day - datetime.day == 1:
+            return _("kecha")
+        else:
+            td = now - datetime
+            return f"{td.days} {_('kun avval')}"
+    return datetime
 
 
 @register.simple_tag

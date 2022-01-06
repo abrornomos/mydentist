@@ -1,5 +1,5 @@
 {% extends 'dentx/app.html' %}
-{% load static i18n %}
+{% load static i18n mydentist_tags %}
 
 {% block title %}
 	{% trans "Bemorlar" %}
@@ -82,7 +82,7 @@
                         {{ text }}
                     </div>
                 {% endif %}
-                <ul class="d-flex justify-content-end list-group-horizontal me-auto my-2 my-lg-0 offset-lg-6" style="--bs-scroll-height: 100px;">
+                {% comment %} <ul class="d-flex justify-content-end list-group-horizontal me-auto my-2 my-lg-0 offset-lg-6" style="--bs-scroll-height: 100px;">
                     <li class="nav-item dropdown list-group-item">
                         <a class="nav-link dropdown-toggle" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">{% trans "Qarz" %}</a>
                         <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
@@ -114,7 +114,7 @@
                             <li><a class="dropdown-item" href="#">{% trans "Shu oyda" %}</a></li>
                         </ul>
                     </li>
-                </ul>
+                </ul> {% endcomment %}
                 <table class="table table-hover">
                     <thead class="table-light">
                         <tr>
@@ -135,7 +135,6 @@
                                 <div class="avatar avatar-xs mx-auto">
                                     <div class="border border-1">
                                         <img src="/media/{{ result.patient_extra.image }}">
-                                        {% comment %} <i class="fa fa-image"></i> {% endcomment %}
                                     </div>
                                 </div>
                             </th>
@@ -148,10 +147,10 @@
                             </td>
                             <td>{{ result.gender }}</td>
                             <td>{{ result.patient_extra.address }}</td>
-                            <td>-</td>
-                            <td>0 sum</td>
-                            <td>Plomba qo'yish</td>
-                            <td>kecha</td>
+                            <td>{{ result.done }}</td>
+                            <td>{{ result.total_sum }} {% trans "so'm" %}</td>
+                            <td>{{ result.coming }}</td>
+                            <td>{% last_visit_format result.last_visit %}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

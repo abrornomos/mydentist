@@ -2,13 +2,16 @@ from datetime import timedelta
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from django.utils import translation
+from django.utils import translation, timezone
+from django.utils.safestring import mark_safe
+from django.utils.translation import get_language
 from geopy.distance import distance
+from appointment.models import Appointment
 from baseapp.models import Language
 from dentist.models import User as DentistUser, User_translation, Clinic, Clinic_translation, Service, Service_translation
 from notification.models import *
 from patient.models import User as PatientUser
-from .var import CHOICES
+from .var import CHOICES, GENDERS, NEW_LINE
 
 
 def set_language(request, user_language):
@@ -268,6 +271,42 @@ def get_notifications(request, status):
                 'notification': notification_obj
             })
         return notifications
+
+
+def get_patients():
+    patients = PatientUser.objects.all()
+    results = []
+    for patient in patients:
+        appointments = Appointment.objects.filter(
+            patient=patient
+        )
+        done = mark_safe(f", {NEW_LINE}".join([ Service_translation.objects.get(
+            service__pk=appointment.service_id,
+            language__name=get_language()
+        ).name for appointment in appointments.filter(status="done").order_by("begin")]))
+        total_sum = sum([Service.objects.get(
+            pk=appointment.service_id
+        ).price for appointment in appointments.filter(status="done")])
+        coming = "-"
+        for appointment in appointments.filter(status="waiting").order_by("begin"):
+            if appointment.upcoming():
+                coming = Service_translation.objects.get(
+                    service__pk=appointment.service_id,
+                    language__name=get_language()
+                ).name
+                break
+        last = appointments.filter(status="done").order_by("-begin").first()
+        last_visit = last.begin if last else "-"
+        results.append({
+            'patient': User.objects.get(pk=patient.user_id),
+            'patient_extra': patient,
+            'gender': GENDERS[patient.gender_id - 1],
+            'done': done if done != "" else "-",
+            'total_sum': total_sum,
+            'coming': coming,
+            'last_visit': last_visit,
+        })
+    return results
 
 
 # def sort_by_distance(dentists, location):

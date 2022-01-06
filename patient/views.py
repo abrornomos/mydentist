@@ -2,7 +2,7 @@ from datetime import datetime, date
 from django.conf import settings as global_settings
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
-from django.http.response import JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import render, redirect
 from django.utils.safestring import mark_safe
 from django.utils import translation
@@ -32,7 +32,11 @@ def profile(request):
     notifications = get_notifications(request, "patient")
     try:
         try:
-            appointment = Appointment.objects.get(patient=user_extra)
+            appointments = Appointment.objects.filter(patient=user_extra).order_by("begin")
+            for appointment_obj in appointments:
+                if appointment_obj.upcoming():
+                    appointment = appointment_obj
+                    break
             query = None
             dentist = DentistUser.objects.get(pk=appointment.dentist_id)
             dentist_extra = User_translation.objects.get(dentist=dentist, language__pk=user_extra.language_id)
@@ -445,14 +449,7 @@ def patients(request):
                 )
                 success = _("Yangi bemor qo'shildi")
                 text = mark_safe(f"{success}{NEW_LINE}{_('Telefon raqam')}: {new_patient.phone_number}{NEW_LINE}{_('Parol')}: user{id}")
-    patients_obj = PatientUser.objects.all()
-    results = []
-    for patient_obj in patients_obj:
-        results.append({
-            'patient': User.objects.get(pk=patient_obj.user_id),
-            'patient_extra': patient_obj,
-            'gender': GENDERS[patient_obj.gender_id - 1]
-        })
+    results = get_patients()
     patientform = PatientForm()
     languageform = LanguageForm()
     return render(request, "patient/patients.html", {
@@ -464,6 +461,67 @@ def patients(request):
         'patientform': patientform,
         'languageform': languageform,
         'text': text
+    })
+
+
+def search(request):
+    if not is_authenticated(request, "dentist"):
+        if not is_authenticated(request, "patient"):
+            return redirect(f"{global_settings.LOGIN_URL_DENTX}?next={request.path}")
+        else:
+            return redirect(request.META.get("HTTP_REFERER", "/"))
+    else:
+        check_language(request, "dentist")
+    user = User.objects.get(username=request.user.username)
+    dentist = DentistUser.objects.get(user=user)
+    notifications = get_notifications(request, "dentist")
+    queries = get_queries(Query.objects.filter(dentist=dentist))
+    search = request.GET['search']
+    patients = [User.objects.get(pk=patient.user_id) for patient in PatientUser.objects.all()]
+    results = []
+    for patient in patients:
+        if f"{patient.first_name} {patient.last_name}".lower().find(search.lower()) != -1 or f"{patient.last_name} {patient.first_name}".lower().find(search.lower()) != -1:
+            patient_extra = PatientUser.objects.get(user=patient)
+            appointments = Appointment.objects.filter(
+                patient=patient_extra
+            )
+            done = mark_safe(f", {NEW_LINE}".join([Service_translation.objects.get(
+                service__pk=appointment.service_id,
+                language__name=get_language()
+            ).name for appointment in appointments.filter(status="done").order_by("begin")]))
+            total_sum = sum([Service.objects.get(
+                pk=appointment.service_id
+            ).price for appointment in appointments.filter(status="done")])
+            coming = "-"
+            for appointment in appointments.filter(status="waiting").order_by("begin"):
+                if appointment.upcoming():
+                    coming = Service_translation.objects.get(
+                        service__pk=appointment.service_id,
+                        language__name=get_language()
+                    ).name
+                    break
+            last = appointments.filter(status="done").order_by("-begin").first()
+            last_visit = last.begin if last else "-"
+            results.append({
+                'patient': str(patient_extra),
+                'id': patient_extra.id,
+                'image': patient_extra.image.url,
+                'birthday': patient_extra.birthday.year,
+                'phone_number': patient_extra.phone_number,
+                'address': patient_extra.address,
+                'gender': GENDERS[patient_extra.gender_id - 1],
+                'done': done if done != "" else "-",
+                'total_sum': total_sum,
+                'coming': coming,
+                'last_visit': last_visit
+            })
+    return render(request, "patient/search.html", {
+        'dentist': dentist,
+        'notifications': notifications,
+        'notifications_count': len(notifications),
+        'queries': queries,
+        'search': search,
+        'results': results
     })
 
 
@@ -521,7 +579,7 @@ def patient(request, id, active_tab="profile"):
         'pregnancy_detail': Pregnancy.objects.get(pk=patient_other_illness.pregnancy_id).desc,
     })
     upcoming = None
-    appointments_obj = list(Appointment.objects.filter(patient=patient_extra))[::-1]
+    appointments_obj = Appointment.objects.filter(patient=patient_extra).order_by("-begin")
     appointments = []
     number = 1
     for appointment_obj in appointments_obj:

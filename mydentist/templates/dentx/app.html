@@ -40,11 +40,11 @@
                     <span>{% trans "Animatsiyalar" %}</span>
                 </a>
                 <div class="my_panel">
-                    <div class="inner_panel d-flex justify-content-between"> 
-                        <div class="input-group panel_item d-flex align-items-center">
-                            <input id="my_search" type="text" class="form-control" placeholder="{% trans "Bemorlarni qidirish" %}">
-                            <button class="btn search_btn btn-outline-secondary" type="button" id="button-addon2">{% trans "Qidirish" %}</button>
-                        </div>
+                    <div class="inner_panel d-flex justify-content-between">
+                        <form action="{% url 'dentx:search' %}" class="input-group panel_item d-flex align-items-center">
+                            <input id="my_search" name="search" type="text" class="form-control" placeholder="{% trans "Bemorlarni qidirish" %}">
+                            <button class="btn search_btn btn-outline-secondary" type="submit" id="search-button">{% trans "Qidirish" %}</button>
+                        </form>
                         <div id="search_result"></div>
                         <div class="panel_item">
                             <div class="dropdown position-static">

@@ -2,13 +2,13 @@
 # Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
-#
+# 
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-12-15 00:54+0500\n"
+"POT-Creation-Date: 2022-01-07 02:04+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -80,14 +80,26 @@ msgstr "Приём"
 msgid "Qabullar"
 msgstr "Приёмы"
 
-#: .\appointment\views.py:48
+#: .\appointment\views.py:49
 msgid "Bemor ma'lumotlari to'g'ri kelmayapti"
 msgstr "Данные пациента не совпадают"
 
-#: .\appointment\views.py:101
+#: .\appointment\views.py:102
 msgid "Yangi bemor qo'shildi"
 msgstr "Добавлен новый пациент"
 
-#: .\appointment\views.py:149
+#: .\appointment\views.py:150
 msgid "Ushbu qabulni belgilab bo'lmaydi. Boshqa vaqtni tanlang"
 msgstr "Нельзя назначить данный приём. Выберите другое время"
+
+#: .\appointment\views.py:262
+msgid "Kutilmoqda"
+msgstr "Ожидается"
+
+#: .\appointment\views.py:264
+msgid "Kelgan"
+msgstr "Посещён"
+
+#: .\appointment\views.py:266
+msgid "Kelmagan"
+msgstr "Не посещён"

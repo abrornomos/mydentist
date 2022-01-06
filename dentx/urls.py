@@ -32,6 +32,7 @@ urlpatterns = [
     path('appointment', appointment_views.appointment, name='appointment'),
     path('board/', dentx_views.board, name='board'),
     path('patients/', patient_views.patients, name='patients'),
+    path('search/', patient_views.search, name='search'),
     path('patients/<int:id>/<str:active_tab>', patient_views.patient, name='patient'),
     path('patients/<int:id>/update/<str:form>', patient_views.update, name='update_patient'),
     path('animations/', dentx_views.animations, name='animations'),

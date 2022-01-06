@@ -22,7 +22,7 @@ def board(request):
     appointments_waiting = get_appointments(Appointment.objects.filter(
         dentist=dentist,
         status="waiting"
-    ))
+    ).order_by("begin"))
     appointments_done = get_appointments(Appointment.objects.filter(
         dentist=dentist,
         status="done"
