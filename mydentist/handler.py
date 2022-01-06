@@ -212,7 +212,7 @@ def compare_time(datetime, appointments):
                 minutes = duration.seconds // 60
                 return f"<td class=\"appointment\" rowspan=\"{minutes // 15}\"><div>{patient}<br>{service.name}</div></td>"
             else:
-                return ""
+                return "<td class=\"d-none\"></td>"
     return f"<td class=\"time\">{datetime.strftime('%H:%M')}</td>"
 
 

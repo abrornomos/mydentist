@@ -257,6 +257,11 @@ def appointments_update(request):
         return redirect("dentx:appointments")
 
 
+def status_update(request):
+    if request.method == "POST":
+        return HttpResponse(request.POST['id'])
+
+
 def appointments_delete(request):
     if not is_authenticated(request, "dentist"):
         if not is_authenticated(request, "patient"):

@@ -195,6 +195,7 @@
         }).always(function(result) {
             $(".overflow").html(result)
             $(".overflow td.time").on("dblclick", function() {
+                console.log($(this).index())
                 $(".hidden-button > button")[0].click()
                 let attr = $("form").attr("action")
                 if (typeof attr !== "undefined" && attr !== false) {
@@ -220,6 +221,7 @@
                 $("#appointment-delete-button").addClass("d-none")
             })
             $(".overflow td.appointment").on("dblclick", function() {
+                console.log($(this).index())
                 $.ajax({
                     url: "{% url 'dentx:appointment' %}",
                     type: "POST",
