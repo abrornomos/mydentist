@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-07 02:04+0500\n"
+"POT-Creation-Date: 2022-01-07 18:41+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -1760,16 +1760,16 @@ msgid "Eslatmani kiriting"
 msgstr "Введите напоминание"
 
 #: .\mydentist\templates\dentx\app.html:238
-#: .\mydentist\templates\dentx\app.html:328
-#: .\mydentist\templates\dentx\app.html:334
+#: .\mydentist\templates\dentx\app.html:355
+#: .\mydentist\templates\dentx\app.html:361
 msgid "Eslatma qo'shish"
 msgstr "Добавить напоминание"
 
-#: .\mydentist\templates\dentx\app.html:325
+#: .\mydentist\templates\dentx\app.html:352
 msgid "Qilish kerak"
 msgstr "Надо выполнить"
 
-#: .\mydentist\templates\dentx\app.html:331
+#: .\mydentist\templates\dentx\app.html:358
 msgid "Sotib olish kerak"
 msgstr "Надо купить"
 

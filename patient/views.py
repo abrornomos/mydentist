@@ -89,8 +89,7 @@ def profile(request):
             check_language(request, "patient")
         except:
             try:
-                user = DentistUser.objects.get(
-                    user__username=request.user.username)
+                user = DentistUser.objects.get(user__username=request.user.username)
                 authenticated = "dentist"
             except:
                 pass
@@ -423,29 +422,6 @@ def patients(request):
                     image="patients/photos/default.png",
                     language=Language.objects.get(pk=languageform.cleaned_data['language']),
                     gender=Gender.objects.get(pk=patientform.cleaned_data['gender'])
-                )
-                new_illness = Illness.objects.create(
-                    patient=new_patient,
-                    diabet=Diabet.objects.get(pk=1),
-                    anesthesia=Anesthesia.objects.get(pk=4),
-                    hepatitis=Hepatitis.objects.get(pk=1),
-                    aids=AIDS.objects.get(pk=1),
-                    pressure=Pressure.objects.get(pk=1),
-                    allergy=Allergy.objects.get(pk=1),
-                    asthma=Asthma.objects.get(pk=1),
-                    dizziness=Dizziness.objects.get(pk=1),
-                )
-                new_otherillness = Other_Illness.objects.create(
-                    patient=new_patient,
-                    epilepsy=Epilepsy.objects.get(pk=1),
-                    blood_disease=Blood_disease.objects.get(pk=1),
-                    medications=Medications.objects.get(pk=1),
-                    stroke=Stroke.objects.get(pk=1),
-                    heart_attack=Heart_attack.objects.get(pk=1),
-                    oncologic=Oncologic.objects.get(pk=1),
-                    tuberculosis=Tuberculosis.objects.get(pk=1),
-                    alcohol=Alcohol.objects.get(pk=1),
-                    pregnancy=Pregnancy.objects.get(pk=1),
                 )
                 success = _("Yangi bemor qo'shildi")
                 text = mark_safe(f"{success}{NEW_LINE}{_('Telefon raqam')}: {new_patient.phone_number}{NEW_LINE}{_('Parol')}: user{id}")

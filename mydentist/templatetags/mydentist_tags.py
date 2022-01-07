@@ -82,6 +82,7 @@ def get_message(notification):
         message = f"{_('Sabab')}: {messages[0]}{NEW_LINE}{_('Izohlar')}: {messages[1]}"
     elif notification.type == "appointment":
         messages = notification.message.split(NEW_LINE)
+        print(get_language())
         dentist = User_translation.objects.get(
             dentist__pk=int(messages[1]),
             language__name=get_language()

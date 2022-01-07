@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-07 02:04+0500\n"
+"POT-Creation-Date: 2022-01-07 18:41+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,9 +24,9 @@ msgstr ""
 msgid "Kirish ma'lumotlari"
 msgstr "Данные входа"
 
-#: .\login\forms.py:8 .\login\forms.py:83 .\login\models.py:7
-msgid "E-mail"
-msgstr ""
+#: .\login\forms.py:8
+msgid "E-mail yoki telefon raqam"
+msgstr "E-mail или номер телефона"
 
 #: .\login\forms.py:17 .\login\forms.py:39 .\login\forms.py:96
 msgid "Parol"
@@ -48,6 +48,10 @@ msgstr "Новый пароль"
 msgid "Parolni tasdiqlang"
 msgstr "Подтвердите свой пароль"
 
+#: .\login\forms.py:83 .\login\models.py:7
+msgid "E-mail"
+msgstr ""
+
 #: .\login\models.py:8
 msgid "uidb64"
 msgstr ""
@@ -68,31 +72,31 @@ msgstr "Сброс пароля"
 msgid "Parol tiklanishlari"
 msgstr "Сбросы пароля"
 
-#: .\login\views.py:136
+#: .\login\views.py:134
 msgid "Parollar to'g'ri kemayapti"
 msgstr "Пароли не совпадают"
 
-#: .\login\views.py:187 .\login\views.py:211
+#: .\login\views.py:185 .\login\views.py:210
 msgid "Xato parol"
 msgstr "Неверный пароль"
 
-#: .\login\views.py:216
+#: .\login\views.py:215
 msgid "Xato e-mail"
 msgstr "Неверный e-mail"
 
-#: .\login\views.py:257
+#: .\login\views.py:256
 msgid "Parolni tiklash"
 msgstr "Подтвердите свой пароль"
 
-#: .\login\views.py:298
+#: .\login\views.py:297
 msgid "Parollar mos kelmayapti"
 msgstr "Пароли не совпадают"
 
-#: .\login\views.py:313 .\login\views.py:315 .\login\views.py:317
-#: .\login\views.py:319
+#: .\login\views.py:312 .\login\views.py:314 .\login\views.py:316
+#: .\login\views.py:318
 msgid "Havolani muddati yakunlandi"
 msgstr "Истек срок действия ссылки"
 
-#: .\login\views.py:368
+#: .\login\views.py:367
 msgid "Noto'g'ri login yoki parol"
 msgstr "Неверный логин или пароль"

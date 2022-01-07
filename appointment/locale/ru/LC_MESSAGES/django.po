@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-01-07 02:04+0500\n"
+"POT-Creation-Date: 2022-01-07 18:41+0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -84,22 +84,22 @@ msgstr "Приёмы"
 msgid "Bemor ma'lumotlari to'g'ri kelmayapti"
 msgstr "Данные пациента не совпадают"
 
-#: .\appointment\views.py:102
+#: .\appointment\views.py:79
 msgid "Yangi bemor qo'shildi"
 msgstr "Добавлен новый пациент"
 
-#: .\appointment\views.py:150
+#: .\appointment\views.py:127
 msgid "Ushbu qabulni belgilab bo'lmaydi. Boshqa vaqtni tanlang"
 msgstr "Нельзя назначить данный приём. Выберите другое время"
 
-#: .\appointment\views.py:262
+#: .\appointment\views.py:239
 msgid "Kutilmoqda"
 msgstr "Ожидается"
 
-#: .\appointment\views.py:264
+#: .\appointment\views.py:241
 msgid "Kelgan"
 msgstr "Посещён"
 
-#: .\appointment\views.py:266
+#: .\appointment\views.py:243
 msgid "Kelmagan"
 msgstr "Не посещён"

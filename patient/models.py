@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from illness.models import *
+
 
 class User(models.Model):
 
@@ -9,7 +11,7 @@ class User(models.Model):
     gender = models.ForeignKey("baseapp.Gender", verbose_name=_("Jins"), on_delete=models.CASCADE, related_name="patient_gender")
     address = models.CharField(_("Manzil"), max_length=255)
     birthday = models.DateField(_("Tug'ilgan sanasi"), auto_now=False, auto_now_add=False)
-    image = models.ImageField(_("Rasmi"), upload_to="patients/photos/")
+    image = models.ImageField(_("Rasmi"), upload_to="patients/photos/", default="patients/photos/default.png")
     language = models.ForeignKey("baseapp.Language", verbose_name=_("Tili"), on_delete=models.CASCADE, related_name="patient_language")
 
     class Meta:
@@ -18,6 +20,32 @@ class User(models.Model):
 
     def __str__(self):
         return f"{self.user.last_name} {self.user.first_name}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        illness = Illness.objects.create(
+            patient=self,
+            diabet=Diabet.objects.get(pk=1),
+            anesthesia=Anesthesia.objects.get(pk=4),
+            hepatitis=Hepatitis.objects.get(pk=1),
+            aids=AIDS.objects.get(pk=1),
+            pressure=Pressure.objects.get(pk=1),
+            allergy=Allergy.objects.get(pk=1),
+            asthma=Asthma.objects.get(pk=1),
+            dizziness=Dizziness.objects.get(pk=1),
+        )
+        other_illness = Other_Illness.objects.create(
+            patient=self,
+            epilepsy=Epilepsy.objects.get(pk=1),
+            blood_disease=Blood_disease.objects.get(pk=1),
+            medications=Medications.objects.get(pk=1),
+            stroke=Stroke.objects.get(pk=1),
+            heart_attack=Heart_attack.objects.get(pk=1),
+            oncologic=Oncologic.objects.get(pk=1),
+            tuberculosis=Tuberculosis.objects.get(pk=1),
+            alcohol=Alcohol.objects.get(pk=1),
+            pregnancy=Pregnancy.objects.get(pk=1),
+        )
 
 
 class Illness(models.Model):
