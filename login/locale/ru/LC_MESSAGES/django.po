@@ -81,14 +81,10 @@ msgid "Xato e-mail"
 msgstr "Неверный e-mail"
 
 #: .\login\views.py:257
-#, fuzzy
-#| msgid "Parolni tasdiqlang"
 msgid "Parolni tiklash"
 msgstr "Подтвердите свой пароль"
 
 #: .\login\views.py:298
-#, fuzzy
-#| msgid "Parollar to'g'ri kemayapti"
 msgid "Parollar mos kelmayapti"
 msgstr "Пароли не совпадают"
 

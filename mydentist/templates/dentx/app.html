@@ -246,14 +246,33 @@
                         $("<div class=\"form-check\"></div>").append(
                             $(`<label class="form-check-label" for="${id}">${$(element).prev().prev().val()}</label>`),
                             $(`<input class="form-check-input" type="checkbox" ${is_done ? "checked" : ""} id="${id}">`),
-                            $(`<button id="edit-do-${id}" class="border-0 bg-white ms-1"><i class="fas fa-edit"></i></button>`)
+                            $(`<button id="edit-${category}-${id}" class="border-0 bg-white ms-1"><i class="fas fa-edit"></i></button>`),
+                            $(`<button id="delete-${category}-${id}" class="border-0 bg-white"><i class="fas fa-minus-circle"></i></button>`)
                         )
                     )
                     $(element).parent().remove()
                     $(`#edit-${category}-${id}`).on("click", function() {
                         addReminder(this, category, id)
                     })
+                    $(`#delete-${category}-${id}`).on("click", function() {
+                        deleteReminder(this, "delete", "do", id)
+                    })
                 }
+            }
+            function deleteReminder(element, type, category, id=null) {
+                $.ajax({
+                    url: "{% url 'dentx:reminders' %}",
+                    method: "POST",
+                    data: {
+                        csrfmiddlewaretoken: "{{ csrf_token }}",
+                        type: type,
+                        id: id
+                    }
+                }).always(function(result) {
+                    $("#do-reminders .mb-2").empty()
+                    $("#buy-reminders .mb-2").empty()
+                    reminders(result)
+                })
             }
             function reminders(result) {
                 for (let i = 0; i < result["do"].length; i++) {
@@ -261,11 +280,15 @@
                         $("<div class=\"form-check\"></div>").append(
                             $(`<label class="form-check-label" for="${result["do"][i]["id"]}">${result["do"][i]["name"]}</label>`),
                             $(`<input class="form-check-input" type="checkbox" ${result["do"][i]["is_done"] ? "checked" : ""} id="${result["do"][i]["id"]}">`),
-                            $(`<button id="edit-do-${result["do"][i]["id"]}" class="border-0 bg-white ms-1"><i class="fas fa-edit"></i></button>`)
+                            $(`<button id="edit-do-${result["do"][i]["id"]}" class="border-0 bg-white ms-1"><i class="fas fa-edit"></i></button>`),
+                            $(`<button id="delete-do-${result["do"][i]["id"]}" class="border-0 bg-white"><i class="fas fa-minus-circle"></i></button>`)
                         )
                     )
                     $(`#edit-do-${result["do"][i]["id"]}`).on("click", function() {
                         addReminder(this, "do", result["do"][i]["id"])
+                    })
+                    $(`#delete-do-${result["do"][i]["id"]}`).on("click", function() {
+                        deleteReminder(this, "delete", "do", result["do"][i]["id"])
                     })
                 }
                 for (let i = 0; i < result["buy"].length; i++) {
@@ -273,11 +296,15 @@
                         $("<div class=\"form-check\"></div>").append(
                             $(`<label class="form-check-label" for="${result["buy"][i]["id"]}">${result["buy"][i]["name"]}</label>`),
                             $(`<input class="form-check-input" type="checkbox" ${result["buy"][i]["is_done"] ? "checked" : ""} id="${result["buy"][i]["id"]}">`),
-                            $(`<button id="edit-buy-${result["buy"][i]["id"]}" class="border-0 bg-white ms-1"><i class="fas fa-edit"></i></button>`)
+                            $(`<button id="edit-buy-${result["buy"][i]["id"]}" class="border-0 bg-white ms-1"><i class="fas fa-edit"></i></button>`),
+                            $(`<button id="delete-buy-${result["buy"][i]["id"]}" class="border-0 bg-white"><i class="fas fa-minus-circle"></i></button>`)
                         )
                     )
                     $(`#edit-buy-${result["buy"][i]["id"]}`).on("click", function() {
                         addReminder(this, "buy", result["buy"][i]["id"])
+                    })
+                    $(`#delete-buy-${result["buy"][i]["id"]}`).on("click", function() {
+                        deleteReminder(this, "delete", "buy", result["buy"][i]["id"])
                     })
                 }
                 $("#do-reminders input[type=checkbox]").on("change", function() {

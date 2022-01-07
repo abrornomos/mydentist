@@ -192,10 +192,8 @@ msgstr ""
 
 #: .\env\Lib\site-packages\django\db\models\base.py:1197
 #: .\env\Lib\site-packages\django\forms\models.py:768
-#, fuzzy
-#| msgid "Baland"
 msgid "and"
-msgstr "Высокое"
+msgstr ""
 
 #: .\env\Lib\site-packages\django\db\models\base.py:1199
 #, python-format
@@ -816,10 +814,8 @@ msgid "July"
 msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\dates.py:15
-#, fuzzy
-#| msgid "Avgust"
 msgid "August"
-msgstr "Август"
+msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\dates.py:15
 msgid "September"
@@ -846,20 +842,16 @@ msgid "feb"
 msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\dates.py:19
-#, fuzzy
-#| msgid "Rasmlar"
 msgid "mar"
-msgstr "Изображения"
+msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\dates.py:19
 msgid "apr"
 msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\dates.py:19
-#, fuzzy
-#| msgid "May"
 msgid "may"
-msgstr "Май"
+msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\dates.py:19
 msgid "jun"
@@ -910,11 +902,9 @@ msgid "April"
 msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\dates.py:27
-#, fuzzy
-#| msgid "May"
 msgctxt "abbrev. month"
 msgid "May"
-msgstr "Май"
+msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\dates.py:28
 msgctxt "abbrev. month"
@@ -972,11 +962,9 @@ msgid "April"
 msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\dates.py:41
-#, fuzzy
-#| msgid "May"
 msgctxt "alt. month"
 msgid "May"
-msgstr "Май"
+msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\dates.py:42
 msgctxt "alt. month"
@@ -989,11 +977,9 @@ msgid "July"
 msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\dates.py:44
-#, fuzzy
-#| msgid "Avgust"
 msgctxt "alt. month"
 msgid "August"
-msgstr "Август"
+msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\dates.py:45
 msgctxt "alt. month"
@@ -1026,10 +1012,8 @@ msgid "%(truncated_text)s…"
 msgstr ""
 
 #: .\env\Lib\site-packages\django\utils\text.py:240
-#, fuzzy
-#| msgid "Bor"
 msgid "or"
-msgstr "Есть"
+msgstr ""
 
 #. Translators: This string is used as a separator between list elements
 #: .\env\Lib\site-packages\django\utils\text.py:259
@@ -1341,14 +1325,10 @@ msgid "Yozuvlar"
 msgstr "Записи"
 
 #: .\mydentist\templates\appointment\appointments.html:102
-#, fuzzy
-#| msgid "Tasdiqlash"
 msgid "Saqlash"
 msgstr "Сохранить"
 
 #: .\mydentist\templates\appointment\appointments.html:103
-#, fuzzy
-#| msgid "Kirish"
 msgid "O'chirish"
 msgstr "Удалить"
 
@@ -1540,14 +1520,10 @@ msgid "Telefon raqami:"
 msgstr "Номер телефона:"
 
 #: .\mydentist\templates\baseapp\results.html:130
-#, fuzzy
-#| msgid "Xizmat nomi"
 msgid "Xizmat nomi:"
 msgstr "Название услуги:"
 
 #: .\mydentist\templates\baseapp\results.html:132
-#, fuzzy
-#| msgid "Xizmat nomi"
 msgid "Xizmat narxi:"
 msgstr "Название услуги:"
 
@@ -1651,20 +1627,14 @@ msgid "Parolni o'zgartirish"
 msgstr "Сменить пароль"
 
 #: .\mydentist\templates\dentist\settings.html:21
-#, fuzzy
-#| msgid "Mijoz ma'lumotlari"
 msgid "Shifoxona ma'lumotlari"
 msgstr "Данные клиники"
 
 #: .\mydentist\templates\dentist\settings.html:24
-#, fuzzy
-#| msgid "Kabinet rasmlari"
 msgid "Shifoxona rasmlari"
 msgstr "Фото кабинета"
 
 #: .\mydentist\templates\dentist\settings.html:27
-#, fuzzy
-#| msgid "Xizmat nomi"
 msgid "Xizmatlar"
 msgstr "Услуги"
 
@@ -1701,8 +1671,6 @@ msgid "Parollar mos kelmayapti"
 msgstr "Пароли не совпадают"
 
 #: .\mydentist\templates\dentist\settings.html:127
-#, fuzzy
-#| msgid "Shifoxona:"
 msgid "Shifoxona"
 msgstr "Клиника"
 
@@ -1711,8 +1679,6 @@ msgid "Boshqa"
 msgstr "Другая"
 
 #: .\mydentist\templates\dentist\settings.html:147
-#, fuzzy
-#| msgid "Ishlash vaqti:"
 msgid "Ish vaqti"
 msgstr "Время работы"
 
@@ -1723,8 +1689,6 @@ msgstr "Загрузить изображение"
 
 #: .\mydentist\templates\dentist\settings.html:214
 #: .\mydentist\templates\dentist\settings.html:221
-#, fuzzy
-#| msgid "Xizmat nomi"
 msgid "Xizmat qo'shish"
 msgstr "Добавить услугу"
 
@@ -1742,8 +1706,6 @@ msgid "Animatsiyalar"
 msgstr "Анимации"
 
 #: .\mydentist\templates\dentx\app.html:20
-#, fuzzy
-#| msgid "Qabul holati"
 msgid "Qabullar"
 msgstr "Приёмы"
 
@@ -1767,20 +1729,14 @@ msgstr "Лист ожидания"
 
 #: .\mydentist\templates\dentx\app.html:36
 #: .\mydentist\templates\dentx\app.html:144
-#, fuzzy
-#| msgid "Sozlamalar"
 msgid "Eslatmalar"
 msgstr "Напоминания"
 
 #: .\mydentist\templates\dentx\app.html:45
-#, fuzzy
-#| msgid "Xizmatni qidirish"
 msgid "Bemorlarni qidirish"
 msgstr "Поиск пациентов"
 
 #: .\mydentist\templates\dentx\app.html:117
-#, fuzzy
-#| msgid "Bemorlar"
 msgid "Bemor FIOsi"
 msgstr "ФИО пациента"
 
@@ -1795,23 +1751,17 @@ msgstr "Комментарии"
 #: .\mydentist\templates\dentx\app.html:120
 #: .\mydentist\templates\patient\patient.html:176
 #: .\mydentist\templates\patient\profile.html:36
-#, fuzzy
-#| msgid "Telefon raqami:"
 msgid "Telefon raqam"
 msgstr "Номер телефона"
 
 #: .\mydentist\templates\dentx\app.html:161
 #: .\mydentist\templates\dentx\app.html:180
-#, fuzzy
-#| msgid "Yangi parolni kiriting"
 msgid "Eslatmani kiriting"
 msgstr "Введите напоминание"
 
 #: .\mydentist\templates\dentx\app.html:238
 #: .\mydentist\templates\dentx\app.html:328
 #: .\mydentist\templates\dentx\app.html:334
-#, fuzzy
-#| msgid "Xizmat nomi"
 msgid "Eslatma qo'shish"
 msgstr "Добавить напоминание"
 
@@ -1857,15 +1807,11 @@ msgstr "Не посещён"
 #: .\mydentist\templates\http\403.html:11
 #: .\mydentist\templates\http\403.html:18
 #: .\mydentist\templates\http\404.html:18
-#, fuzzy
-#| msgid "Ushbu bemor ko'rikga yozilmagan"
 msgid "Ushbu bo'limga kirish cheklangan"
 msgstr "Доступ к данному разделу ограничен"
 
 #: .\mydentist\templates\http\403.html:19
 #: .\mydentist\templates\http\404.html:19
-#, fuzzy
-#| msgid "Bosh sahifa"
 msgid "Bosh sahifaga qaytish"
 msgstr "Главная страница"
 
@@ -1962,8 +1908,6 @@ msgid "Yozilgan vaqti"
 msgstr "Время приёма"
 
 #: .\mydentist\templates\patient\patient.html:34
-#, fuzzy
-#| msgid "Foydalanish shartlari"
 msgid "Davolanish jarayoni"
 msgstr "Процесс лечения"
 
@@ -1977,8 +1921,6 @@ msgstr "Изображения"
 
 #: .\mydentist\templates\patient\patient.html:49
 #: .\mydentist\templates\patient\patient.html:56
-#, fuzzy
-#| msgid "Ma'lumotlarni o'zgartirish"
 msgid "Ma'lumotlarni tahrirlash"
 msgstr "Изменить данные"
 
@@ -2093,20 +2035,14 @@ msgid "Ushbu bemor ko'rikga yozilmagan"
 msgstr "Данный пациент не записан на приём"
 
 #: .\mydentist\templates\patient\patient.html:330
-#, fuzzy
-#| msgid "Shifoxona:"
 msgid "Shifokor"
 msgstr "Стоматолог"
 
 #: .\mydentist\templates\patient\patient.html:334
-#, fuzzy
-#| msgid "Ishlash vaqti:"
 msgid "Boshlangan vaqti"
 msgstr "Время начала"
 
 #: .\mydentist\templates\patient\patient.html:335
-#, fuzzy
-#| msgid "Namangan viloyati"
 msgid "Tugagan vaqti"
 msgstr "Время конца"
 
@@ -2126,8 +2062,6 @@ msgstr "Фото"
 
 #: .\mydentist\templates\patient\patients.html:124
 #: .\mydentist\templates\patient\search.html:65
-#, fuzzy
-#| msgid "Jinsi"
 msgid "Jins"
 msgstr "Пол"
 
@@ -2187,26 +2121,20 @@ msgid "Yakunlangan"
 msgstr "Завершённые"
 
 #: .\mydentist\templates\patient\search.html:5
-#, fuzzy
-#| msgid "So'rov natijalari"
 msgid "Qidiruv natijalari"
 msgstr "Результаты поиска"
 
 #: .\mydentist\templates\patient\search.html:102
-#, fuzzy
-#| msgid "Kechirasiz, sizning so'rovingiz bo'yicha tish shifokorlari topilmadi"
 msgid "Kechirasiz, sizning so'rovingiz bo'yicha natijalar topilmadi"
-msgstr "Извините, не найдены стоматологи по Вашему запросу"
+msgstr "Извините, не найдены результаты по Вашему запросу"
 
 #: .\mydentist\templates\patient\settings.html:21
 msgid "Kasalliklar"
 msgstr "Заболевания"
 
 #: .\mydentist\templatetags\mydentist_tags.py:47
-#, fuzzy
-#| msgid "Kecha"
 msgid "kecha"
-msgstr "Вчера"
+msgstr "вчера"
 
 #: .\mydentist\var.py:7 .\mydentist\var.py:133
 msgid "Toshkent viloyati"
@@ -2229,8 +2157,6 @@ msgid "Qashqadaryo viloyati"
 msgstr "Кашкадарьинская область"
 
 #: .\mydentist\var.py:14 .\mydentist\var.py:161
-#, fuzzy
-#| msgid "Surhondaryo viloyati"
 msgid "Surxondaryo viloyati"
 msgstr "Сурхандарьинская область"
 
@@ -2247,8 +2173,6 @@ msgid "Xorazm viloyati"
 msgstr "Хорезмская область"
 
 #: .\mydentist\var.py:18
-#, fuzzy
-#| msgid "Navoiy viloyat"
 msgid "Navoiy viloyati"
 msgstr "Навоийская область"
 
@@ -2340,76 +2264,52 @@ msgid "1 soat"
 msgstr "1 час"
 
 #: .\mydentist\var.py:106
-#, fuzzy
-#| msgid "15 daqiqa"
 msgid "1 soat 15 daqiqa"
-msgstr "15 минут"
+msgstr "1 час 15 минут"
 
 #: .\mydentist\var.py:107
-#, fuzzy
-#| msgid "30 daqiqa"
 msgid "1 soat 30 daqiqa"
-msgstr "30 минут"
+msgstr "1 час 30 минут"
 
 #: .\mydentist\var.py:108
-#, fuzzy
-#| msgid "45 daqiqa"
 msgid "1 soat 45 daqiqa"
-msgstr "45 минут"
+msgstr "1 час 45 минут"
 
 #: .\mydentist\var.py:109
-#, fuzzy
-#| msgid "24 soat"
 msgid "2 soat"
-msgstr "24 часа"
+msgstr "2 часа"
 
 #: .\mydentist\var.py:110
-#, fuzzy
-#| msgid "15 daqiqa"
 msgid "2 soat 15 daqiqa"
-msgstr "15 минут"
+msgstr "2 часа 15 минут"
 
 #: .\mydentist\var.py:111
-#, fuzzy
-#| msgid "30 daqiqa"
 msgid "2 soat 30 daqiqa"
-msgstr "30 минут"
+msgstr "2 часа 30 минут"
 
 #: .\mydentist\var.py:112
-#, fuzzy
-#| msgid "45 daqiqa"
 msgid "2 soat 45 daqiqa"
-msgstr "45 минут"
+msgstr "2 часа 45 минут"
 
 #: .\mydentist\var.py:113
-#, fuzzy
-#| msgid "1 soat"
 msgid "3 soat"
-msgstr "1 час"
+msgstr "3 часа"
 
 #: .\mydentist\var.py:114
-#, fuzzy
-#| msgid "15 daqiqa"
 msgid "3 soat 15 daqiqa"
-msgstr "15 минут"
+msgstr "3 часа 15 минут"
 
 #: .\mydentist\var.py:115
-#, fuzzy
-#| msgid "30 daqiqa"
 msgid "3 soat 30 daqiqa"
-msgstr "30 минут"
+msgstr "3 часа 30 минут"
 
 #: .\mydentist\var.py:116
-#, fuzzy
-#| msgid "45 daqiqa"
 msgid "3 soat 45 daqiqa"
-msgstr "45 минут"
+msgstr "3 часа 45 минут"
 
 #: .\mydentist\var.py:117
-#, fuzzy
-#| msgid "24 soat"
 msgid "4 soat"
-msgstr "24 часа"
+msgstr "4 часа"
 
 #: .\mydentist\var.py:177
 msgid "Navoiy viloyat"

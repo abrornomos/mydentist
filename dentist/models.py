@@ -1,6 +1,8 @@
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
+from baseapp.models import Language
+
 
 class Clinic(models.Model):
 
@@ -15,6 +17,23 @@ class Clinic(models.Model):
 
     def __str__(self):
         return self.name
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        clinic_translation_uz = Clinic_translation.objects.create(
+            clinic=self,
+            name=self.name,
+            address="",
+            orientir="",
+            language=Language.objects.get(name="uz")
+        )
+        clinic_translation_ru = Clinic_translation.objects.create(
+            clinic=self,
+            name=self.name,
+            address="",
+            orientir="",
+            language=Language.objects.get(name="ru")
+        )
 
 
 class Clinic_translation(models.Model):
@@ -55,6 +74,21 @@ class User(models.Model):
     def __str__(self):
         return f"{self.user.last_name} {self.user.first_name}"
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        user_translation_uz = User_translation.objects.create(
+            dentist=self,
+            fullname=str(self),
+            speciality="",
+            language=Language.objects.get(name="uz")
+        )
+        user_translation_ru = User_translation.objects.create(
+            dentist=self,
+            fullname=str(self),
+            speciality="",
+            language=Language.objects.get(name="ru")
+        )
+
 
 class User_translation(models.Model):
 
@@ -84,6 +118,19 @@ class Service(models.Model):
 
     def __str__(self):
         return f"{self.name} - {self.dentist.__str__()}"
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        service_translation_uz = Service_translation.objects.create(
+            service=self,
+            name=self.name,
+            language=Language.objects.get(name="uz")
+        )
+        service_translation_ru = Service_translation.objects.create(
+            service=self,
+            name=self.name,
+            language=Language.objects.get(name="ru")
+        )
 
 
 class Service_translation(models.Model):
